@@ -20,4 +20,8 @@
     - include_tasks: scripts/tag_image.yml
       when: result.msg == 'REMOTE'
 
-    
+    - include_tasks: scripts/remote-dev/delete_remote_dev.yml
+      when: result.msg == 'REMOTE'
+
+    - include_tasks: scripts/remote-dev/pipeline.yml
+      when: result.msg == 'REMOTE'

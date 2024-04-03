@@ -1,0 +1,13 @@
+---
+
+- name: "Delete UI app deployment"
+  shell: "kubectl --kubeconfig={{ account_homedir.stdout }}/{{ vars.kube_config }}  delete deployment ui-app-deployment"
+  register: out
+  ignore_errors: true
+
+- name: "Delete UI service"
+  shell: "kubectl --kubeconfig={{ account_homedir.stdout }}/{{ vars.kube_config }}  delete service ui-app-service"
+  register: out
+  ignore_errors: true
+
+- debug: var=out.stdout_lines
