@@ -1,17 +1,9 @@
-import logo from "./logo.svg";
-import "./App.css";
-import Button from "@mui/material/Button";
-import { useState } from "react";
-import HighLow from "./HighLow";
+import React from "react";
 
-function App() {
-  const [showHighLow, setShowHighLow] = useState(true);
-
+export default function App() {
   return (
-    <div className="App">
-        {showHighLow ? <HighLow/> : <h1>Content Coming Soon. Please check back later!!</h1>}
-      </div>
+    <div>
+      <h1>Hello World</h1>
+    </div>
   );
 }
-
-export default App;

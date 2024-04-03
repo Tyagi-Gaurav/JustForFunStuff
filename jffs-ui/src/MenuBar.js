@@ -9,10 +9,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 
 export default function ButtonAppBar() {
 
-    function load_high_low() {
-        
+    function load_tic_tac_toe() {
     }
-
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -28,7 +26,7 @@ export default function ButtonAppBar() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} >
-            <Button color="inherit" onClick={load_high_low()}>High/Low</Button>
+            <Button color="inherit" onClick={load_tic_tac_toe()}>Tic-Tac-Toe</Button>
           </Typography>
           
         </Toolbar>
