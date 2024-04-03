@@ -1,0 +1,21 @@
+---
+
+- name: Local Dev
+  hosts: localhost
+  connection: local
+  tasks:
+
+    - name: Register a variable, ignore errors and continue
+      ansible.builtin.debug:
+        msg: "{{ lookup('ansible.builtin.env', 'LOCAL_STACK_OPERATION')}}"
+      register: result
+      ignore_errors: true
+
+    - include_tasks: scripts/build_image.yml
+
+    # - include_tasks: scripts/local-dev/create_local_dev.yml
+
+    # - include_tasks: scripts/local-dev/tag_image.yml
+    #   when: result.msg == 'DEPLOY_REMOTE'
+
+    

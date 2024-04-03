@@ -1,0 +1,18 @@
+---
+
+- name: "Delete UI Image"
+  shell: "docker rmi chonku/jffs-ui:LATEST"
+  register: out
+  ignore_errors: true
+
+- name: "Build UI Image"
+  shell: "docker build -t chonku/jffs-ui:LATEST ."
+  args:
+    chdir: ./jffs-ui
+  register: out
+
+- name: "Push UI Image"
+  shell: "docker push chonku/jffs-ui:LATEST"
+  register: out
+
+- debug: var=out.stdout_lines
