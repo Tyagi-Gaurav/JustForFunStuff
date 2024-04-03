@@ -1,14 +1,24 @@
 ---
 
 - name: Get New Tag
-  shell: "git describe --tags --abbrev=0 | awk -F. -v OFS=. 'NF==1{print ++$NF}; NF>1{if(length($NF+1)>length($NF))$(NF-1)++; $NF=sprintf("%0*d", length($NF), ($NF+1)%(10^length($NF))); print}')"
-  register: out.NEW_TAG
+  shell: "git describe --tags --abbrev=0 | awk -F. -v OFS=. 'NF==1{print ++$NF}; NF>1{if(length($NF+1)>length($NF))$(NF-1)++; $NF=sprintf(\"%0*d\", length($NF), ($NF+1)%(10^length($NF))); print}'"
+  register: result
 
 - name: New Tag Value
-  shell: echo "Next release tag is $NEW_TAG"
+  debug:
+    msg: "New Tag: {{ result.stdout }}"
+
+- name: "Delete UI Image"
+  shell: "docker rmi chonku/jffs-ui:LATEST"
+  register: out
+  ignore_errors: true
+
+- name: "Build UI Image with tag"
+  shell: "docker build -t chonku/jffs-ui:LATEST -t chonku/jffs-ui:{{ result.stdout }} ."
+  args:
+    chdir: ./jffs-ui
   register: out
 
-# - name: "Tag images"
-#   shell: "docker rmi chonku/jffs-ui:LATEST"
-#   register: out
-#   ignore_errors: true
+- name: "Push UI Image"
+  shell: "docker push --all-tags chonku/jffs-ui"
+  register: out
