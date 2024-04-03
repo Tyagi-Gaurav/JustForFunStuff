@@ -11,9 +11,11 @@
       register: result
       ignore_errors: true
 
-    - include_tasks: scripts/build_image.yml
+    # - include_tasks: scripts/build_image.yml
 
-    # - include_tasks: scripts/local-dev/create_local_dev.yml
+    - include_tasks: scripts/local-dev/delete_local_dev.yml
+
+    - include_tasks: scripts/local-dev/create_local_dev.yml
 
     # - include_tasks: scripts/local-dev/tag_image.yml
     #   when: result.msg == 'DEPLOY_REMOTE'

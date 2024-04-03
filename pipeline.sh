@@ -22,6 +22,6 @@ ansible-playbook local-dev.yml
 # minikube addons enable ingress-dns
 
 #
-# minikube service ping-app-service --url
+# minikube service ui-app-service --url
 
 # minikube stop

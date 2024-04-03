@@ -1,11 +1,7 @@
 ---
 
-- name: Create UI config map
-  shell: "kubectl create configmap ui-app-config --from-env-file={{ playbook_dir }}/ui/properties/ui-app-local.properties"
-  register: out
-
-- name: "Create UI app backend deployment"
-  shell: "kubectl apply -f {{ playbook_dir }}/ui/deployment.yml"
+- name: "Create UI app deployment"
+  shell: "kubectl apply -f {{ playbook_dir }}/deployment.yml"
   register: out
 
 - name: "Expose UI app service"
