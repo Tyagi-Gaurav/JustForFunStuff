@@ -1,7 +1,7 @@
 ---
 
 - name: "Create UI app deployment"
-  shell: "kubectl apply -f {{ playbook_dir }}/deployment.yml"
+  shell: "kubectl apply -f {{ playbook_dir }}/../deployment.yml"
   register: out
 
 - name: "Expose UI app service"
@@ -9,6 +9,6 @@
   register: out
 
 - name: "Create Ingress"
-  shell: "kubectl apply -f {{ playbook_dir }}/scripts/local-dev/local_ingress.yml"
+  shell: "kubectl apply -f {{ playbook_dir }}/local-dev/local_ingress.yml"
 
 - debug: var=out.stdout_lines
