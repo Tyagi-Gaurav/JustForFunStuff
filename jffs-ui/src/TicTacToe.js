@@ -2,37 +2,44 @@ import { useState } from "react";
 import "./TicTacToe.css";
 
 function Square({ value, onSquareClick }) {
+  function getClassNames() {
+    return "square " + value.color;
+  }
+
   return (
-    <button className="square" onClick={onSquareClick}>
-      {value}
+    <button className={getClassNames()} onClick={onSquareClick}>
+      {value.text}
     </button>
   );
 }
 
 export default function Board() {
-  const [squares, setSquares] = useState(Array(9).fill(null));
+  const [squares, setSquares] = useState(
+    Array(9).fill({ text: "", color: "" })
+  );
   const [xIsNext, setXIsNext] = useState(true);
 
-  const winner = calculateWinner(squares);
+  const line_won = calculateWinner(squares);
   let status;
 
-  if (winner) {
-    status = "Winner " + winner;
+  if (line_won) {
+    status = "Winner " + squares[line_won[0]].text;
+    line_won.map((lc) => squares[lc] = {text: squares[lc].text, color: "wincolor"})
   } else {
     status = "Next Player: " + (xIsNext ? "X" : "O");
   }
 
   function handleClick(index) {
-    if (squares[index] || calculateWinner(squares)) {
+    if (calculateWinner(squares)) {
       return;
     }
 
     const nextSquares = squares.slice(); //creates a copy of the squares array
 
     if (xIsNext) {
-      nextSquares[index] = "X";
+      nextSquares[index] = { text: "X", color: "xcolor" };
     } else {
-      nextSquares[index] = "O";
+      nextSquares[index] = { text: "O", color: "ocolor" };
     }
     setSquares(nextSquares);
     setXIsNext(!xIsNext);
@@ -77,8 +84,12 @@ function calculateWinner(squares) {
 
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
-    if (squares[a] && squares[a] === squares[b] && squares[b] === squares[c]) {
-      return squares[a];
+    if (
+      squares[a].text != '' &&
+      squares[a].text === squares[b].text &&
+      squares[b].text === squares[c].text
+    ) {
+      return [a, b, c];
     }
   }
 

@@ -50,3 +50,15 @@
   grid-row: span 2;
   grid-column: span 2;
 }
+
+.ocolor {
+  color: #F2613F;
+}
+
+.xcolor {
+  color: #481E14;
+}
+
+.wincolor {
+  color: #FFC94A;
+}

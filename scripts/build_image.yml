@@ -8,7 +8,7 @@
 - name: "Build UI Image"
   shell: "docker build -t chonku/jffs-ui:LATEST ."
   args:
-    chdir: ./jffs-ui
+    chdir: ../jffs-ui
   register: out
 
 - name: "Push UI Image"

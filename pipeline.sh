@@ -4,10 +4,9 @@ CMD="${1}"
 
 case "$CMD" in
    "deploy") export DEPLOY_TYPE="REMOTE"
-#    ansible-playbook scripts/pipeline.yml
-   ansible-playbook scripts/remote-dev/pipeline.yml
+   ansible-playbook scripts/pipeline.yml && ansible-playbook scripts/remote-dev/pipeline.yml
    ;;
-   "*") export DEPLOY_TYPE="LOCAL"
+   *) export DEPLOY_TYPE="LOCAL"
    ansible-playbook scripts/pipeline.yml
    ;;
 esac
