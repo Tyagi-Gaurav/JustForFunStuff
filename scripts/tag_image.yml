@@ -9,7 +9,7 @@
     msg: "New Tag: {{ result.stdout }}"
 
 - name: Create release with new tag
-  shell: git tag -a v{ result.stdout }} -m "first version 1.0"
+  shell: git tag -a {{ result.stdout }} -m "first version 1.0"
 
 - name: Push the tag
   shell: git push  
@@ -22,7 +22,7 @@
 - name: Build UI Image with tag
   shell: "docker build -t chonku/jffs-ui:LATEST -t chonku/jffs-ui:{{ result.stdout }} ."
   args:
-    chdir: ./jffs-ui
+    chdir: ../jffs-ui
   register: out
 
 - name: Push UI Image

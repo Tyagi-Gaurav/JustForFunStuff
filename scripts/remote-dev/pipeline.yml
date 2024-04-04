@@ -13,12 +13,10 @@
       changed_when: false
       check_mode: no
 
-    - name: Create UI config map
-      shell: "kubectl --kubeconfig={{ account_homedir.stdout }}/{{ vars.kube_config }} create configmap ui-app-config --from-env-file={{ playbook_dir }}/ui/properties/ui-app-dev.properties"
-      register: out
+    - include_tasks: delete_remote_dev.yml
 
-    - name: Create UI app backend deployment
-      shell: "kubectl --kubeconfig={{ account_homedir.stdout }}/{{ vars.kube_config }} apply -f {{ playbook_dir }}/ui/deployment.yml"
+    - name: Create UI app deployment
+      shell: "kubectl --kubeconfig={{ account_homedir.stdout }}/{{ vars.kube_config }} apply -f {{ playbook_dir }}/../../deployment.yml"
       register: out
 
     - name: Expose UI app service

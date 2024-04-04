@@ -2,13 +2,13 @@
 
 CMD="${1}"
 
-ansible-playbook pipeline.yml
-
 case "$CMD" in
    "deploy") export DEPLOY_TYPE="REMOTE"
-      ansible-playbook pipeline.yml
+#    ansible-playbook scripts/pipeline.yml
+   ansible-playbook scripts/remote-dev/pipeline.yml
    ;;
-   "*") ansible-playbook pipeline.yml
+   "*") export DEPLOY_TYPE="LOCAL"
+   ansible-playbook scripts/pipeline.yml
    ;;
 esac
 
