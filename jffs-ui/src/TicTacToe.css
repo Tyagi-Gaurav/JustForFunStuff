@@ -60,13 +60,6 @@
   grid-column: span 3;
 }
 
-.ad-position {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-}
-
 .ocolor {
   color: #F2613F;
 }

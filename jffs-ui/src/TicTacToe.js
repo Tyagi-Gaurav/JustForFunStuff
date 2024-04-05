@@ -1,6 +1,5 @@
 import { useState } from "react";
 import "./TicTacToe.css";
-import { useEffect, useRef } from "react";
 
 function Square({ value, onSquareClick }) {
   function getClassNames() {
@@ -52,31 +51,6 @@ export default function Board() {
     setXIsNext(!xIsNext);
   }
 
-  function BottomAdComponent() {
-    const banner = useRef();
-    const atOptions = {
-      'key' : '08ff94b8d28f229b9fd9401da2631140',
-      'format' : 'iframe',
-      'height' : 90,
-      'width' : 728,
-      'params' : {}
-    };
-    useEffect(() => {
-      if (banner.current && !banner.current.firstChild) {
-        const conf = document.createElement("script");
-        const script = document.createElement("script");
-        script.type = "text/javascript";
-        script.src = `//www.topcreativeformat.com/${atOptions.key}/invoke.js`;
-        conf.innerHTML = `atOptions = ${JSON.stringify(atOptions)}`;
-
-        banner.current.append(conf);
-        banner.current.append(script);
-      }
-    }, [banner]);
-
-    return <div className="ad-position" ref={banner}></div>;
-  }
-
   return (
     <>
     <div className="page">
@@ -100,7 +74,6 @@ export default function Board() {
         </div>
       </div>
     </div>
-    <BottomAdComponent />
     </>
   );
 }

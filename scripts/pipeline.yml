@@ -11,14 +11,13 @@
       register: result
       ignore_errors: true
 
-    - include_tasks: build_image.yml
+    - include_tasks: build_and_tag_image.yml
 
     - include_tasks: local-dev/delete_local_dev.yml
 
     - include_tasks: local-dev/create_local_dev.yml
 
-    - include_tasks: tag_image.yml
-      when: result.msg == 'REMOTE'
+    # - include_tasks: test_local_dev.yml
 
     - include_tasks: remote-dev/delete_remote_dev.yml
       when: result.msg == 'REMOTE'
