@@ -52,7 +52,7 @@ export default function Board() {
     setXIsNext(!xIsNext);
   }
 
-  function TopAdComponent() {
+  function BottomAdComponent() {
     const banner = useRef();
     const atOptions = {
       'key' : '08ff94b8d28f229b9fd9401da2631140',
@@ -77,34 +77,8 @@ export default function Board() {
     return <div className="ad-position" ref={banner}></div>;
   }
 
-  function BottomAdComponent() {
-    const banner = useRef();
-    const atOptions = {
-      'key' : '64b3586a89393ce78b471997337cbfc2',
-      'format' : 'iframe',
-      'height' : 250,
-      'width' : 300,
-      'params' : {}
-    };
-    useEffect(() => {
-      if (banner.current && !banner.current.firstChild) {
-        const conf = document.createElement("script");
-        const script = document.createElement("script");
-        script.type = "text/javascript";
-        script.src = `//www.topcreativeformat.com/${atOptions.key}/invoke.js`;
-        conf.innerHTML = `atOptions = ${JSON.stringify(atOptions)}`;
-
-        banner.current.append(conf);
-        banner.current.append(script);
-      }
-    }, [banner]);
-
-    return <div className="ad-position" ref={banner}></div>;
-  }
-
   return (
     <>
-    <TopAdComponent/>
     <div className="page">
       <div className="heading">Tic-Tac-Toe</div>
       <div className="status">{status}</div>
@@ -126,7 +100,7 @@ export default function Board() {
         </div>
       </div>
     </div>
-    <BottomAdComponent/>
+    <BottomAdComponent />
     </>
   );
 }
