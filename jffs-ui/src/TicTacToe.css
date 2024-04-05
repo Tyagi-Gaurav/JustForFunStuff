@@ -73,3 +73,14 @@
   color: #FFC94A;
 }
 
+.replay {
+  display: grid;
+  padding-top: 0px;
+  padding-left: 10px;
+  padding-bottom: 30px;
+  grid-row-start: 6;
+  grid-column-start: 3;
+  height: 40px;
+  width: 100px;
+}
+

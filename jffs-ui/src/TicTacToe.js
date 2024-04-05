@@ -1,5 +1,7 @@
 import { useState } from "react";
 import "./TicTacToe.css";
+import Button from "@mui/material/Button";
+import ReplayIcon from "@mui/icons-material/Replay";
 
 function Square({ value, onSquareClick }) {
   function getClassNames() {
@@ -35,6 +37,11 @@ export default function Board() {
     status = "Next Player: " + (xIsNext ? "X" : "O");
   }
 
+  function resetGame() {
+    setSquares(Array(9).fill({ text: "", color: "" }));
+    setXIsNext(true);
+  }
+
   function handleClick(index) {
     if (calculateWinner(squares)) {
       return;
@@ -53,27 +60,32 @@ export default function Board() {
 
   return (
     <>
-    <div className="page">
-      <div className="heading">Tic-Tac-Toe</div>
-      <div className="status">{status}</div>
-      <div className="board">
-        <div className="row">
-          <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
-          <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
-          <Square value={squares[2]} onSquareClick={() => handleClick(2)} />
+      <div className="page">
+        <div className="heading">Tic-Tac-Toe</div>
+        <div className="status">{status}</div>
+        <div className="board">
+          <div className="row">
+            <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
+            <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
+            <Square value={squares[2]} onSquareClick={() => handleClick(2)} />
+          </div>
+          <div className="row">
+            <Square value={squares[3]} onSquareClick={() => handleClick(3)} />
+            <Square value={squares[4]} onSquareClick={() => handleClick(4)} />
+            <Square value={squares[5]} onSquareClick={() => handleClick(5)} />
+          </div>
+          <div className="row">
+            <Square value={squares[6]} onSquareClick={() => handleClick(6)} />
+            <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
+            <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
+          </div>
         </div>
-        <div className="row">
-          <Square value={squares[3]} onSquareClick={() => handleClick(3)} />
-          <Square value={squares[4]} onSquareClick={() => handleClick(4)} />
-          <Square value={squares[5]} onSquareClick={() => handleClick(5)} />
-        </div>
-        <div className="row">
-          <Square value={squares[6]} onSquareClick={() => handleClick(6)} />
-          <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
-          <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
+        <div className="replay">
+          <Button variant="contained" endIcon={<ReplayIcon />} onClick={() => resetGame()}>
+            Replay
+          </Button>
         </div>
       </div>
-    </div>
     </>
   );
 }
