@@ -13,9 +13,9 @@
 
     - include_tasks: build_and_tag_image.yml
 
-    - include_tasks: local-dev/delete_local_dev.yml
+    # - include_tasks: local-dev/delete_local_dev.yml
 
-    - include_tasks: local-dev/create_local_dev.yml
+    # - include_tasks: local-dev/create_local_dev.yml
 
     # - include_tasks: test_local_dev.yml
 

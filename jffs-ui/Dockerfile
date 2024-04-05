@@ -7,7 +7,9 @@ COPY package-lock.json package-lock.json
 COPY public public
 COPY src src
 
-RUN npm install && npm run build && npm install -g serve
+RUN npm install
+RUN npm run build
+RUN npm install -g serve
 
 CMD [ "serve", "-s", "build" ]
 
