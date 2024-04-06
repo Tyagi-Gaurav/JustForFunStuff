@@ -52,14 +52,14 @@ if count > 0:
     print("Changes found. Creating a new tag.")
     new_tag = get_new_tag()
     print(f"New tag would be {new_tag}")
-    # create_and_push_new_tag(new_tag)
+    create_and_push_new_tag(new_tag)
     # delete_old_image()
     # create_new_image_with(new_tag)
 else:
     new_tag = get_current_tag()
     print(f"Using last tag {new_tag} to create image")
     #TODO If image already exists then don't create
-    create_new_image_with(new_tag)
+    # create_new_image_with(new_tag)
 
 # push_image_with_all_tags()
 

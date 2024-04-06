@@ -1,5 +1,9 @@
 #!/bin/bash
 
+tag="v1.7"
+
+docker build -t chonku/jffs-ui:LATEST -t chonku/jffs-ui:{tag} .
+
 kubectl delete ingress local-ingress
 kubectl delete deployment ui-app-deployment
 kubectl delete service ui-app-service
