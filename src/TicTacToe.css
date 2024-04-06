@@ -6,13 +6,14 @@
   grid-template-rows: repeat(5, 1fr);
   grid-template-columns: repeat(5, 1fr);
 }
-
+ 
 .heading {
   height: 50px;
-  grid-column-start: 3;
+  grid-column-start: 2;
+  grid-row-start: 1;
   justify-content: left;
   display: grid;
-  font-size: xx-large;
+  font-size: 100%;
   font-family: "Black Han Sans", sans-serif;
   font-weight: 400;
   font-style: normal;
@@ -25,23 +26,23 @@
   align-content: center;
   display: grid;
   grid-row-start: 2;
-  grid-column-start: 2;
+  grid-column-start: 1;
   font-weight: bold;
+  padding-left: 5%;
 }
 
 .square {
   background: #fff;
   border: 1px solid #999;
   float: left;
-  font-size: 24px;
+  font-size: 48px;
   font-weight: bold;
-  line-height: 50px;
-  height: 50px;
+  height: 75px;
   margin-right: -1px;
   margin-top: -1px;
   padding: 0;
   text-align: center;
-  width: 50px;
+  width: 75px;
 }
 
 .row {
@@ -56,7 +57,7 @@
   padding-top: 25px;
   display: grid;
   grid-row-start: 3;
-  grid-column-start: 3;
+  grid-column-start: 2;
   grid-row: span 3;
   grid-column: span 3;
 }
@@ -75,11 +76,11 @@
 
 .replay {
   display: grid;
-  padding-top: 0px;
+  padding-top: 10%;
   padding-left: 10px;
   padding-bottom: 30px;
-  grid-row-start: 6;
-  grid-column-start: 3;
+  grid-row-start: 5;
+  grid-column-start: 2;
   height: 40px;
   width: 100px;
 }

@@ -61,7 +61,6 @@ export default function Board() {
   return (
     <>
       <div className="page">
-        <div className="heading">Tic-Tac-Toe</div>
         <div className="status">{status}</div>
         <div className="board">
           <div className="row">
@@ -82,7 +81,7 @@ export default function Board() {
         </div>
         <div className="replay">
           <Button variant="contained" endIcon={<ReplayIcon />} onClick={() => resetGame()}>
-            Replay
+            Restart
           </Button>
         </div>
       </div>
