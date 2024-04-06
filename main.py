@@ -36,7 +36,7 @@ def delete_old_image():
 
 
 def create_new_image_with(tag):
-    run_shell_command(f"docker build -t chonku/jffs-ui:LATEST -t chonku/jffs-ui:{tag} .", directory="./jffs-ui")
+    run_shell_command(f"docker build -t chonku/jffs-ui:LATEST -t chonku/jffs-ui:{tag} .")
 
 
 def get_current_tag():
@@ -52,15 +52,15 @@ if count > 0:
     print("Changes found. Creating a new tag.")
     new_tag = get_new_tag()
     print(f"New tag would be {new_tag}")
-    create_and_push_new_tag(new_tag)
-    delete_old_image()
-    create_new_image_with(new_tag)
+    # create_and_push_new_tag(new_tag)
+    # delete_old_image()
+    # create_new_image_with(new_tag)
 else:
     new_tag = get_current_tag()
     print(f"Using last tag {new_tag} to create image")
     #TODO If image already exists then don't create
-    # create_new_image_with(new_tag)
+    create_new_image_with(new_tag)
 
-push_image_with_all_tags()
+# push_image_with_all_tags()
 
 

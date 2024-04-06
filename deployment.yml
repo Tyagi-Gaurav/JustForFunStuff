@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: ui-app
-        image: chonku/jffs-ui:LATEST
+        image: chonku/jffs-ui:v1.7
         envFrom:
           - configMapRef:
               name: ui-app-config
