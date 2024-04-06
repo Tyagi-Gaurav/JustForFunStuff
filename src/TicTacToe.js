@@ -49,13 +49,15 @@ export default function Board() {
 
     const nextSquares = squares.slice(); //creates a copy of the squares array
 
-    if (xIsNext) {
-      nextSquares[index] = { text: "X", color: "xcolor" };
-    } else {
-      nextSquares[index] = { text: "O", color: "ocolor" };
+    if (nextSquares[index].text == "") {
+      if (xIsNext) {
+        nextSquares[index] = { text: "X", color: "xcolor" };
+      } else {
+        nextSquares[index] = { text: "O", color: "ocolor" };
+      }
+      setSquares(nextSquares);
+      setXIsNext(!xIsNext);
     }
-    setSquares(nextSquares);
-    setXIsNext(!xIsNext);
   }
 
   return (

@@ -35,18 +35,19 @@
   background: #fff;
   border: 1px solid #999;
   float: left;
-  font-size: 48px;
+  font-size: 30px;
   font-weight: bold;
-  height: 75px;
+  height: 50px;
   margin-right: -1px;
   margin-top: -1px;
   padding: 0;
   text-align: center;
-  width: 75px;
+  margin: 0;
+  width: 50px;
 }
 
 .row {
-  width: 150;
+  width: 100;
   height: 50;
   margin: 0;
   padding: 0%;
@@ -56,6 +57,7 @@
 .board {
   padding-top: 25px;
   display: grid;
+  height: 50px;
   grid-row-start: 3;
   grid-column-start: 2;
   grid-row: span 3;
@@ -76,10 +78,9 @@
 
 .replay {
   display: grid;
-  padding-top: 10%;
   padding-left: 10px;
   padding-bottom: 30px;
-  grid-row-start: 5;
+  grid-row-start: 4;
   grid-column-start: 2;
   height: 40px;
   width: 100px;
