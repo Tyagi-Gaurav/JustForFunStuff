@@ -3,13 +3,13 @@ import "./TicTacToe.css";
 import Button from "@mui/material/Button";
 import ReplayIcon from "@mui/icons-material/Replay";
 
-function Square({ value, onSquareClick }) {
+function Square({ id, value, onSquareClick }) {
   function getClassNames() {
     return "square " + value.color;
   }
 
   return (
-    <button className={getClassNames()} onClick={onSquareClick}>
+    <button id={id} className={getClassNames()} onClick={onSquareClick}>
       {value.text}
     </button>
   );
@@ -49,7 +49,7 @@ export default function Board() {
 
     const nextSquares = squares.slice(); //creates a copy of the squares array
 
-    if (nextSquares[index].text == "") {
+    if (nextSquares[index].text === "") {
       if (xIsNext) {
         nextSquares[index] = { text: "X", color: "xcolor" };
       } else {
@@ -66,19 +66,19 @@ export default function Board() {
         <div className="status">{status}</div>
         <div className="board">
           <div className="row">
-            <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
-            <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
-            <Square value={squares[2]} onSquareClick={() => handleClick(2)} />
+            <Square id="square-1" value={squares[0]} onSquareClick={() => handleClick(0)} />
+            <Square id="square-2" value={squares[1]} onSquareClick={() => handleClick(1)} />
+            <Square id="square-3" value={squares[2]} onSquareClick={() => handleClick(2)} />
           </div>
           <div className="row">
-            <Square value={squares[3]} onSquareClick={() => handleClick(3)} />
-            <Square value={squares[4]} onSquareClick={() => handleClick(4)} />
-            <Square value={squares[5]} onSquareClick={() => handleClick(5)} />
+            <Square id="square-4" value={squares[3]} onSquareClick={() => handleClick(3)} />
+            <Square id="square-5" value={squares[4]} onSquareClick={() => handleClick(4)} />
+            <Square id="square-6" value={squares[5]} onSquareClick={() => handleClick(5)} />
           </div>
           <div className="row">
-            <Square value={squares[6]} onSquareClick={() => handleClick(6)} />
-            <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
-            <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
+            <Square id="square-7" value={squares[6]} onSquareClick={() => handleClick(6)} />
+            <Square id="square-8" value={squares[7]} onSquareClick={() => handleClick(7)} />
+            <Square id="square-9" value={squares[8]} onSquareClick={() => handleClick(8)} />
           </div>
         </div>
         <div className="replay">
