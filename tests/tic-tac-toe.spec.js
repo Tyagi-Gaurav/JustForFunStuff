@@ -55,7 +55,7 @@ test.describe("Main Page", () => {
       { moves: [5, 1, 8, 3, 4, 2], winner: "O" },
     ];
     for (let winning_move of winning_moves) {
-      test(`Produces ${winning_move.winner} as winner`, async ({ page }) => {
+      test(`Produces ${winning_move.winner} as winner based on ${winning_move.moves}`, async ({ page }) => {
         await gotoMainPage(page);
         let nextIsX = true;
         for (let move of winning_move.moves) {
