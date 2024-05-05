@@ -1,26 +1,21 @@
-.bottom-ad-position {
-  padding-top: 25px;
-  display: block;
-  flex-direction: column;
-  justify-content: left;
-  align-items: left;
-  flex-shrink: 1;
-  max-width: 25%;
-}
-
-body {
-  display: block;
+.container {
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100%;
-  flex-shrink: 0;
+  margin: 10px;
 }
 
 .react-component-div {
   flex-basis: auto;
   width: 100%;
-  justify-content: left;
+  justify-content: center;
   align-self: start;
-  flex-shrink: 0;
+}
+
+.ad-position {
+  padding-top: 20px;
+  align-content: center;
+  justify-content: center;
 }
