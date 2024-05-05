@@ -1,0 +1,13 @@
+.navbar-custom {
+    background-color: #3C5B6F;
+}
+
+.navbar-text {
+    color: #948979;
+}
+
+.navbar-nav {
+    display:table;
+    width:100%;
+    margin: 0;
+}
