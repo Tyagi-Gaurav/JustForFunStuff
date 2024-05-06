@@ -7,7 +7,7 @@ export default function GamePage() {
     <div className="card-deck mt-5">
       <div className="card">
         <Link to="/games/tictactoe">
-          <img className="card-img-top" src="/image/Noughts_crosses.png" alt="" />
+          <img className="card-img-top" src="/image/Noughts_crosses.png" alt="noughs_crosses" />
         </Link>
         <div className="card-body">
           <h5 className="card-title">Tic-Tac-Toe</h5>

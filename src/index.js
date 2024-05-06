@@ -13,6 +13,7 @@ const router = createBrowserRouter([
     element: <NavbarWrapper />,
     children: [
       { path: "/", element: <GamePage /> },
+      { path: "/games", element: <GamePage /> },
       { path: "/games/tictactoe", element: <TicTacToe /> },
     ],
   },

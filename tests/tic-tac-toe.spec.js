@@ -1,30 +1,33 @@
 import { test, expect } from "@playwright/test";
+import { gotToGamesTicTacToe } from "./utils.js";
 
-test.describe("Main Page", () => {
+test.describe("TicTacToe Page", () => {
   test.describe("Layout", () => {
     test("has status that shows who is the next player", async ({ page }) => {
-      await gotoMainPage(page);
+      await gotToGamesTicTacToe(page);
       const status = page.getByText("Next Player to Play: X");
       await expect(status).toBeVisible();
     });
 
     test("has a restart button", async ({ page }) => {
-      await gotoMainPage(page);
+      await gotToGamesTicTacToe(page);
       const restartButton = page.getByRole("button", { name: "Restart" });
       await expect(restartButton).toBeVisible();
     });
 
     test("has a grid of 9 squares", async ({ page }) => {
-      await gotoMainPage(page);
+      await gotToGamesTicTacToe(page);
 
       for (let index = 1; index <= 9; index++) {
         const square = page.locator("#square-" + index);
         await expect(square).toBeVisible();
       }
     });
+  });
 
+  test.describe("Interactions", () => {
     test("clicking on box displays X or O", async ({ page }) => {
-      await gotoMainPage(page);
+      await gotToGamesTicTacToe(page);
       const square1 = page.locator("#square-1");
       await square1.click();
       await expect(square1).toHaveText("X");
@@ -37,7 +40,7 @@ test.describe("Main Page", () => {
     test("clicking on all boxes produces X and O alternately", async ({
       page,
     }) => {
-      await gotoMainPage(page);
+      await gotToGamesTicTacToe(page);
       let nextIsX = true;
       const moves = [1, 2, 3, 4, 5, 6, 8, 7, 9];
       for (let move of moves) {
@@ -56,7 +59,7 @@ test.describe("Main Page", () => {
     ];
     for (let winning_move of winning_moves) {
       test(`Produces ${winning_move.winner} as winner based on ${winning_move.moves}`, async ({ page }) => {
-        await gotoMainPage(page);
+        await gotToGamesTicTacToe(page);
         let nextIsX = true;
         for (let move of winning_move.moves) {
           let nextString = nextIsX ? "X" : "O";
@@ -71,6 +74,3 @@ test.describe("Main Page", () => {
     }
   });
 });
-async function gotoMainPage(page) {
-  await page.goto("http://localhost:3000/games/tictactoe");
-}
