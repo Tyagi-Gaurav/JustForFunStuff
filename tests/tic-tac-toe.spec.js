@@ -4,7 +4,7 @@ test.describe("Main Page", () => {
   test.describe("Layout", () => {
     test("has status that shows who is the next player", async ({ page }) => {
       await gotoMainPage(page);
-      const status = page.getByText("Next Player: X");
+      const status = page.getByText("Next Player to Play: X");
       await expect(status).toBeVisible();
     });
 
@@ -72,5 +72,5 @@ test.describe("Main Page", () => {
   });
 });
 async function gotoMainPage(page) {
-  await page.goto("http://localhost:3000");
+  await page.goto("http://localhost:3000/games/tictactoe");
 }
