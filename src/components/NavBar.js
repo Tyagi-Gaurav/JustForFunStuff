@@ -4,7 +4,7 @@ export default function NavBar() {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark navbar-custom">
       <a className="navbar-brand navbar-text" href="/">
-        Navbar
+        <img src="/image/JFF_Logo.jpeg" alt="" width="35" height="35"/>
       </a>
       <button
         className="navbar-toggler"
