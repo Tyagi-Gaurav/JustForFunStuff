@@ -59,7 +59,7 @@ else:
     new_tag = get_current_tag()
     print(f"Using last tag {new_tag} to create image")
     #TODO If image already exists then don't create
-    # create_new_image_with(new_tag)
+    #create_new_image_with(new_tag)
 
 # push_image_with_all_tags()
 
