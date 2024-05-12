@@ -1,9 +1,7 @@
 package com.jffs.infra
 
 import aws.sdk.kotlin.services.ec2.Ec2Client
-import aws.sdk.kotlin.services.ec2.model.DescribeImagesRequest
-import aws.sdk.kotlin.services.ec2.model.DescribeVpcsRequest
-import aws.sdk.kotlin.services.ec2.model.Ec2Exception
+import aws.sdk.kotlin.services.ec2.model.*
 import aws.sdk.kotlin.services.ssm.SsmClient
 import aws.sdk.kotlin.services.ssm.model.GetParametersByPathRequest
 import com.jffs.infra.aws.Config.Companion.REGION
@@ -21,8 +19,6 @@ suspend fun main() {
     createKeyPairIfNeeded(fileName, keyNameVal)
     createSecurityGroupIfNeeded(securityGroup, vpcId, myIpAddress)
     val instanceIdSelected = getParaValuesSc()
-
-    print("Selected instance $instanceIdSelected")
     val amiValue = instanceIdSelected?.let { describeImageSc(it) }
     print("AMI Value for $instanceIdSelected is $amiValue")
 }
@@ -42,6 +38,24 @@ suspend fun getParaValuesSc(): String? {
         }
     }
     return ""
+}
+
+suspend fun runInstanceSc(instanceTypeVal: String, keyNameVal: String, groupNameVal: String, amiIdVal: String): String {
+    val runRequest = RunInstancesRequest {
+        instanceType = InstanceType.fromValue(instanceTypeVal)
+        keyName = keyNameVal
+        securityGroups = listOf(groupNameVal)
+        maxCount = 1
+        minCount = 1
+        imageId = amiIdVal
+    }
+
+    Ec2Client { region = REGION }.use { ec2 ->
+        val response = ec2.runInstances(runRequest)
+        val instanceId = response.instances?.get(0)?.instanceId
+        println("Successfully started EC2 Instance $instanceId based on AMI $amiIdVal")
+        return instanceId.toString()
+    }
 }
 
 suspend fun describeImageSc(instanceId: String?): String? {
