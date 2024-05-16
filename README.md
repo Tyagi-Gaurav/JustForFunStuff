@@ -44,7 +44,7 @@
 
 # SSL Setup Instructions
  - `sudo yum update -y`
- - `sudo yum install -y certbot python3-certbot-nginx nginx`
+ - `sudo yum install -y certbot python3-certbot-nginx nginx cronie`
  - Start nginx service
    - `sudo systemctl start nginx`
  - Get certs from Lets encrypt
@@ -53,6 +53,12 @@
    - Copy contents of file `aws_deploy/nginx.conf` into the above file
  - Restart nginx service
    - `sudo systemctl reload nginx`
+ - Start crond & enable it on start
+   - `sudo systemctl start crond.service`
+   - `sudo systemctl enable crond.service`
+   - `crontab -e`
+   - Set crontab to 
+     - `0 12 * * * /usr/bin/certbot renew --quiet`
  - Setup auto renewal of certs (Renew should happen every 90 days)
    - `sudo /usr/bin/certbot renew --quiet`
 
