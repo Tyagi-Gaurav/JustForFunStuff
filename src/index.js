@@ -6,7 +6,7 @@ import NavBar from "./components/NavBar.js";
 
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import TicTacToe from "./pages/TicTacToe.js";
-import VocabularyTesting from "./components/VocabularyTesting.js";
+import VocabularyTesting from "./pages/VocabularyTesting.js";
 
 const router = createBrowserRouter([
   {
