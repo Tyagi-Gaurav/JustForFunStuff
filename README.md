@@ -1,5 +1,7 @@
 # JustForFunStuff
 
+# Local Development
+
 # Local Installation on Minikube
  - `python3 main.py`
  - `docker build -t chonku/jffs-ui:LATEST -t chonku/jffs-ui:{tag}`

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import "./TicTacToe.css";
-import ReplayIcon from "@mui/icons-material/Replay";
 
 function Square({ id, value, onSquareClick }) {
   function getClassNames() {
@@ -19,14 +18,6 @@ export default function TicTacToe() {
     Array(9).fill({ text: "", color: "" })
   );
   const [xIsNext, setXIsNext] = useState(true);
-  const adScripts = {
-    "key" : '08ff94b8d28f229b9fd9401da2631140',
-    'format' : 'iframe',
-    'height' : 90,
-    'width' : 728,
-    'params' : {}
-  };
-
   const line_won = calculateWinner(squares);
   let status;
 

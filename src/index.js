@@ -6,6 +6,7 @@ import NavBar from "./components/NavBar.js";
 
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import TicTacToe from "./components/TicTacToe.js";
+import VocabularyTesting from "./components/VocabularyTesting.js";
 
 const router = createBrowserRouter([
   {
@@ -15,6 +16,7 @@ const router = createBrowserRouter([
       { path: "/", element: <GamePage /> },
       { path: "/games", element: <GamePage /> },
       { path: "/games/tictactoe", element: <TicTacToe /> },
+      { path: "/games/vocabtesting", element: <VocabularyTesting /> },
     ],
   },
 ]);
