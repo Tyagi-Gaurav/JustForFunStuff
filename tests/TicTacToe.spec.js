@@ -36,9 +36,7 @@ test.describe("TicTacToe Page", () => {
       await expect(square2).toHaveText("O");
     });
 
-    test("clicking on all boxes produces X and O alternately", async ({
-      page,
-    }) => {
+    test("clicking on all boxes produces X and O alternately", async ({ page }) => {
       await page.goto("http://localhost:3000/games/tictactoe");
       let nextIsX = true;
       const moves = [1, 2, 3, 4, 5, 6, 8, 7, 9];

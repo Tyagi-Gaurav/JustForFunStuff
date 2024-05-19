@@ -1,17 +1,6 @@
 import { useState } from "react";
 import "./TicTacToe.css";
-
-function Square({ id, value, onSquareClick }) {
-  function getClassNames() {
-    return "square " + value.color;
-  }
-
-  return (
-    <button id={id} className={getClassNames()} onClick={onSquareClick}>
-      {value.text}
-    </button>
-  );
-}
+import Square from "../components/Square.js"
 
 export default function TicTacToe() {
   const [squares, setSquares] = useState(
