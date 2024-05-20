@@ -13,5 +13,10 @@ test.describe("Vocabulary Testing Page", () => {
       const title = page.getByText("Word Count");
       await expect(title).toBeVisible();
     });
+
+    test("has button labelled begin", async ({ page }) => {
+      await page.goto("http://localhost:3000/games/vocabtesting");
+      await expect(page.getByRole("button", { name: "Begin" })).toBeVisible();
+    });
   });
 });

@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../ui-practice/react-tdd"
+		}
+	],
+	"settings": {}
+}
