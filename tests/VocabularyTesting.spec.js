@@ -32,4 +32,8 @@ test.describe("Vocabulary Testing Page", () => {
       await expect(page.getByText("Meaning 4")).toBeVisible();
     });
   });
+
+  test.describe("Interaction", () => {
+      
+  });
 });

@@ -1,0 +1,40 @@
+{
+    "words" : [
+        {
+            "id" : 1,
+            "word" : "Grumble",
+            "meaning" : [
+                "to murmur or mutter in discontent; complain sullenly"
+            ]
+        },
+        {
+            "id" : 2,
+            "word" : "Staunch",
+            "meaning" : [
+                "Very loyal and committed in attitude"
+            ],
+            "synonyms" : [
+                "Stalwart",
+                "Loyal",
+                "Faithful",
+                "Trusty",
+                "Committed"
+            ]
+        },
+        {
+            "id" : 3,
+            "word" : "Enact",
+            "meaning" : [
+                "Make Law",
+                "Put into practice",
+                "act out (a role or play) on stage"
+            ],
+            "synonyms" : [
+                "Pass",
+                "Approve",
+                "Perform",
+                "Play"
+            ]
+        }
+    ]
+}
