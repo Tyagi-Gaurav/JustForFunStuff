@@ -1,10 +1,5 @@
 .container {
   padding-top: 10px;
-  height: 600px;
-}
-
-.row {
-  height: 100px;
 }
 
 h3, span, label {
@@ -14,4 +9,9 @@ h3, span, label {
 label {
   font-size: 24px;
   color: #577B8D;
+}
+
+textarea {
+  font-family: "Shantell Sans", cursive;
+  height: 300px;
 }
