@@ -19,7 +19,7 @@ export default function VocabularyTesting() {
 
       <div className="row p-0">
         <div className="col-sm-2">
-          <label>Meaning</label>
+          <label fo>Meaning</label>
         </div>
         <div className="col-sm-9 ml-1">
           <h5 className="border display-5 rounded bg-light">
@@ -55,7 +55,7 @@ export default function VocabularyTesting() {
 
       <div className="row">
         <div className="col-sm-12 replay justify-content-center pb-10">
-          <button className="btn btn-primary">Next</button>
+          <button className="btn btn-primary">Begin</button>
         </div>
       </div>
     </div>
