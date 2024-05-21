@@ -29,6 +29,7 @@ export default function VocabularyTesting() {
         var selectedWord = data[index];
         setWord(selectedWord["word"]);
         setSynonym(formattedArray(selectedWord["synonyms"]));
+        setMeaning(formattedArray(selectedWord["meaning"]));
         setInProgress(true);
       })
       .catch((error) => {

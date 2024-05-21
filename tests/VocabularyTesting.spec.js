@@ -101,6 +101,21 @@ test.describe("Vocabulary Testing Page", () => {
       await expect(fieldText).toContainText("Synonym4");
       await expect(fieldText).toContainText("Synonym5");
     });
+
+    test("when word is received its meaning should be displayed on screen", async ({
+      page,
+    }) => {
+      await page.goto("http://localhost:3000/games/vocabtesting");
+      const button = page.getByRole("button", { name: "Begin" });
+      await expect(button).toBeVisible();
+      await button.click();
+
+      const synonyms = page.getByText("Meaning", {exact: true});
+      await expect(synonyms).toBeVisible();
+      const fieldText = page.getByTestId("meaning-text");
+      await expect(fieldText).toBeVisible();
+      await expect(fieldText).toHaveText("A meaning");
+    });
   });
 });
 
