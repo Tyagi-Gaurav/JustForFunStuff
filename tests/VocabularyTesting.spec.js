@@ -13,58 +13,97 @@ test.describe("Vocabulary Testing Page", () => {
       await expect(page.getByRole("button", { name: "Begin" })).toBeVisible();
     });
 
-    const fields = ["meaning-text", "synonym-text", "example-text"];
+    const fields = [
+      "meaning-text",
+      "synonym-text",
+      "example-text",
+      "word-text",
+    ];
     for (const field of fields) {
       test(`when page is loaded ${field} text are not shown`, async ({
         page,
       }) => {
         await page.goto("http://localhost:3000/games/vocabtesting");
-        const meaning = page.getByTestId(field);
-        await expect(meaning).not.toBeVisible();
+        const fieldText = page.getByTestId(field);
+        await expect(fieldText).not.toBeVisible();
       });
     }
   });
 
   test.describe("Interaction", () => {
-    test("when word is received there is text that shows meaning, synonyms and example", async ({
-      page,
-    }) => {
+    test.beforeEach(async ({ page }) => {
+      showLogsOnConsoleFor(page);
+
       await page.route("*/**/api/words", async (route, request) => {
         expect(request.method()).toBe("GET");
 
         await route.fulfill({
           status: 200,
           body: JSON.stringify({
-            message: JSON.stringify({
-              word: "Staunch",
-              meaning: ["Very loyal and committed in attitude"],
-              synonyms: [
-                "Stalwart",
-                "Loyal",
-                "Faithful",
-                "Trusty",
-                "Committed",
-              ],
-            }),
+            words: [
+              {
+                word: "Some Word",
+                meaning: ["A meaning"],
+                synonyms: [
+                  "Synonym1",
+                  "Synonym2",
+                  "Synonym3",
+                  "Synonym4",
+                  "Synonym5",
+                ],
+              },
+            ],
           }),
         });
       });
+    });
 
+    test("when word is received there is text that shows Can you think of an answer before the timer runs out?", async ({
+      page,
+    }) => {
       await page.goto("http://localhost:3000/games/vocabtesting");
       const button = page.getByRole("button", { name: "Begin" });
       await expect(button).toBeVisible();
       await button.click();
-      await expect(page.getByText("Can you think of an answer before the timer runs out?")
+      await expect(
+        page.getByText("Can you think of an answer before the timer runs out?")
       ).toBeVisible();
-      
+    });
+
+    test("when word is received it should be displayed on screen", async ({
+      page,
+    }) => {
+      await page.goto("http://localhost:3000/games/vocabtesting");
+      const button = page.getByRole("button", { name: "Begin" });
+      await expect(button).toBeVisible();
+      await button.click();
+
+      const wordText = page.getByTestId("word-text");
+      await expect(wordText).toBeVisible();
+      await expect(wordText).toContainText("Some Word");
+    });
+
+    test("when word is received its synonyms should be displayed on screen", async ({
+      page,
+    }) => {
+      await page.goto("http://localhost:3000/games/vocabtesting");
+      const button = page.getByRole("button", { name: "Begin" });
+      await expect(button).toBeVisible();
+      await button.click();
+
       const synonyms = page.getByText("Synonyms");
       await expect(synonyms).toBeVisible();
-
-      const example = page.getByText("Example");
-      await expect(example).toBeVisible();
-
-      const meaning = page.getByTestId("meaning-text");
-      await expect(meaning).toBeVisible();
+      const fieldText = page.getByTestId("synonym-text");
+      await expect(fieldText).toBeVisible();
+      await expect(fieldText).toContainText("Synonym1");
+      await expect(fieldText).toContainText("Synonym2");
+      await expect(fieldText).toContainText("Synonym3");
+      await expect(fieldText).toContainText("Synonym4");
+      await expect(fieldText).toContainText("Synonym5");
     });
   });
 });
+
+function showLogsOnConsoleFor(page) {
+  page.on("console", (msg) => console.log(msg.text()));
+}
