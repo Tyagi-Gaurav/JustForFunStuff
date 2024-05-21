@@ -48,7 +48,7 @@ export default function VocabularyTesting() {
         <h1>Test your Vocabulary</h1>
       </div>
       {inProgress && <div className="row mb-2 pr-0">
-        <div className="col-sm-10">
+        <div className="col-sm-12">
           <h3 className="display-1 rounded bg-light word" data-testid="word-text">{word}</h3>
         </div>
       </div>}
