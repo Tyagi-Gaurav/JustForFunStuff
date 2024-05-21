@@ -13,14 +13,18 @@ test.describe("Vocabulary Testing Page", () => {
       await expect(page.getByRole("button", { name: "Begin" })).toBeVisible();
     });
 
-    test("has text that indicates user to think of the meaning", async ({ page }) => {
+    test("has text that indicates user to think of the meaning", async ({
+      page,
+    }) => {
       await page.goto("http://localhost:3000/games/vocabtesting");
-      await expect(page.getByText("Can you think of an answer before the timer runs out?")).toBeVisible();
+      await expect(
+        page.getByText("Can you think of an answer before the timer runs out?")
+      ).toBeVisible();
     });
 
     test("has text that can show user the meaning", async ({ page }) => {
       await page.goto("http://localhost:3000/games/vocabtesting");
-      const label = page.getByText("Meaning")
+      const label = page.getByText("Meaning");
       await expect(label).toBeVisible();
 
       const textArea = page.getByTestId("meaning-text");
@@ -29,7 +33,7 @@ test.describe("Vocabulary Testing Page", () => {
 
     test("has text that can show user the synonyms", async ({ page }) => {
       await page.goto("http://localhost:3000/games/vocabtesting");
-      const label = page.getByText("Synonyms")
+      const label = page.getByText("Synonyms");
       await expect(label).toBeVisible();
 
       const textArea = page.getByTestId("synonym-text");
@@ -38,7 +42,7 @@ test.describe("Vocabulary Testing Page", () => {
 
     test("has text that can show user the Example", async ({ page }) => {
       await page.goto("http://localhost:3000/games/vocabtesting");
-      const label = page.getByText("Example", { exact: true })
+      const label = page.getByText("Example", { exact: true });
       await expect(label).toBeVisible();
 
       const textArea = page.getByTestId("example-text");
@@ -47,11 +51,26 @@ test.describe("Vocabulary Testing Page", () => {
 
     test("has text that can show user the synonym", async ({ page }) => {
       await page.goto("http://localhost:3000/games/vocabtesting");
-      await expect(page.getByText("Can you think of an answer before the timer runs out?")).toBeVisible();
+      await expect(
+        page.getByText("Can you think of an answer before the timer runs out?")
+      ).toBeVisible();
     });
+
+    const fields = [
+      "meaning-text",
+      "synonym-text"
+    ];
+    for (const field of fields) {
+      test(`when page is loaded ${field} text has no value`, async ({
+        page,
+      }) => {
+        await page.goto("http://localhost:3000/games/vocabtesting");
+        const meaning = page.getByTestId(field);
+        await expect(meaning).toBeVisible();
+        await expect(meaning).toHaveText("");
+      });
+    }
   });
 
-  test.describe("Interaction", () => {
-      
-  });
+  test.describe("Interaction", () => {});
 });

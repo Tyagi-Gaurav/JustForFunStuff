@@ -1,6 +1,10 @@
+import { useState } from "react";
 import "./VocabularyTesting.css";
 
 export default function VocabularyTesting() {
+  const [meaning, setMeaning] = useState("")
+  const [synonyms, setSynonym] = useState("")
+
   return (
     <div>
       <div className="text-center heading">
@@ -24,15 +28,7 @@ export default function VocabularyTesting() {
         <div className="col-sm-9 ml-1">
           <h5
             className="border display-5 rounded bg-light"
-            data-testid="meaning-text"
-          >
-            Make Law
-            <br />
-            put into practice (an idea or suggestion)
-            <br />
-            act out (a role or play) on stage
-            <br />
-          </h5>
+            data-testid="meaning-text">{meaning}</h5>
         </div>
       </div>
 
@@ -43,17 +39,7 @@ export default function VocabularyTesting() {
         <div className="col-sm-9 ml-1">
           <h5
             className="border display-5 rounded bg-light"
-            data-testid="synonym-text"
-          >
-            Pass
-            <br />
-            Approve
-            <br />
-            Perform
-            <br />
-            Play
-            <br />
-          </h5>
+            data-testid="synonym-text">{synonyms}</h5>
         </div>
       </div>
 
