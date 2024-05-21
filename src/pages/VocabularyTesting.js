@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./VocabularyTesting.module.css";
+import styles from "./VocabularyTesting.module.css";
 import { getWords } from "../api/vocab";
 import Parser from 'html-react-parser';
 
@@ -43,7 +43,7 @@ export default function VocabularyTesting() {
 
   return (
     <div>
-      <div className="text-center heading">
+      <div className={styles.heading + " text-center"}>
         <h1>Test your Vocabulary</h1>
       </div>
       {inProgress && <div className="row mb-2 pr-0">
@@ -108,7 +108,7 @@ export default function VocabularyTesting() {
       )}
 
       <div className="row">
-        <div className="col-sm-12 replay justify-content-center pb-10">
+        <div className={styles.centered_button +  " col-sm-12 justify-content-center pb-10"}>
           <button className="btn btn-primary" onClick={handleClick}>
             {inProgress ? "Next" : "Begin"}
           </button>

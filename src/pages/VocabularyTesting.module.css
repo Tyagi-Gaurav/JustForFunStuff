@@ -20,3 +20,21 @@ textarea {
 .word {
   justify-content: center;
 }
+
+.heading {
+  height: 100px;
+  font-family: "Shantell Sans", cursive;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+  font-variation-settings: "BNCE" 0, "INFM" 0, "SPAC" 0;
+  color: #ff8a08;
+}
+
+.centered_button {
+  padding-left: 10px;
+  padding-top: 50px;
+  width: 100%;
+  height: auto;
+  display: flex;
+}
