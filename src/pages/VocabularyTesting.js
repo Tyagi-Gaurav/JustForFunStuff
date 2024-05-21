@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styles from "./VocabularyTesting.module.css";
 import { getWords } from "../api/vocab";
-import Parser from 'html-react-parser';
+import FloatableTextAreaWithLabel from "../components/FloatableTextAreaWithLabel";
 
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);
@@ -61,52 +61,16 @@ export default function VocabularyTesting() {
       )}
 
       {inProgress && (
-        <div className="row p-0">
-          <div className="col-sm-2">
-            <label>Meaning</label>
-          </div>
-          <div className="col-sm-9 ml-1">
-            <h5
-              className="border display-5 rounded bg-light"
-              data-testid="meaning-text"
-            >
-              {Parser(meaning)}
-            </h5>
-          </div>
-        </div>
-      )}
+        <FloatableTextAreaWithLabel label="Meaning" testId="meaning-text" text={meaning} />)
+      }
 
       {inProgress && synonyms && (
-        <div className="row p-0">
-          <div className="col-sm-2">
-            <label>Synonyms</label>
-          </div>
-          <div className="col-sm-9 ml-1">
-            <h5
-              className="border display-5 rounded bg-light"
-              data-testid="synonym-text"
-            >
-              {Parser(synonyms)}
-            </h5>
-          </div>
-        </div>
-      )}
+        <FloatableTextAreaWithLabel label="Synonyms" testId="synonym-text" text={synonyms} />)
+      }
 
       {inProgress && example && (
-        <div className="row p-0">
-          <div className="col-sm-2">
-            <label>Examples</label>
-          </div>
-          <div className="col-sm-9 ml-1">
-            <h5
-              className="border display-5 rounded bg-light"
-              data-testid="example-text"
-            >
-              {Parser(example)}
-            </h5>
-          </div>
-        </div>
-      )}
+        <FloatableTextAreaWithLabel label="Examples" testId="example-text" text={example} />)
+      }
 
       <div className="row">
         <div className={styles.centered_button +  " col-sm-12 justify-content-center pb-10"}>
