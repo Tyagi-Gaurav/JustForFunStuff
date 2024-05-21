@@ -65,7 +65,7 @@ export default function VocabularyTesting() {
               className="border display-5 rounded bg-light"
               data-testid="meaning-text"
             >
-              {meaning}
+              {Parser(meaning)}
             </h5>
           </div>
         </div>
