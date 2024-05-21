@@ -8,7 +8,11 @@ function getRandomInt(max) {
 }
 
 function formattedArray(words) {
-  return words.join('<br/>');
+  if (words) {
+    return words.join('<br/>');
+  } else {
+    return ""
+  }
 }
 
 export default function VocabularyTesting() {
@@ -71,7 +75,7 @@ export default function VocabularyTesting() {
         </div>
       )}
 
-      {inProgress && (
+      {inProgress && synonyms && (
         <div className="row p-0">
           <div className="col-sm-2">
             <label>Synonyms</label>
@@ -87,7 +91,7 @@ export default function VocabularyTesting() {
         </div>
       )}
 
-      {inProgress && (
+      {inProgress && example && (
         <div className="row p-0">
           <div className="col-sm-2">
             <label>Example</label>

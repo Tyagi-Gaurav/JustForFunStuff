@@ -58,7 +58,7 @@ test.describe("Vocabulary Testing Page", () => {
       });
     });
 
-    test("when word is received there is text that shows Can you think of an answer before the timer runs out?", async ({
+    test("when word is received the timer text should be shown", async ({
       page,
     }) => {
       await page.goto("http://localhost:3000/games/vocabtesting");
@@ -110,7 +110,7 @@ test.describe("Vocabulary Testing Page", () => {
       await expect(button).toBeVisible();
       await button.click();
 
-      const synonyms = page.getByText("Meaning", {exact: true});
+      const synonyms = page.getByText("Meaning", { exact: true });
       await expect(synonyms).toBeVisible();
       const fieldText = page.getByTestId("meaning-text");
       await expect(fieldText).toBeVisible();
@@ -125,12 +125,75 @@ test.describe("Vocabulary Testing Page", () => {
       await expect(beginButton).toBeVisible();
       await beginButton.click();
 
-      const synonyms = page.getByText("Meaning", {exact: true});
+      const synonyms = page.getByText("Meaning", { exact: true });
       await expect(synonyms).toBeVisible();
       await expect(beginButton).not.toBeVisible();
 
       const nextButton = page.getByRole("button", { name: "Next" });
       await expect(nextButton).toBeVisible();
+    });
+
+    test("when word has no examples, then it should not show examples", async ({
+      page,
+    }) => {
+      await page.goto("http://localhost:3000/games/vocabtesting");
+      await page.route("*/**/api/words", async (route, request) => {
+        expect(request.method()).toBe("GET");
+
+        await route.fulfill({
+          status: 200,
+          body: JSON.stringify({
+            words: [
+              {
+                word: "Some Word",
+                meaning: ["A meaning"],
+                synonyms: ["Synonym1", "Synonym2"],
+              },
+            ],
+          }),
+        });
+      });
+
+      const beginButton = page.getByRole("button", { name: "Begin" });
+      await expect(beginButton).toBeVisible();
+      await beginButton.click();
+
+      const example = page.getByText("Example", { exact: true });
+      await expect(example).not.toBeVisible();
+
+      const fieldText = page.getByTestId("example-text");
+      await expect(fieldText).not.toBeVisible();
+    });
+
+    test("when word has no synonyms, then it should not show synonyms", async ({
+      page,
+    }) => {
+      await page.goto("http://localhost:3000/games/vocabtesting");
+      await page.route("*/**/api/words", async (route, request) => {
+        expect(request.method()).toBe("GET");
+
+        await route.fulfill({
+          status: 200,
+          body: JSON.stringify({
+            words: [
+              {
+                word: "Some Word",
+                meaning: ["A meaning"]
+              },
+            ],
+          }),
+        });
+      });
+
+      const beginButton = page.getByRole("button", { name: "Begin" });
+      await expect(beginButton).toBeVisible();
+      await beginButton.click();
+
+      const synonyms = page.getByText("Synonyms", { exact: true });
+      await expect(synonyms).not.toBeVisible();
+
+      const fieldText = page.getByTestId("synonym-text");
+      await expect(fieldText).not.toBeVisible();
     });
   });
 });
