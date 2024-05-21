@@ -1,6 +1,9 @@
+import styles from "../pages/TicTacToe.module.css";
+
+
 export default function Square({ id, value, onSquareClick }) {
     function getClassNames() {
-      return "square " + value.color;
+      return styles.square + " " + styles[value.color];
     }
   
     return (

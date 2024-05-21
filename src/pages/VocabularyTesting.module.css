@@ -16,3 +16,7 @@ textarea {
   font-family: "Shantell Sans", cursive;
   height: 300px;
 }
+
+.word {
+  justify-content: center;
+}

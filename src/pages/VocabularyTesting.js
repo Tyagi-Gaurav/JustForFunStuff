@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./VocabularyTesting.css";
+import "./VocabularyTesting.module.css";
 import { getWords } from "../api/vocab";
 import Parser from 'html-react-parser';
 
@@ -46,7 +46,7 @@ export default function VocabularyTesting() {
       <div className="text-center heading">
         <h1>Test your Vocabulary</h1>
       </div>
-      {inProgress && <div className="row mb-2 p-0">
+      {inProgress && <div className="row mb-2 pr-0">
         <div className="col-sm-10">
           <h3 className="display-1 rounded bg-light word" data-testid="word-text">{word}</h3>
         </div>

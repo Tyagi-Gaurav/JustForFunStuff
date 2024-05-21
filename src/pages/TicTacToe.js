@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./TicTacToe.css";
+import styles from "./TicTacToe.module.css";
 import Square from "../components/Square.js"
 
 export default function TicTacToe() {
@@ -48,14 +48,14 @@ export default function TicTacToe() {
 
   return (
     <>
-      <div className="page">
-        <div className="text-center heading">
+      <div className={styles.page}>
+        <div className={"text-center " + styles.heading}>
           <h1>Tic-Tac-Toe</h1>
         </div>
-        <div className="status pt-5">
+        <div className={styles.status + " pt-5"}>
           <p className="text-center">{status}</p>
         </div>
-        <div className="row">
+        <div className={styles.row}>
           <Square
             id="square-1"
             value={squares[0]}
@@ -72,7 +72,7 @@ export default function TicTacToe() {
             onSquareClick={() => handleClick(2)}
           />
         </div>
-        <div className="row">
+        <div className={styles.row}>
           <Square
             id="square-4"
             value={squares[3]}
@@ -89,7 +89,7 @@ export default function TicTacToe() {
             onSquareClick={() => handleClick(5)}
           />
         </div>
-        <div className="row">
+        <div className={styles.row}>
           <Square
             id="square-7"
             value={squares[6]}
@@ -106,7 +106,7 @@ export default function TicTacToe() {
             onSquareClick={() => handleClick(8)}
           />
         </div>
-        <div className="replay justify-content-center">
+        <div className={styles.replay + " justify-content-center"}>
           <button
             className="btn btn-primary"
             onClick={() => resetGame()}>
