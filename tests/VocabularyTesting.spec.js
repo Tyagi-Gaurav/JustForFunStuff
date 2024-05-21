@@ -116,6 +116,22 @@ test.describe("Vocabulary Testing Page", () => {
       await expect(fieldText).toBeVisible();
       await expect(fieldText).toHaveText("A meaning");
     });
+
+    test("when word is received begin button should be changed to Next", async ({
+      page,
+    }) => {
+      await page.goto("http://localhost:3000/games/vocabtesting");
+      const beginButton = page.getByRole("button", { name: "Begin" });
+      await expect(beginButton).toBeVisible();
+      await beginButton.click();
+
+      const synonyms = page.getByText("Meaning", {exact: true});
+      await expect(synonyms).toBeVisible();
+      await expect(beginButton).not.toBeVisible();
+
+      const nextButton = page.getByRole("button", { name: "Next" });
+      await expect(nextButton).toBeVisible();
+    });
   });
 });
 

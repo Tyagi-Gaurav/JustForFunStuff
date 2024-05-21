@@ -106,7 +106,7 @@ export default function VocabularyTesting() {
       <div className="row">
         <div className="col-sm-12 replay justify-content-center pb-10">
           <button className="btn btn-primary" onClick={handleClick}>
-            Begin
+            {inProgress ? "Next" : "Begin"}
           </button>
         </div>
       </div>
