@@ -1,9 +1,23 @@
 import { useState } from "react";
 import "./VocabularyTesting.css";
+import { getWords } from "../api/vocab";
 
 export default function VocabularyTesting() {
-  const [meaning, setMeaning] = useState("")
-  const [synonyms, setSynonym] = useState("")
+  const [meaning, setMeaning] = useState("");
+  const [synonyms, setSynonym] = useState("");
+  const [example, setExample] = useState("");
+  const [inProgress, setInProgress] = useState(false);
+
+  const handleClick = (event) => {
+    event.preventDefault();
+    getWords()
+      .then((response) => {
+        setInProgress(true);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <div>
@@ -16,50 +30,66 @@ export default function VocabularyTesting() {
         </div>
       </div>
 
-      <div className="row mb-2">
-        <label>Can you think of an answer before the timer runs out?</label>
-        <p></p>
-      </div>
+      {inProgress && (
+        <div className="row mb-2">
+          <label>Can you think of an answer before the timer runs out?</label>
+          <p></p>
+        </div>
+      )}
 
-      <div className="row p-0">
-        <div className="col-sm-2">
-          <label>Meaning</label>
+      {inProgress && (
+        <div className="row p-0">
+          <div className="col-sm-2">
+            <label>Meaning</label>
+          </div>
+          <div className="col-sm-9 ml-1">
+            <h5
+              className="border display-5 rounded bg-light"
+              data-testid="meaning-text"
+            >
+              {meaning}
+            </h5>
+          </div>
         </div>
-        <div className="col-sm-9 ml-1">
-          <h5
-            className="border display-5 rounded bg-light"
-            data-testid="meaning-text">{meaning}</h5>
-        </div>
-      </div>
+      )}
 
-      <div className="row p-0">
-        <div className="col-sm-2">
-          <label>Synonyms</label>
+      {inProgress && (
+        <div className="row p-0">
+          <div className="col-sm-2">
+            <label>Synonyms</label>
+          </div>
+          <div className="col-sm-9 ml-1">
+            <h5
+              className="border display-5 rounded bg-light"
+              data-testid="synonym-text"
+            >
+              {synonyms}
+            </h5>
+          </div>
         </div>
-        <div className="col-sm-9 ml-1">
-          <h5
-            className="border display-5 rounded bg-light"
-            data-testid="synonym-text">{synonyms}</h5>
-        </div>
-      </div>
+      )}
 
-      <div className="row p-0">
-        <div className="col-sm-2">
-          <label>Example</label>
+      {inProgress && (
+        <div className="row p-0">
+          <div className="col-sm-2">
+            <label>Example</label>
+          </div>
+          <div className="col-sm-9 ml-1">
+            <h5
+              className="border display-5 rounded bg-light"
+              data-testid="example-text"
+            >
+              {example}
+            </h5>
+          </div>
         </div>
-        <div className="col-sm-9 ml-1">
-          <h5
-            className="border display-5 rounded bg-light"
-            data-testid="example-text"
-          >
-            Example Usage
-          </h5>
-        </div>
-      </div>
+      )}
 
       <div className="row">
         <div className="col-sm-12 replay justify-content-center pb-10">
-          <button className="btn btn-primary">Begin</button>
+          <button className="btn btn-primary" onClick={handleClick}>
+            Begin
+          </button>
         </div>
       </div>
     </div>

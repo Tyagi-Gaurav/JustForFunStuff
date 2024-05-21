@@ -13,7 +13,7 @@ val fileContent = Application::class.java.getResource("/words.json").readText()
 
 fun Application.module() {
     routing {
-        get("/api/v1/words") {
+        get("/api/words") {
             val words = Json.decodeFromString<Words>(fileContent)
             call.respondText(Json.encodeToString(words))
         }
