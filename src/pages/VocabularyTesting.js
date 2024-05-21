@@ -19,13 +19,19 @@ export default function VocabularyTesting() {
 
       <div className="row p-0">
         <div className="col-sm-2">
-          <label fo>Meaning</label>
+          <label>Meaning</label>
         </div>
         <div className="col-sm-9 ml-1">
-          <h5 className="border display-5 rounded bg-light">
-          Make Law<br/>
-          put into practice (an idea or suggestion)<br/>
-          act out (a role or play) on stage<br/>
+          <h5
+            className="border display-5 rounded bg-light"
+            data-testid="meaning-text"
+          >
+            Make Law
+            <br />
+            put into practice (an idea or suggestion)
+            <br />
+            act out (a role or play) on stage
+            <br />
           </h5>
         </div>
       </div>
@@ -35,21 +41,33 @@ export default function VocabularyTesting() {
           <label>Synonyms</label>
         </div>
         <div className="col-sm-9 ml-1">
-          <h5 className="border display-5 rounded bg-light">
-          Pass<br/>
-          Approve<br/>
-          Perform<br/>
-          Play<br/>
+          <h5
+            className="border display-5 rounded bg-light"
+            data-testid="synonym-text"
+          >
+            Pass
+            <br />
+            Approve
+            <br />
+            Perform
+            <br />
+            Play
+            <br />
           </h5>
         </div>
       </div>
 
       <div className="row p-0">
-      <div className="col-sm-2">
+        <div className="col-sm-2">
           <label>Example</label>
         </div>
         <div className="col-sm-9 ml-1">
-          <h5 className="border display-5 rounded bg-light">Example Usage</h5>
+          <h5
+            className="border display-5 rounded bg-light"
+            data-testid="example-text"
+          >
+            Example Usage
+          </h5>
         </div>
       </div>
 
