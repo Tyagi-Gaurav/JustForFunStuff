@@ -34,6 +34,7 @@ export default function VocabularyTesting() {
         setWord(selectedWord["word"]);
         setSynonym(formattedArray(selectedWord["synonyms"]));
         setMeaning(formattedArray(selectedWord["meaning"]));
+        setExample(formattedArray(selectedWord["examples"]));
         setInProgress(true);
       })
       .catch((error) => {
@@ -94,14 +95,14 @@ export default function VocabularyTesting() {
       {inProgress && example && (
         <div className="row p-0">
           <div className="col-sm-2">
-            <label>Example</label>
+            <label>Examples</label>
           </div>
           <div className="col-sm-9 ml-1">
             <h5
               className="border display-5 rounded bg-light"
               data-testid="example-text"
             >
-              {example}
+              {Parser(example)}
             </h5>
           </div>
         </div>
