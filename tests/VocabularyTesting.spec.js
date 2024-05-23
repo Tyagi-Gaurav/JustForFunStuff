@@ -90,7 +90,7 @@ test.describe("Vocabulary Testing Page", () => {
       await expect(wordText).toContainText("Some Word");
     });
 
-    test("when word is received its synonyms should be displayed on screen", async ({
+    test("when word is received its synonyms should be displayed on screen after the timer has finished", async ({
       page,
     }) => {
       await page.goto("http://localhost:3000/games/vocabtesting");
@@ -99,9 +99,15 @@ test.describe("Vocabulary Testing Page", () => {
       await button.click();
 
       const synonyms = page.getByText("Synonyms");
-      await expect(synonyms).toBeVisible();
+      await expect(synonyms).not.toBeVisible();
       const fieldText = page.getByTestId("synonym-text");
+      await expect(fieldText).not.toBeVisible();
+
+      await expect(page.getByTestId("countdown")).toBeVisible();
+
+      await expect(synonyms).toBeVisible();
       await expect(fieldText).toBeVisible();
+
       await expect(fieldText).toContainText("Synonym1");
       await expect(fieldText).toContainText("Synonym2");
       await expect(fieldText).toContainText("Synonym3");
@@ -109,17 +115,25 @@ test.describe("Vocabulary Testing Page", () => {
       await expect(fieldText).toContainText("Synonym5");
     });
 
-    test("when word is received its meaning should be displayed on screen", async ({
+    test("when word is received its meaning should be displayed on screen after the timer has finished", async ({
       page,
     }) => {
       await page.goto("http://localhost:3000/games/vocabtesting");
+
       const button = page.getByRole("button", { name: "Begin" });
       await expect(button).toBeVisible();
       await button.click();
 
-      const synonyms = page.getByText("Meaning", { exact: true });
-      await expect(synonyms).toBeVisible();
+      const meanings = page.getByText("Meaning", { exact: true });
       const fieldText = page.getByTestId("meaning-text");
+
+      await expect(meanings).not.toBeVisible();
+      await expect(fieldText).not.toBeVisible();
+
+      await expect(page.getByTestId("countdown")).toBeVisible();
+      
+      await expect(meanings).toBeVisible();
+      
       await expect(fieldText).toBeVisible();
       await expect(fieldText).toHaveText("A meaning");
     });

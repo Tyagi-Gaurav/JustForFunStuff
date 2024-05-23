@@ -24,6 +24,7 @@ export default function VocabularyTesting() {
   const [synonyms, setSynonym] = useState("");
   const [example, setExample] = useState("");
   const [inProgress, setInProgress] = useState(false);
+  const [timerExpired, setTimerExpired] = useState(true);
 
   const handleClick = (event) => {
     event.preventDefault();
@@ -39,6 +40,7 @@ export default function VocabularyTesting() {
         setInProgress(true);
         setCountDownValue(countDownValue);
         setReadyToRun(true);
+        setTimerExpired(false);
       })
       .catch((error) => {
         console.log(error);
@@ -46,7 +48,7 @@ export default function VocabularyTesting() {
   };
 
   const doActionWhenTimerExpires = () => {
-    console.log("Timer expired");
+    setTimerExpired(true);
   }
 
   return (
@@ -79,7 +81,7 @@ export default function VocabularyTesting() {
         </div>
       </div>
 
-      {inProgress && (
+      {inProgress && timerExpired && (
         <FloatableTextAreaWithLabel
           label="Meaning"
           testId="meaning-text"
@@ -87,7 +89,7 @@ export default function VocabularyTesting() {
         />
       )}
 
-      {inProgress && synonyms && (
+      {inProgress && synonyms && timerExpired && (
         <FloatableTextAreaWithLabel
           label="Synonyms"
           testId="synonym-text"
