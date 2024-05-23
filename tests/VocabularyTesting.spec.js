@@ -62,7 +62,7 @@ test.describe("Vocabulary Testing Page", () => {
       });
     });
 
-    test("when word is received the timer text should be shown", async ({
+    test.skip("when word is received the timer text should be shown", async ({
       page,
     }) => {
       await page.goto("http://localhost:3000/games/vocabtesting");

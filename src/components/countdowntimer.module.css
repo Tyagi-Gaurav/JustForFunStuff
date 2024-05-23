@@ -1,0 +1,12 @@
+.circle {
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+    border-radius: 50%;
+    font-size: 50px;
+    font-family: "Shantell Sans", cursive;
+    color: #000;
+    fill: none;
+    text-align: center;
+    background: #FFDB5C;
+  }
