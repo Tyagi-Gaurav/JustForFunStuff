@@ -62,16 +62,15 @@ test.describe("Vocabulary Testing Page", () => {
       });
     });
 
-    test.skip("when word is received the timer text should be shown", async ({
+    test("when word is received the timer should be displayed", async ({
       page,
     }) => {
       await page.goto("http://localhost:3000/games/vocabtesting");
       const button = page.getByRole("button", { name: "Begin" });
       await expect(button).toBeVisible();
       await button.click();
-      await expect(
-        page.getByText("Can you think of an answer before the timer runs out?")
-      ).toBeVisible();
+
+      await expect(page.getByTestId("countdown")).toBeVisible();
     });
 
     test("when word is received it should be displayed on screen", async ({

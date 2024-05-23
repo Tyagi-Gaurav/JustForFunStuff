@@ -34,5 +34,5 @@ export default function CountDownTimer(props) {
     }
   }
 
-  return <label className={styles.circle}>{seconds}</label>;
+  return <label data-testid="countdown" className={styles.circle}>{seconds}</label>;
 }
