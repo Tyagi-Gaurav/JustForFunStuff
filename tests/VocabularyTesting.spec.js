@@ -66,6 +66,10 @@ test.describe("Vocabulary Testing Page", () => {
       page,
     }) => {
       await page.goto("http://localhost:3000/games/vocabtesting");
+
+      const text = page.getByText("Can you think of the meaning before the timer runs out?")
+      await expect(text).toBeVisible();
+
       const button = page.getByRole("button", { name: "Begin" });
       await expect(button).toBeVisible();
       await button.click();
