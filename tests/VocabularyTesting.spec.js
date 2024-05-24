@@ -133,12 +133,11 @@ test.describe("Vocabulary Testing Page", () => {
       await expect(page.getByTestId("countdown")).toBeVisible();
       
       await expect(meanings).toBeVisible();
-      
       await expect(fieldText).toBeVisible();
       await expect(fieldText).toHaveText("A meaning");
     });
 
-    test("when word is received its examples should be displayed on screen", async ({
+    test("when word is received its examples should be displayed on screen after the timer has finished", async ({
       page,
     }) => {
       await page.goto("http://localhost:3000/games/vocabtesting");
@@ -146,10 +145,17 @@ test.describe("Vocabulary Testing Page", () => {
       await expect(button).toBeVisible();
       await button.click();
 
-      const synonyms = page.getByText("Examples", { exact: true });
-      await expect(synonyms).toBeVisible();
+      const examples = page.getByText("Examples", { exact: true });
       const fieldText = page.getByTestId("example-text");
+
+      await expect(examples).not.toBeVisible();
+      await expect(fieldText).not.toBeVisible();
+      
+      await expect(page.getByTestId("countdown")).toBeVisible();
+      
+      await expect(examples).toBeVisible();
       await expect(fieldText).toBeVisible();
+
       await expect(fieldText).toContainText("Example 1");
       await expect(fieldText).toContainText("Example 2");
     });

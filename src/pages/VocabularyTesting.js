@@ -97,7 +97,7 @@ export default function VocabularyTesting() {
         />
       )}
 
-      {inProgress && example && (
+      {inProgress && example && timerExpired && (
         <FloatableTextAreaWithLabel
           label="Examples"
           testId="example-text"
