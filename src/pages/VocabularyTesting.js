@@ -4,10 +4,6 @@ import CountDownTimer from "../components/CountDownTimer";
 import FloatableTextAreaWithLabel from "../components/FloatableTextAreaWithLabel";
 import styles from "./VocabularyTesting.module.css";
 
-function getRandomInt(max) {
-  return Math.floor(Math.random() * max);
-}
-
 function formattedArray(words) {
   if (words) {
     return words.join("<br/>");
@@ -17,6 +13,7 @@ function formattedArray(words) {
 }
 
 export default function VocabularyTesting() {
+  const [allWords, setAllWords] = useState([]);
   const [word, setWord] = useState("");
   const [countDownValue, setCountDownValue] = useState(3);
   const [readyToRun, setReadyToRun] = useState(0);
@@ -25,31 +22,45 @@ export default function VocabularyTesting() {
   const [example, setExample] = useState("");
   const [inProgress, setInProgress] = useState(false);
   const [timerExpired, setTimerExpired] = useState(true);
+  const [currentWordCount, setCurrentWordCount] = useState(0);
+
+  const displayWord = (selectedWord) => {
+    setInProgress(true);
+    setWord(selectedWord["word"]);
+    setSynonym(formattedArray(selectedWord["synonyms"]));
+    setMeaning(formattedArray(selectedWord["meaning"]));
+    setExample(formattedArray(selectedWord["examples"]));
+    setCountDownValue(countDownValue);
+    setReadyToRun(readyToRun + 1);
+    setTimerExpired(false);
+    setCurrentWordCount(currentWordCount + 1);
+  };
 
   const handleClick = (event) => {
     event.preventDefault();
-    setInProgress(true);
-    getWords()
-      .then((response) => {
-        var data = response.data["words"];
-        var index = getRandomInt(data.length);
-        var selectedWord = data[index];
-        setWord(selectedWord["word"]);
-        setSynonym(formattedArray(selectedWord["synonyms"]));
-        setMeaning(formattedArray(selectedWord["meaning"]));
-        setExample(formattedArray(selectedWord["examples"]));
-        setCountDownValue(countDownValue);
-        setReadyToRun(readyToRun + 1);
-        setTimerExpired(false);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+
+    if (currentWordCount === 0) {
+      getWords()
+        .then((response) => {
+          var data = response.data["words"];
+          setAllWords(data);
+          displayWord(data[0]);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      if (currentWordCount < allWords.length) {
+        displayWord(allWords[currentWordCount]);
+      } else {
+        console.log("Out of words for now");
+      }
+    }
   };
 
   const doActionWhenTimerExpires = () => {
     setTimerExpired(true);
-  }
+  };
 
   return (
     <div>
@@ -72,7 +83,11 @@ export default function VocabularyTesting() {
       <div className="row">
         <div className="col-sm-12 text-center">
           {inProgress ? (
-            <CountDownTimer inputDelay={countDownValue} ready={readyToRun} action={doActionWhenTimerExpires} />
+            <CountDownTimer
+              inputDelay={countDownValue}
+              ready={readyToRun}
+              action={doActionWhenTimerExpires}
+            />
           ) : (
             <label>
               Can you think of the meaning before the timer runs out?
