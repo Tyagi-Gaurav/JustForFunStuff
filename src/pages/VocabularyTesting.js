@@ -1,8 +1,8 @@
 import { useState } from "react";
-import styles from "./VocabularyTesting.module.css";
 import { getWords } from "../api/vocab";
-import FloatableTextAreaWithLabel from "../components/FloatableTextAreaWithLabel";
 import CountDownTimer from "../components/CountDownTimer";
+import FloatableTextAreaWithLabel from "../components/FloatableTextAreaWithLabel";
+import styles from "./VocabularyTesting.module.css";
 
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);
@@ -19,7 +19,7 @@ function formattedArray(words) {
 export default function VocabularyTesting() {
   const [word, setWord] = useState("");
   const [countDownValue, setCountDownValue] = useState(3);
-  const [readyToRun, setReadyToRun] = useState(false);
+  const [readyToRun, setReadyToRun] = useState(0);
   const [meaning, setMeaning] = useState("");
   const [synonyms, setSynonym] = useState("");
   const [example, setExample] = useState("");
@@ -28,6 +28,7 @@ export default function VocabularyTesting() {
 
   const handleClick = (event) => {
     event.preventDefault();
+    setInProgress(true);
     getWords()
       .then((response) => {
         var data = response.data["words"];
@@ -37,9 +38,8 @@ export default function VocabularyTesting() {
         setSynonym(formattedArray(selectedWord["synonyms"]));
         setMeaning(formattedArray(selectedWord["meaning"]));
         setExample(formattedArray(selectedWord["examples"]));
-        setInProgress(true);
         setCountDownValue(countDownValue);
-        setReadyToRun(true);
+        setReadyToRun(readyToRun + 1);
         setTimerExpired(false);
       })
       .catch((error) => {

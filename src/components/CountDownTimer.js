@@ -3,18 +3,14 @@ import styles from "./countdowntimer.module.css";
 
 export default function CountDownTimer(props) {
   const [seconds, setSeconds] = useState(parseInt(props.inputDelay));
-  const [readyToRun, setReadyToRun] = useState(props.ready);
   var timer = 0;
   const countRef = useRef(props.inputDelay);
 
   useEffect(() => {
-    setReadyToRun(props.ready);
     setSeconds(parseInt(props.inputDelay));
-    if (readyToRun) {
-      countRef.current = props.inputDelay;
-      startTimer();
-    }
-  }, [props]);
+    countRef.current = props.inputDelay;
+    startTimer();
+  }, [props.ready]);
 
   const startTimer = () => {
     if (!timer && props.inputDelay > 0) {
@@ -34,5 +30,9 @@ export default function CountDownTimer(props) {
     }
   }
 
-  return <label data-testid="countdown" className={styles.circle}>{seconds}</label>;
+  return (
+    <label data-testid="countdown" className={styles.circle}>
+      {seconds}
+    </label>
+  );
 }
