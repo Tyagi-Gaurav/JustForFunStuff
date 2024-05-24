@@ -97,6 +97,10 @@ test.describe("Vocabulary Testing Page", () => {
       await expect(button).toBeVisible();
       await button.click();
 
+      const wordText = page.getByTestId("word-text");
+      await expect(wordText).toBeVisible();
+      await expect(wordText).toContainText("Some Word");
+
       const synonyms = page.getByRole("button", { name: "Synonyms" });
       await expect(synonyms).not.toBeVisible();
       const fieldText = page.getByTestId("synonym-text");
@@ -124,6 +128,10 @@ test.describe("Vocabulary Testing Page", () => {
       await expect(button).toBeVisible();
       await button.click();
 
+      const wordText = page.getByTestId("word-text");
+      await expect(wordText).toBeVisible();
+      await expect(wordText).toContainText("Some Word");
+
       const meanings = page.getByRole("button", { name: "Meaning" });
       const fieldText = page.getByTestId("meanings-text");
 
@@ -145,7 +153,7 @@ test.describe("Vocabulary Testing Page", () => {
       await expect(button).toBeVisible();
       await button.click();
 
-      const examples = page.getByRole("button", {name: "Examples"});
+      const examples = page.getByRole("button", { name: "Examples" });
       const fieldText = page.getByTestId("examples-text");
 
       await expect(examples).not.toBeVisible();
@@ -170,8 +178,8 @@ test.describe("Vocabulary Testing Page", () => {
       await expect(beginButton).toBeVisible();
       await beginButton.click();
 
-      const synonyms = page.getByText("Meaning", { exact: true });
-      await expect(synonyms).toBeVisible();
+      const Meanings = page.getByText("Meaning", { exact: true });
+      await expect(Meanings).toBeVisible();
       await expect(beginButton).not.toBeVisible();
 
       const nextButton = page.getByRole("button", { name: "Next" });
@@ -239,6 +247,27 @@ test.describe("Vocabulary Testing Page", () => {
 
       const fieldText = page.getByTestId("synonym-text");
       await expect(fieldText).not.toBeVisible();
+    });
+
+    test("When next reaches the end of the list, next button cycles words from the beginning", async ({
+      page,
+    }) => {
+      await page.goto("http://localhost:3000/games/vocabtesting");
+      const beginButton = page.getByRole("button", { name: "Begin" });
+      await expect(beginButton).toBeVisible();
+  
+      await beginButton.click();
+  
+      const wordText = page.getByTestId("word-text");
+      await expect(wordText).toBeVisible();
+      await expect(wordText).toContainText("Some Word");
+  
+      const nextButton = page.getByRole("button", { name: "Next" });
+      await expect(nextButton).toBeVisible();
+  
+      await nextButton.click();
+      await expect(wordText).toBeVisible();
+      await expect(wordText).toContainText("Some Word");
     });
   });
 });

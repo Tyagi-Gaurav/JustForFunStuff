@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getWords } from "../api/vocab";
 import CountDownTimer from "../components/CountDownTimer";
 import FloatableTextAreaWithLabel from "../components/FloatableTextAreaWithLabel";
@@ -23,8 +23,23 @@ export default function VocabularyTesting() {
   const [inProgress, setInProgress] = useState(false);
   const [timerExpired, setTimerExpired] = useState(true);
   const [currentWordCount, setCurrentWordCount] = useState(0);
+  const [buttonText, setButtonText] = useState("Begin");
 
-  const displayWord = (selectedWord) => {
+  useEffect(() => {
+    if (setInProgress) {
+      getWords()
+        .then((response) => {
+          var data = response.data["words"];
+          setAllWords(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      }
+  }, [inProgress]);
+
+  const displayWord = (index) => {
+    var selectedWord = allWords[index];
     setInProgress(true);
     setWord(selectedWord["word"]);
     setSynonym(formattedArray(selectedWord["synonyms"]));
@@ -33,28 +48,16 @@ export default function VocabularyTesting() {
     setCountDownValue(countDownValue);
     setReadyToRun(readyToRun + 1);
     setTimerExpired(false);
-    setCurrentWordCount(currentWordCount + 1);
+    setCurrentWordCount(index + 1);
+    setButtonText("Next");
   };
 
   const handleClick = (event) => {
     event.preventDefault();
-
-    if (currentWordCount === 0) {
-      getWords()
-        .then((response) => {
-          var data = response.data["words"];
-          setAllWords(data);
-          displayWord(data[0]);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+    if (currentWordCount < allWords.length) {
+      displayWord(currentWordCount);
     } else {
-      if (currentWordCount < allWords.length) {
-        displayWord(allWords[currentWordCount]);
-      } else {
-        console.log("Out of words for now");
-      }
+      displayWord(0);
     }
   };
 
@@ -129,7 +132,8 @@ export default function VocabularyTesting() {
                 data-bs-toggle="collapse"
                 data-bs-target="#collapseTwo"
                 aria-expanded="false"
-                aria-controls="collapseTwo">
+                aria-controls="collapseTwo"
+              >
                 Synonyms
               </button>
             </h2>
@@ -176,7 +180,7 @@ export default function VocabularyTesting() {
           }
         >
           <button className="btn btn-primary" onClick={handleClick}>
-            {inProgress ? "Next" : "Begin"}
+            {buttonText}
           </button>
         </div>
       </div>
