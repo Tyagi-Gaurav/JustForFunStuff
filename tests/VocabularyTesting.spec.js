@@ -51,10 +51,7 @@ test.describe("Vocabulary Testing Page", () => {
                   "Synonym4",
                   "Synonym5",
                 ],
-                examples : [
-                  "Example 1",
-                  "Example 2"
-                ]
+                examples: ["Example 1", "Example 2"],
               },
             ],
           }),
@@ -67,7 +64,9 @@ test.describe("Vocabulary Testing Page", () => {
     }) => {
       await page.goto("http://localhost:3000/games/vocabtesting");
 
-      const text = page.getByText("Can you think of the meaning before the timer runs out?")
+      const text = page.getByText(
+        "Can you think of the meaning before the timer runs out?"
+      );
       await expect(text).toBeVisible();
 
       const button = page.getByRole("button", { name: "Begin" });
@@ -98,7 +97,7 @@ test.describe("Vocabulary Testing Page", () => {
       await expect(button).toBeVisible();
       await button.click();
 
-      const synonyms = page.getByText("Synonyms");
+      const synonyms = page.getByRole("button", { name: "Synonyms" });
       await expect(synonyms).not.toBeVisible();
       const fieldText = page.getByTestId("synonym-text");
       await expect(fieldText).not.toBeVisible();
@@ -106,6 +105,7 @@ test.describe("Vocabulary Testing Page", () => {
       await expect(page.getByTestId("countdown")).toBeVisible();
 
       await expect(synonyms).toBeVisible();
+      await synonyms.click();
       await expect(fieldText).toBeVisible();
 
       await expect(fieldText).toContainText("Synonym1");
@@ -124,14 +124,14 @@ test.describe("Vocabulary Testing Page", () => {
       await expect(button).toBeVisible();
       await button.click();
 
-      const meanings = page.getByText("Meaning", { exact: true });
-      const fieldText = page.getByTestId("meaning-text");
+      const meanings = page.getByRole("button", { name: "Meaning" });
+      const fieldText = page.getByTestId("meanings-text");
 
       await expect(meanings).not.toBeVisible();
       await expect(fieldText).not.toBeVisible();
 
       await expect(page.getByTestId("countdown")).toBeVisible();
-      
+
       await expect(meanings).toBeVisible();
       await expect(fieldText).toBeVisible();
       await expect(fieldText).toHaveText("A meaning");
@@ -145,14 +145,16 @@ test.describe("Vocabulary Testing Page", () => {
       await expect(button).toBeVisible();
       await button.click();
 
-      const examples = page.getByText("Examples", { exact: true });
-      const fieldText = page.getByTestId("example-text");
+      const examples = page.getByRole("button", {name: "Examples"});
+      const fieldText = page.getByTestId("examples-text");
 
       await expect(examples).not.toBeVisible();
       await expect(fieldText).not.toBeVisible();
-      
+
       await expect(page.getByTestId("countdown")).toBeVisible();
-      
+
+      await examples.click();
+
       await expect(examples).toBeVisible();
       await expect(fieldText).toBeVisible();
 
@@ -221,7 +223,7 @@ test.describe("Vocabulary Testing Page", () => {
             words: [
               {
                 word: "Some Word",
-                meaning: ["A meaning"]
+                meaning: ["A meaning"],
               },
             ],
           }),

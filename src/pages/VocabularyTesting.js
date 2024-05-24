@@ -6,7 +6,7 @@ import styles from "./VocabularyTesting.module.css";
 
 function formattedArray(words) {
   if (words) {
-    return words.join("<br/>");
+    return words.join(", ");
   } else {
     return "";
   }
@@ -97,27 +97,76 @@ export default function VocabularyTesting() {
       </div>
 
       {inProgress && timerExpired && (
-        <FloatableTextAreaWithLabel
-          label="Meaning"
-          testId="meaning-text"
-          text={meaning}
-        />
-      )}
-
-      {inProgress && synonyms && timerExpired && (
-        <FloatableTextAreaWithLabel
-          label="Synonyms"
-          testId="synonym-text"
-          text={synonyms}
-        />
-      )}
-
-      {inProgress && example && timerExpired && (
-        <FloatableTextAreaWithLabel
-          label="Examples"
-          testId="example-text"
-          text={example}
-        />
+        <div className="accordion row pt-5" id="mean-syn-exa">
+          <div className="accordion-item p-0">
+            <h2 className="accordion-header">
+              <button
+                className="accordion-button"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseOne"
+                aria-expanded="true"
+                aria-controls="collapseOne"
+              >
+                Meaning
+              </button>
+            </h2>
+            <div
+              id="collapseOne"
+              className="accordion-collapse collapse show"
+              data-bs-parent="#mean-syn-exa"
+            >
+              <div className="accordion-body">
+                <strong data-testid="meanings-text">{meaning}</strong>
+              </div>
+            </div>
+          </div>
+          <div className="accordion-item  p-0">
+            <h2 className="accordion-header">
+              <button
+                className="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseTwo"
+                aria-expanded="false"
+                aria-controls="collapseTwo">
+                Synonyms
+              </button>
+            </h2>
+            <div
+              id="collapseTwo"
+              className="accordion-collapse collapse"
+              data-bs-parent="#mean-syn-exa"
+            >
+              <div className="accordion-body">
+                <strong data-testid="synonym-text">{synonyms}</strong>
+              </div>
+            </div>
+          </div>
+          <div className="accordion-item  p-0">
+            <h2 className="accordion-header">
+              <button
+                className="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseThree"
+                aria-expanded="false"
+                aria-controls="collapseThree"
+              >
+                Examples
+              </button>
+            </h2>
+            <div
+              id="collapseThree"
+              className="accordion-collapse collapse"
+              data-bs-parent="#mean-syn-exa"
+            >
+              <div className="accordion-body">
+                <strong data-testid="examples-text">{example}</strong>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
 
       <div className="row">
