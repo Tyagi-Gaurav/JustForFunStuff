@@ -1,11 +1,5 @@
-package com.jffs.app
+package com.jffs.app.domain
 
-import kotlinx.serialization.Serializable
-
-@Serializable
-data class Words(val words: Array<Word>)
-
-@Serializable
 data class Word(
     val id: Int,
     val word: String,
@@ -13,5 +7,3 @@ data class Word(
     val synonyms: Array<String> = arrayOf(),
     val examples: Array<String> = arrayOf()
 )
-
-
