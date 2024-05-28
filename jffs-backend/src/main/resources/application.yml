@@ -2,7 +2,7 @@ spring:
   active: prod
 
 server:
-  port: 6060
+  port: 8080
   servlet:
     context-path: /api
 
@@ -13,6 +13,6 @@ management:
       show-details: always
   endpoints:
     web:
-      exposure.include: health, mappings, metrics, prometheus, configprops
+      exposure.include: health, mappings, metrics, configprops
       path-mapping:
         configprops: config
