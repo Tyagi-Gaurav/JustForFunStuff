@@ -8,9 +8,12 @@ data class WordsDTO(val words: List<WordDTO>)
 @Serializable
 data class WordDTO(
     val word: String,
-    val meaning: List<String>,
-    val synonyms: List<String>? = listOf(),
-    val examples: List<String>? = listOf()
+    val meanings: List<MeaningDTO>
 )
+
+@Serializable
+data class MeaningDTO(val definition: String,
+                      val synonyms: List<String>? = listOf(),
+                      val examples: List<String>? = listOf())
 
 

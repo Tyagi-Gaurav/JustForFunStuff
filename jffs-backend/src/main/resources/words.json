@@ -1,49 +1,75 @@
 {
-    "words" : [
+  "words": [
+    {
+      "word": "Grumble",
+      "meanings": [
         {
-            "word" : "Enact",
-            "meaning" : [
-                "Make Law",
-                "Put into practice",
-                "act out (a role or play) on stage"
-            ],
-            "synonyms" : [
-                "Pass",
-                "Approve",
-                "Perform",
-                "Play"
-            ]
-        },
-        {
-            "word" : "Reserves",
-            "meaning" : [
-                "Retain for future use"
-            ],
-            "synonyms" : [
-                "Retain",
-                "Keep",
-                "Hold",
-                "Secure"
-            ]
-        },
-        {
-            "word" : "Protruding",
-            "meaning" : [
-                "sticking out",
-                "projecting"
-            ]
-        },
-        {
-            "word" : "Amass",
-            "meaning" : [
-                "Gather together or accumulate (a large amount or number of material or things) over a period of time"
-            ],
-            "synonyms" : [
-                "Gather",
-                "Collect",
-                "Assemble",
-                "Accumulate"
-            ]
+          "definition": "to murmur or mutter in discontent; complain sullenly"
         }
-    ]
+      ]
+    },
+    {
+      "word": "Staunch",
+      "meanings": [
+        {
+          "definition": "Very loyal and committed in attitude",
+          "synonyms": [
+            "Stalwart",
+            "Loyal",
+            "Faithful",
+            "Trusty",
+            "Committed"
+          ]
+        }
+      ]
+    },
+    {
+      "word": "Enact",
+      "meaning": [
+        "Make Law",
+        "Put into practice",
+        "act out (a role or play) on stage"
+      ],
+      "synonyms": [
+        "Pass",
+        "Approve",
+        "Perform",
+        "Play"
+      ]
+    },
+    {
+      "id": 4,
+      "word": "Reserves",
+      "meaning": [
+        "Retain for future use"
+      ],
+      "synonyms": [
+        "Retain",
+        "Keep",
+        "Hold",
+        "Secure"
+      ]
+    },
+    {
+      "id": 5,
+      "word": "Protruding",
+      "meaning": [
+        "sticking out",
+        "projecting"
+      ]
+    },
+    {
+      "id": 6,
+      "word": "Amass",
+      "meaning": [
+        "Gather together or accumulate (a large amount or number of material or things) over a period of time"
+      ],
+      "synonyms": [
+        "Gather",
+        "Collect",
+        "Assemble",
+        "Accumulate"
+      ]
+    }
+  ]
 }
