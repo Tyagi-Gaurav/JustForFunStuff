@@ -19,6 +19,7 @@
         <dependency.mongodb-driver>5.1.0</dependency.mongodb-driver>
         <dependency.spring.boot.version>3.3.0</dependency.spring.boot.version>
         <kotlin.compiler.jvmTarget>17</kotlin.compiler.jvmTarget>
+        <dependency.kotlinx-coroutines-reactor.version>1.8.1</dependency.kotlinx-coroutines-reactor.version>
     </properties>
 
     <build>
@@ -88,6 +89,16 @@
                 <groupId>org.jetbrains.kotlinx</groupId>
                 <artifactId>kotlinx-serialization-json-jvm</artifactId>
                 <version>${dependency.kotlinx-serialization-json-jvm.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains.kotlinx</groupId>
+                <artifactId>kotlinx-coroutines-reactor</artifactId>
+                <version>${dependency.kotlinx-coroutines-reactor.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains.kotlinx</groupId>
+                <artifactId>kotlinx-coroutines-core</artifactId>
+                <version>${dependency.kotlinx-coroutines-reactor.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.ktor</groupId>

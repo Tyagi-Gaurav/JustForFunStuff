@@ -1,16 +1,18 @@
 package com.jffs.app.resource.domain
 
-import kotlinx.serialization.json.Json
+import com.jffs.app.db.VocabRepository
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
 
 @Controller
-class VocabController {
+class VocabController(@Autowired val vocabRepository : VocabRepository) {
     @GetMapping("/v1/words", produces = ["application/json"])
-    fun getWords(): ResponseEntity<WordsDTO> {
-        val readText: String = VocabController::class.java.getResource("/words.json")?.readText()!!
-        val response = Json.decodeFromString<WordsDTO>(readText)
-        return ResponseEntity.ok(response);
+    suspend fun getWords(): ResponseEntity<WordsDTO> {
+        val wordsDTO = WordsDTO(
+            vocabRepository.readAllWords()
+                .map { word -> WordDTO(0, word.word, word.meaning, word.synonyms, word.examples) })
+        return ResponseEntity.ok(wordsDTO);
     }
 }

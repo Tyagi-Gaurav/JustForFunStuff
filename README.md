@@ -72,4 +72,6 @@
 # Other commands
    - Stop Nginx
      - `sudo systemctl stop nginx`
+
+# Mongo Database Setup
    
