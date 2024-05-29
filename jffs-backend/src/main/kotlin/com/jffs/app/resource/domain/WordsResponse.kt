@@ -7,7 +7,6 @@ data class WordsDTO(val words: List<WordDTO>)
 
 @Serializable
 data class WordDTO(
-    val id: Int,
     val word: String,
     val meaning: List<String>,
     val synonyms: List<String>? = listOf(),

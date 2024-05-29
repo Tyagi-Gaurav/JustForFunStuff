@@ -12,7 +12,7 @@ class VocabController(@Autowired val vocabRepository : VocabRepository) {
     suspend fun getWords(): ResponseEntity<WordsDTO> {
         val wordsDTO = WordsDTO(
             vocabRepository.readAllWords()
-                .map { word -> WordDTO(0, word.word, word.meaning, word.synonyms, word.examples) })
+                .map { word -> WordDTO( word.word, word.meaning, word.synonyms, word.examples) })
         return ResponseEntity.ok(wordsDTO);
     }
 }

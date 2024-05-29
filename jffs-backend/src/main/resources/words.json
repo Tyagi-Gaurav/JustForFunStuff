@@ -1,28 +1,6 @@
 {
     "words" : [
         {
-            "id" : 1,
-            "word" : "Grumble",
-            "meaning" : [
-                "to murmur or mutter in discontent; complain sullenly"
-            ]
-        },
-        {
-            "id" : 2,
-            "word" : "Staunch",
-            "meaning" : [
-                "Very loyal and committed in attitude"
-            ],
-            "synonyms" : [
-                "Stalwart",
-                "Loyal",
-                "Faithful",
-                "Trusty",
-                "Committed"
-            ]
-        },
-        {
-            "id" : 3,
             "word" : "Enact",
             "meaning" : [
                 "Make Law",
@@ -37,7 +15,6 @@
             ]
         },
         {
-            "id": 4,
             "word" : "Reserves",
             "meaning" : [
                 "Retain for future use"
@@ -50,7 +27,6 @@
             ]
         },
         {
-            "id" : 5,
             "word" : "Protruding",
             "meaning" : [
                 "sticking out",
@@ -58,7 +34,6 @@
             ]
         },
         {
-            "id" : 6,
             "word" : "Amass",
             "meaning" : [
                 "Gather together or accumulate (a large amount or number of material or things) over a period of time"
