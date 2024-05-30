@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { getWords } from "../api/vocab";
 import CountDownTimer from "../components/CountDownTimer";
-import FloatableTextAreaWithLabel from "../components/FloatableTextAreaWithLabel";
 import styles from "./VocabularyTesting.module.css";
 
 function formattedArray(words) {
