@@ -11,6 +11,7 @@ import org.springframework.context.annotation.ComponentScan
 @SpringBootApplication
 @ComponentScan(basePackages = [
     "com.jffs.app.resource",
+    "com.jffs.app.config",
     "com.jffs.app"
 ])
 @EnableAutoConfiguration(exclude = [MongoAutoConfiguration::class, MongoReactiveAutoConfiguration::class])

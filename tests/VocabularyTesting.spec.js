@@ -34,7 +34,7 @@ test.describe("Vocabulary Testing Page", () => {
     test.beforeEach(async ({ page }) => {
       showLogsOnConsoleFor(page);
 
-      await page.route("*/**/api/words", async (route, request) => {
+      await page.route("*/**/api/v1/words", async (route, request) => {
         expect(request.method()).toBe("GET");
 
         await route.fulfill({
@@ -43,15 +43,19 @@ test.describe("Vocabulary Testing Page", () => {
             words: [
               {
                 word: "Some Word",
-                meaning: ["A meaning"],
-                synonyms: [
-                  "Synonym1",
-                  "Synonym2",
-                  "Synonym3",
-                  "Synonym4",
-                  "Synonym5",
+                meanings: [
+                  {
+                    definition: "A meaning",
+                    synonyms: [
+                      "Synonym1",
+                      "Synonym2",
+                      "Synonym3",
+                      "Synonym4",
+                      "Synonym5",
+                    ],
+                    examples: ["Example 1", "Example 2"],
+                  },
                 ],
-                examples: ["Example 1", "Example 2"],
               },
             ],
           }),
@@ -190,7 +194,7 @@ test.describe("Vocabulary Testing Page", () => {
       page,
     }) => {
       await page.goto("http://localhost:3000/games/vocabtesting");
-      await page.route("*/**/api/words", async (route, request) => {
+      await page.route("*/**/api/v1/words", async (route, request) => {
         expect(request.method()).toBe("GET");
 
         await route.fulfill({
@@ -199,8 +203,12 @@ test.describe("Vocabulary Testing Page", () => {
             words: [
               {
                 word: "Some Word",
-                meaning: ["A meaning"],
-                synonyms: ["Synonym1", "Synonym2"],
+                meanings: [
+                  {
+                    definition: "A meaning",
+                    synonyms: ["Synonym1", "Synonym2"],
+                  },
+                ],
               },
             ],
           }),
@@ -222,7 +230,7 @@ test.describe("Vocabulary Testing Page", () => {
       page,
     }) => {
       await page.goto("http://localhost:3000/games/vocabtesting");
-      await page.route("*/**/api/words", async (route, request) => {
+      await page.route("*/**/api/v1/words", async (route, request) => {
         expect(request.method()).toBe("GET");
 
         await route.fulfill({
@@ -231,7 +239,11 @@ test.describe("Vocabulary Testing Page", () => {
             words: [
               {
                 word: "Some Word",
-                meaning: ["A meaning"],
+                meanings: [
+                  {
+                    definition: "A meaning",
+                  },
+                ],
               },
             ],
           }),
@@ -255,16 +267,16 @@ test.describe("Vocabulary Testing Page", () => {
       await page.goto("http://localhost:3000/games/vocabtesting");
       const beginButton = page.getByRole("button", { name: "Begin" });
       await expect(beginButton).toBeVisible();
-  
+
       await beginButton.click();
-  
+
       const wordText = page.getByTestId("word-text");
       await expect(wordText).toBeVisible();
       await expect(wordText).toContainText("Some Word");
-  
+
       const nextButton = page.getByRole("button", { name: "Next" });
       await expect(nextButton).toBeVisible();
-  
+
       await nextButton.click();
       await expect(wordText).toBeVisible();
       await expect(wordText).toContainText("Some Word");

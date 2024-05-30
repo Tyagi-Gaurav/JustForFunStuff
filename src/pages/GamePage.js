@@ -3,9 +3,9 @@ import "./GamePage.css";
 
 export default function GamePage() {
   return (
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-      <div class="col">
-        <div class="card h-100">
+    <div className="row row-cols-1 row-cols-md-3 g-4">
+      <div className="col">
+        <div className="card h-100">
           <Link to="/games/tictactoe">
             <img
               className="card-img-top"
@@ -23,8 +23,8 @@ export default function GamePage() {
           </div>
         </div>
       </div>
-      <div class="col">
-        <div class="card h-100">
+      <div className="col">
+        <div className="card h-100">
           <Link to="/games/vocabtesting">
             <img
               className="card-img-top"
@@ -41,12 +41,12 @@ export default function GamePage() {
           </div>
         </div>
       </div>
-      <div class="col">
-        <div class="card h-100">
-          <img src="..." class="card-img-top" alt="..." />
-          <div class="card-body">
-            <h5 class="card-title">Coming Soon...</h5>
-            <p class="card-text">
+      <div className="col">
+        <div className="card h-100">
+          <img src="..." className="card-img-top" alt="..." />
+          <div className="card-body">
+            <h5 className="card-title">Coming Soon...</h5>
+            <p className="card-text">
               Coming Soon..
             </p>
           </div>

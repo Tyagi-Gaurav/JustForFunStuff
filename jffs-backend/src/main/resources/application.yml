@@ -16,3 +16,10 @@ management:
       exposure.include: health, mappings, metrics, configprops
       path-mapping:
         configprops: config
+
+database:
+  username: ${DB_USER:vocab_data}
+  password: ${DB_PWD:vocab_data}
+  name: ${NEW_DB_NAME:vocab_test}
+  host: ${DB_HOST:vocab_host}
+  scheme: ${DB_SCHEME:mongodb+srv}

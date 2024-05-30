@@ -42,9 +42,10 @@ export default function VocabularyTesting() {
     var selectedWord = allWords[index];
     setInProgress(true);
     setWord(selectedWord["word"]);
-    setSynonym(formattedArray(selectedWord["synonyms"]));
-    setMeaning(formattedArray(selectedWord["meaning"]));
-    setExample(formattedArray(selectedWord["examples"]));
+    var meaning = selectedWord["meanings"][0]
+    setSynonym(formattedArray(meaning["synonyms"]));
+    setMeaning(meaning["definition"]);
+    setExample(formattedArray(meaning["examples"]));
     setCountDownValue(countDownValue);
     setReadyToRun(readyToRun + 1);
     setTimerExpired(false);
