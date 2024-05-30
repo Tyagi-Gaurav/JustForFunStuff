@@ -113,7 +113,6 @@ test.describe("Vocabulary Testing Page", () => {
       await expect(page.getByTestId("countdown")).toBeVisible();
 
       await expect(synonyms).toBeVisible();
-      await synonyms.click();
       await expect(fieldText).toBeVisible();
 
       await expect(fieldText).toContainText("Synonym1");
@@ -164,8 +163,6 @@ test.describe("Vocabulary Testing Page", () => {
       await expect(fieldText).not.toBeVisible();
 
       await expect(page.getByTestId("countdown")).toBeVisible();
-
-      await examples.click();
 
       await expect(examples).toBeVisible();
       await expect(fieldText).toBeVisible();

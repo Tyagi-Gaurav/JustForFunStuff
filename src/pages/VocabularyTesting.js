@@ -118,7 +118,6 @@ export default function VocabularyTesting() {
             <div
               id="collapseOne"
               className="accordion-collapse collapse show"
-              data-bs-parent="#mean-syn-exa"
             >
               <div className="accordion-body">
                 <strong data-testid="meanings-text">{meaning}</strong>
@@ -128,7 +127,7 @@ export default function VocabularyTesting() {
           <div className="accordion-item  p-0">
             <h2 className="accordion-header">
               <button
-                className="accordion-button collapsed"
+                className="accordion-button"
                 type="button"
                 data-bs-toggle="collapse"
                 data-bs-target="#collapseTwo"
@@ -140,8 +139,7 @@ export default function VocabularyTesting() {
             </h2>
             <div
               id="collapseTwo"
-              className="accordion-collapse collapse"
-              data-bs-parent="#mean-syn-exa"
+              className="accordion-collapse collapse show"
             >
               <div className="accordion-body">
                 <strong data-testid="synonym-text">{synonyms}</strong>
@@ -151,7 +149,7 @@ export default function VocabularyTesting() {
           <div className="accordion-item  p-0">
             <h2 className="accordion-header">
               <button
-                className="accordion-button collapsed"
+                className="accordion-button collapse show"
                 type="button"
                 data-bs-toggle="collapse"
                 data-bs-target="#collapseThree"
@@ -163,8 +161,7 @@ export default function VocabularyTesting() {
             </h2>
             <div
               id="collapseThree"
-              className="accordion-collapse collapse"
-              data-bs-parent="#mean-syn-exa"
+              className="accordion-collapse collapse show"
             >
               <div className="accordion-body">
                 <strong data-testid="examples-text">{example}</strong>
