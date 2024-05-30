@@ -4,6 +4,7 @@ import CountDownTimer from "../organisms/CountDownTimer";
 import styles from "./VocabularyTesting.module.css";
 import AlertMessage from "../atoms/AlertMessage";
 import TextInABox from "../atoms/TextInABox";
+import Heading from "../atoms/Heading";
 
 function formattedArray(words) {
   if (words) {
@@ -74,9 +75,7 @@ export default function VocabularyTesting() {
 
   return (
     <div>
-      <div className={styles.heading + " text-center"}>
-        <h1>Test your Vocabulary</h1>
-      </div>
+      <Heading headingStyle={styles.heading + " text-center"} headingMessage="Test your Vocabulary"/>
 
       {error && 
         (<AlertMessage type="danger" message="There seems to be some problem. Please try again later"/>)

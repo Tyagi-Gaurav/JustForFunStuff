@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styles from "./TicTacToe.module.css";
 import Square from "../atoms/Square.js"
+import Heading from "../atoms/Heading.js";
 
 export default function TicTacToe() {
   const [squares, setSquares] = useState(
@@ -49,9 +50,7 @@ export default function TicTacToe() {
   return (
     <>
       <div className={styles.page}>
-        <div className={"text-center " + styles.heading}>
-          <h1>Tic-Tac-Toe</h1>
-        </div>
+        <Heading headingStyle={styles.heading + " text-center"} headingMessage="Tic-Tac-Toe"/>
         <div className={styles.status + " pt-5"}>
           <p className="text-center">{status}</p>
         </div>
