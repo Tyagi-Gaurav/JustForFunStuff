@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { getWords } from "../api/vocab";
 import CountDownTimer from "../components/CountDownTimer";
 import styles from "./VocabularyTesting.module.css";
+import AlertMessage from "../components/AlertMessage";
+import TextInABox from "../components/TextInABox";
 
 function formattedArray(words) {
   if (words) {
@@ -76,23 +78,12 @@ export default function VocabularyTesting() {
         <h1>Test your Vocabulary</h1>
       </div>
 
-      {error && (
-        <div>
-          <h1>There seems to be some problem. Please try again later</h1>
-        </div>
-      )}
+      {error && 
+        (<AlertMessage type="danger" message="There seems to be some problem. Please try again later"/>)
+      }
 
       {inProgress && word && (
-        <div className="row mb-2 pr-0">
-          <div className="col-sm-12">
-            <h3
-              className="display-1 rounded bg-light word"
-              data-testid="word-text"
-            >
-              {word}
-            </h3>
-          </div>
-        </div>
+        <TextInABox word={word} testId="word-text"/>
       )}
 
       {!error && (
