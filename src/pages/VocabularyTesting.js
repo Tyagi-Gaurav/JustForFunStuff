@@ -75,14 +75,27 @@ export default function VocabularyTesting() {
 
   return (
     <div>
-      <Heading headingStyle={styles.heading + " text-center"} headingMessage="Test your Vocabulary"/>
+      <Heading
+        headingStyle={styles.heading + " text-center"}
+        headingMessage="Test your Vocabulary"
+      />
 
-      {error && 
-        (<AlertMessage type="danger" message="There seems to be some problem. Please try again later"/>)
-      }
+      {error && (
+        <AlertMessage
+          type="danger"
+          message="There seems to be some problem. Please try again later"
+        />
+      )}
 
       {inProgress && word && (
-        <TextInABox word={word} testId="word-text"/>
+        <div className="row mb-2 pr-0">
+          <div className="col-sm-9">
+            <TextInABox text={word} testId="word-text" />
+          </div>
+          <div className="col-sm-3">
+            <h1 style={{color: "blue"}} className="display rounded bg-light">{currentWordCount + " of " + allWords.length}</h1>
+          </div>
+        </div>
       )}
 
       {!error && (
