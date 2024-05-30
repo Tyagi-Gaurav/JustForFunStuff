@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styles from "./TicTacToe.module.css";
-import Square from "../components/Square.js"
+import Square from "../atoms/Square.js"
 
 export default function TicTacToe() {
   const [squares, setSquares] = useState(

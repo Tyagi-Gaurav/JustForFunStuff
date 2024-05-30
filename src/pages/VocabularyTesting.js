@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { getWords } from "../api/vocab";
-import CountDownTimer from "../components/CountDownTimer";
+import CountDownTimer from "../organisms/CountDownTimer";
 import styles from "./VocabularyTesting.module.css";
-import AlertMessage from "../components/AlertMessage";
-import TextInABox from "../components/TextInABox";
+import AlertMessage from "../atoms/AlertMessage";
+import TextInABox from "../atoms/TextInABox";
 
 function formattedArray(words) {
   if (words) {

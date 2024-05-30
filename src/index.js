@@ -2,7 +2,7 @@ import ReactDOM from "react-dom/client";
 import { StrictMode } from "react";
 import "./index.css";
 import GamePage from "./pages/GamePage.js";
-import NavBar from "./components/NavBar.js";
+import NavBar from "./organisms/NavBar.js";
 
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import TicTacToe from "./pages/TicTacToe.js";
