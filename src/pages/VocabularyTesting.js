@@ -23,6 +23,7 @@ export default function VocabularyTesting() {
   const [timerExpired, setTimerExpired] = useState(true);
   const [currentWordCount, setCurrentWordCount] = useState(0);
   const [buttonText, setButtonText] = useState("Begin");
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     if (setInProgress) {
@@ -34,22 +35,26 @@ export default function VocabularyTesting() {
         .catch((error) => {
           console.log(error);
         });
-      }
+    }
   }, [inProgress]);
 
   const displayWord = (index) => {
-    var selectedWord = allWords[index];
-    setInProgress(true);
-    setWord(selectedWord["word"]);
-    var meaning = selectedWord["meanings"][0]
-    setSynonym(formattedArray(meaning["synonyms"]));
-    setMeaning(meaning["definition"]);
-    setExample(formattedArray(meaning["examples"]));
-    setCountDownValue(countDownValue);
-    setReadyToRun(readyToRun + 1);
-    setTimerExpired(false);
-    setCurrentWordCount(index + 1);
-    setButtonText("Next");
+    if (allWords && allWords.length > 0) {
+      var selectedWord = allWords[index];
+      setInProgress(true);
+      setWord(selectedWord["word"]);
+      var meaning = selectedWord["meanings"][0];
+      setSynonym(formattedArray(meaning["synonyms"]));
+      setMeaning(meaning["definition"]);
+      setExample(formattedArray(meaning["examples"]));
+      setCountDownValue(countDownValue);
+      setReadyToRun(readyToRun + 1);
+      setTimerExpired(false);
+      setCurrentWordCount(index + 1);
+      setButtonText("Next");
+    } else {
+      setError(true);
+    }
   };
 
   const handleClick = (event) => {
@@ -70,7 +75,14 @@ export default function VocabularyTesting() {
       <div className={styles.heading + " text-center"}>
         <h1>Test your Vocabulary</h1>
       </div>
-      {inProgress && (
+
+      {error && (
+        <div>
+          <h1>There seems to be some problem. Please try again later</h1>
+        </div>
+      )}
+
+      {inProgress && word && (
         <div className="row mb-2 pr-0">
           <div className="col-sm-12">
             <h3
@@ -83,21 +95,23 @@ export default function VocabularyTesting() {
         </div>
       )}
 
-      <div className="row">
-        <div className="col-sm-12 text-center">
-          {inProgress ? (
-            <CountDownTimer
-              inputDelay={countDownValue}
-              ready={readyToRun}
-              action={doActionWhenTimerExpires}
-            />
-          ) : (
-            <label>
-              Can you think of the meaning before the timer runs out?
-            </label>
-          )}
+      {!error && (
+        <div className="row">
+          <div className="col-sm-12 text-center">
+            {inProgress ? (
+              <CountDownTimer
+                inputDelay={countDownValue}
+                ready={readyToRun}
+                action={doActionWhenTimerExpires}
+              />
+            ) : (
+              <label>
+                Can you think of the meaning before the timer runs out?
+              </label>
+            )}
+          </div>
         </div>
-      </div>
+      )}
 
       {inProgress && timerExpired && (
         <div className="accordion row pt-5" id="mean-syn-exa">
@@ -114,10 +128,7 @@ export default function VocabularyTesting() {
                 Meaning
               </button>
             </h2>
-            <div
-              id="collapseOne"
-              className="accordion-collapse collapse show"
-            >
+            <div id="collapseOne" className="accordion-collapse collapse show">
               <div className="accordion-body">
                 <strong data-testid="meanings-text">{meaning}</strong>
               </div>
@@ -136,10 +147,7 @@ export default function VocabularyTesting() {
                 Synonyms
               </button>
             </h2>
-            <div
-              id="collapseTwo"
-              className="accordion-collapse collapse show"
-            >
+            <div id="collapseTwo" className="accordion-collapse collapse show">
               <div className="accordion-body">
                 <strong data-testid="synonym-text">{synonyms}</strong>
               </div>

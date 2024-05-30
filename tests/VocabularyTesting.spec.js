@@ -279,6 +279,28 @@ test.describe("Vocabulary Testing Page", () => {
       await expect(wordText).toContainText("Some Word");
     });
   });
+
+  test("when there are no words display a message on the screen", async ({
+    page,
+  }) => {
+    await page.goto("http://localhost:3000/games/vocabtesting");
+    await page.route("*/**/api/v1/words", async (route, request) => {
+      expect(request.method()).toBe("GET");
+
+      await route.fulfill({
+        status: 404,
+      });
+    });
+
+    const beginButton = page.getByRole("button", { name: "Begin" });
+    await expect(beginButton).toBeVisible();
+    await beginButton.click();
+
+    await expect(page.getByTestId("countdown")).not.toBeVisible();
+
+    const errorText = page.getByText("There seems to be some problem. Please try again later", { exact: true });
+    await expect(errorText).toBeVisible();
+  });
 });
 
 function showLogsOnConsoleFor(page) {
