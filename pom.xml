@@ -11,6 +11,7 @@
         <module>aws_deploy</module>
         <module>jffs-backend</module>
         <module>jffs-acceptance-tests</module>
+        <module>jffs-end-to-end-tests</module>
     </modules>
 
     <properties>
