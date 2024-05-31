@@ -1,24 +1,25 @@
 # JustForFunStuff
 
 # Local Development
+ - BackEnd
+   - `mvn clean package`
+   - Run `jffs-acceptance-tests/src/test/kotlin/com/jffs/tests/InMemoryBackendRunner.kt`
+ - FrontEnd
+   - `npm start`
 
-# Local Installation on DockerCompose
+# Local testing with DockerCompose
+ - `docker-compose up -d --build`
+ - `./mvnw test -DskipTests=false -pl jffs-end-to-end-tests`
+
+# Prepare to release
+ - Checkin and push everything
  - Create tag
    - `python3 main.py`
- - `docker-compose up -d --build`
  - `docker build -t chonku/jffs-ui:LATEST -t chonku/jffs-ui:{tag}`
  - `docker image push chonku/jffs-ui:{tag}`
  - `docker build -t chonku/jffs-backend:LATEST -t chonku/jffs-backend:{tag}`
  - `docker image push chonku/jffs-backend:{tag}`
  - `minkube start`
- - Update `tag` in deployment.yml
- - `local_install.sh`
-
-# Local testing
- - `minikube tunnel`
- - `minikube ip`
- - Ensure ingress is added `/etc/hosts` for accessing via browser
- - Access the page on http://ui-app.info
 
 # AWS Config
  - Using root user create another `dev.user`
