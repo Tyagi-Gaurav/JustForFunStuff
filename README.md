@@ -2,10 +2,14 @@
 
 # Local Development
 
-# Local Installation on Minikube
- - `python3 main.py`
+# Local Installation on DockerCompose
+ - Create tag
+   - `python3 main.py`
+ - `docker-compose up -d --build`
  - `docker build -t chonku/jffs-ui:LATEST -t chonku/jffs-ui:{tag}`
  - `docker image push chonku/jffs-ui:{tag}`
+ - `docker build -t chonku/jffs-backend:LATEST -t chonku/jffs-backend:{tag}`
+ - `docker image push chonku/jffs-backend:{tag}`
  - `minkube start`
  - Update `tag` in deployment.yml
  - `local_install.sh`

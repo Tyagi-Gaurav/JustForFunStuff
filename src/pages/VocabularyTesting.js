@@ -15,7 +15,7 @@ function formattedArray(words) {
 }
 
 export default function VocabularyTesting() {
-  const [allWords, setAllWords] = useState([]);
+  const [allWords, setAllWords] = useState();
   const [word, setWord] = useState("");
   const [countDownValue, setCountDownValue] = useState(3);
   const [readyToRun, setReadyToRun] = useState(0);
@@ -42,7 +42,8 @@ export default function VocabularyTesting() {
   }, [inProgress]);
 
   const displayWord = (index) => {
-    if (allWords && allWords.length > 0) {
+    console.log("Allwords: " + allWords);
+    if (allWords && allWords !== "") {
       var selectedWord = allWords[index];
       setInProgress(true);
       setWord(selectedWord["word"]);
@@ -62,10 +63,14 @@ export default function VocabularyTesting() {
 
   const handleClick = (event) => {
     event.preventDefault();
-    if (currentWordCount < allWords.length) {
-      displayWord(currentWordCount);
+    if (allWords) {
+      if (currentWordCount < allWords.length) {
+        displayWord(currentWordCount);
+      } else {
+        displayWord(0);
+      }
     } else {
-      displayWord(0);
+      setError(true);
     }
   };
 

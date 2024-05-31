@@ -1,0 +1,45 @@
+version: '3.7'
+services:
+  jffs-ui:
+    container_name: jffs-ui
+    build:
+      context: .
+    depends_on:
+      - jffs-backend
+    ports:
+      - "3000:3000"
+    networks:
+      - overlay
+
+  jffs-backend:
+    container_name: jffs-backend
+    depends_on:
+      - database
+    build:
+      context: jffs-backend
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    environment:
+      - "DB_USER=root"
+      - "DB_PWD=example"
+      - "DB_NAME=testUserDB"
+      - "DB_HOST=database:27017"
+      - "DB_SCHEME=mongodb"
+    networks:
+      - overlay
+
+  database:
+    image: mongo:7.0
+    container_name: database
+    ports:
+      - "27017:27017"
+    environment:
+      - "MONGO_INITDB_ROOT_USERNAME=root"
+      - "MONGO_INITDB_ROOT_PASSWORD=example"
+      - "MONGO_INITDB_DATABASE=testDB"
+    networks:
+      - overlay
+
+networks:
+  overlay:
