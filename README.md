@@ -15,11 +15,13 @@
  - Checkin and push everything
  - Create tag
    - `python3 main.py`
- - `docker build -t chonku/jffs-ui:LATEST -t chonku/jffs-ui:{tag}`
- - `docker image push chonku/jffs-ui:{tag}`
- - `docker build -t chonku/jffs-backend:LATEST -t chonku/jffs-backend:{tag}`
- - `docker image push chonku/jffs-backend:{tag}`
- - `minkube start`
+ - Build image for UI (Replace tag with eg v1.9)
+   - `docker build -t chonku/jffs-ui:LATEST -t chonku/jffs-ui:v1.9 .`
+ - `docker image push chonku/jffs-ui:v1.9`
+ - `cd jffs-backend`
+ - `docker build -t chonku/jffs-backend:LATEST -t chonku/jffs-backend:v1.9 .`
+ - `docker image push chonku/jffs-backend:v1.9`
+
 
 # AWS Config
  - Using root user create another `dev.user`
@@ -73,6 +75,8 @@
   - SSH into the machine
     - `docker pull chonku/jffs-ui:`<Tag>
     - `docker run -p 3000:3000 -d --name jffs-ui chonku/jffs-ui:`<Tag>
+    - `docker pull chonku/jffs-backend:`<Tag>
+    - `docker run -p 8080:8080 -p 8081:8081 -d -e "DB_USER=<>" -e "DB_PWD=<>" -e "DB_NAME=Prod" -e "DB_HOST=<>" -e "DB_SCHEME=mongodb+srv" --name jffs-backend chonku/jffs-backend:`<Tag>
 
 # Other commands
    - Stop Nginx
