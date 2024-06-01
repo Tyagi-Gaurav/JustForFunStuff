@@ -1,5 +1,23 @@
-version: '3.7'
 services:
+  jffs-api-gateway:
+    container_name: jffs-api-gateway
+    depends_on:
+      - jffs-ui
+      - jffs-backend
+    build:
+      context: jffs-api-gateway
+    environment:
+      - JFFS_BACKEND_HOST=jffs-backend
+      - JFFS_UI_HOST=jffs-ui
+      - JFFS_BACKEND_PORT=8080
+      - JFFS_UI_PORT=3000
+    command: [ nginx, '-g', 'daemon off;' ]
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - overlay
+
   jffs-ui:
     container_name: jffs-ui
     build:

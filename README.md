@@ -21,6 +21,9 @@
  - `cd jffs-backend`
  - `docker build -t chonku/jffs-backend:LATEST -t chonku/jffs-backend:v1.9 .`
  - `docker image push chonku/jffs-backend:v1.9`
+ - `cd jffs-api-gateway`
+- `docker build -t chonku/jffs-api-gateway:LATEST -t chonku/jffs-api-gateway:v1.9 .`
+- `docker image push chonku/jffs-api-gateway:v1.9`
 
 
 # AWS Config
@@ -77,6 +80,8 @@
     - `docker run -p 3000:3000 -d --name jffs-ui chonku/jffs-ui:`<Tag>
     - `docker pull chonku/jffs-backend:`<Tag>
     - `docker run -p 8080:8080 -p 8081:8081 -d -e "DB_USER=<>" -e "DB_PWD=<>" -e "DB_NAME=Prod" -e "DB_HOST=<>" -e "DB_SCHEME=mongodb+srv" --name jffs-backend chonku/jffs-backend:`<Tag>
+    - `docker pull chonku/jffs-api-gateway:`<Tag>
+    - `docker run -p 6060:80 -d -e "JFFS_BACKEND_HOST=localhost" -e "JFFS_UI_HOST=localhost" -e "JFFS_BACKEND_PORT=8080" -e "JFFS_UI_PORT=3000" --name jffs-api-gateway chonku/jffs-api-gateway:`<Tag>
 
 # Other commands
    - Stop Nginx

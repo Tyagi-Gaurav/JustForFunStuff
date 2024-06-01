@@ -1,0 +1,9 @@
+upstream jffs_backend_api {
+    zone jffs_backend_api 64k;
+    server ${JFFS_BACKEND_HOST}:${JFFS_BACKEND_PORT};
+}
+
+upstream jffs_ui {
+    zone jffs_ui 64k;
+    server ${JFFS_UI_HOST}:${JFFS_UI_PORT};
+}
