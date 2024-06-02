@@ -13,6 +13,6 @@ class VocabRepository(@Autowired val mongoClient: MongoClient) {
         val database = mongoClient.getDatabase("vocab");
         val collection = database.getCollection<Word>("word")
 
-        return collection.find().toList()
+        return collection.find().toList().shuffled()
     }
 }

@@ -82,6 +82,8 @@
     - `docker run -p 8080:8080 -p 8081:8081 -d -e "DB_USER=<>" -e "DB_PWD=<>" -e "DB_NAME=Prod" -e "DB_HOST=<>" -e "DB_SCHEME=mongodb+srv" --name jffs-backend chonku/jffs-backend:`<Tag>
     - `docker pull chonku/jffs-api-gateway:`<Tag>
     - `docker run -p 6060:80 -d -e "JFFS_BACKEND_HOST=localhost" -e "JFFS_UI_HOST=localhost" -e "JFFS_BACKEND_PORT=8080" -e "JFFS_UI_PORT=3000" --name jffs-api-gateway chonku/jffs-api-gateway:`<Tag>
+    - Run Healthcheck for application using the command
+      - `wget -O - http://localhost:8081/actuator/healthcheck > /dev/null` 
 
 # Other commands
    - Stop Nginx
