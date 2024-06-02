@@ -11,7 +11,7 @@ ENV DB_HOST=$DB_HOST
 ARG DB_SCHEME
 ENV DB_SCHEME=$DB_SCHEME
 
-ADD target/jffs-backend-DEV-SNAPSHOT-jar-with-dependencies.jar /data/application.jar
+ADD target/jffs-backend-DEV-SNAPSHOT.jar /data/application.jar
 
 COPY ./startup.sh /data/startup.sh
 
