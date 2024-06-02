@@ -11,21 +11,6 @@
  - `docker-compose up -d --build`
  - `./mvnw test -DskipTests=false -pl jffs-end-to-end-tests`
 
-# Prepare to release
- - Checkin and push everything
- - Create tag
-   - `python3 main.py`
- - Build image for UI (Replace tag with eg v1.9)
-   - `docker build -t chonku/jffs-ui:LATEST -t chonku/jffs-ui:v1.9 .`
- - `docker image push chonku/jffs-ui:v1.9`
- - `cd jffs-backend`
- - `docker build -t chonku/jffs-backend:LATEST -t chonku/jffs-backend:v1.9 .`
- - `docker image push chonku/jffs-backend:v1.9`
- - `cd jffs-api-gateway`
-- `docker build -t chonku/jffs-api-gateway:LATEST -t chonku/jffs-api-gateway:v1.9 .`
-- `docker image push chonku/jffs-api-gateway:v1.9`
-
-
 # AWS Config
  - Using root user create another `dev.user`
  - Create access key for `dev.user`
@@ -74,16 +59,32 @@
  - Setup auto renewal of certs (Renew should happen every 90 days)
    - `sudo /usr/bin/certbot renew --quiet`
 
+# Prepare to release
+- Checkin and push everything
+- Create tag
+    - `python3 main.py`
+- Build image for UI (Replace tag with eg v1.9)
+    - `docker build -t chonku/jffs-ui:LATEST -t chonku/jffs-ui:v1.10 .`
+- `docker image push chonku/jffs-ui:v1.10`
+- `cd jffs-backend`
+- `docker build -t chonku/jffs-backend:LATEST -t chonku/jffs-backend:v1.10 .`
+- `docker image push chonku/jffs-backend:v1.10`
+- `cd ../jffs-api-gateway`
+- `docker build -t chonku/jffs-api-gateway:LATEST -t chonku/jffs-api-gateway:v1.10 .`
+- `docker image push chonku/jffs-api-gateway:v1.10`
+
 # Release instructions
+  - Ensure Prepare to release instructions are complete
   - SSH into the machine
-    - `docker pull chonku/jffs-ui:`<Tag>
-    - `docker run -p 3000:3000 -d --name jffs-ui chonku/jffs-ui:`<Tag>
-    - `docker pull chonku/jffs-backend:`<Tag>
-    - `docker run -p 8080:8080 -p 8081:8081 -d -e "DB_USER=<>" -e "DB_PWD=<>" -e "DB_NAME=Prod" -e "DB_HOST=<>" -e "DB_SCHEME=mongodb+srv" --name jffs-backend chonku/jffs-backend:`<Tag>
-    - `docker pull chonku/jffs-api-gateway:`<Tag>
-    - `docker run -p 6060:80 -d -e "JFFS_BACKEND_HOST=localhost" -e "JFFS_UI_HOST=localhost" -e "JFFS_BACKEND_PORT=8080" -e "JFFS_UI_PORT=3000" --name jffs-api-gateway chonku/jffs-api-gateway:`<Tag>
+    - `docker pull chonku/jffs-ui:v1.10`
+    - `docker pull chonku/jffs-backend:v1.10`
+    - `docker pull chonku/jffs-api-gateway:v1.10`
+    - `docker stop jffs-backend && docker rm jffs-backend`
+    - `docker run -p 8080:8080 -p 8081:8081 -d -e "DB_USER=<>" -e "DB_PWD=<>" -e "DB_NAME=Prod" -e "DB_HOST=<>" -e "DB_SCHEME=mongodb+srv" --name jffs-backend chonku/jffs-backend:v1.10`
+    - `docker stop jffs-ui && docker rm jffs-ui`
+    - `docker run -p 3000:3000 -d --name jffs-ui chonku/jffs-ui:v1.10`
     - Run Healthcheck for application using the command
-      - `wget -O - http://localhost:8081/actuator/healthcheck > /dev/null` 
+      - `wget -O - http://localhost:8081/actuator/health` 
 
 # Other commands
    - Stop Nginx
