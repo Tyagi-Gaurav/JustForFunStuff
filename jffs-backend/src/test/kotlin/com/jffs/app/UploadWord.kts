@@ -53,7 +53,7 @@ do {
 
 //println (words)
 val connectionString =
-    "mongodb+srv://jffs-prod-user:dDsv13DNGbeomU8i@prod.0nv9qyd.mongodb.net/?retryWrites=true&w=majority&appName=Prod"
+    "mongodb+srv://<user>:<password>@prod.0nv9qyd.mongodb.net/?retryWrites=true&w=majority&appName=<databaseName>"
 val serverApi = ServerApi.builder()
     .version(ServerApiVersion.V1)
     .build()
