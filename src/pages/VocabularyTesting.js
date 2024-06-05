@@ -25,7 +25,6 @@ export default function VocabularyTesting() {
   const [inProgress, setInProgress] = useState(false);
   const [timerExpired, setTimerExpired] = useState(true);
   const [currentWordCount, setCurrentWordCount] = useState(0);
-  const [buttonText, setButtonText] = useState("Begin");
   const [error, setError] = useState(false);
 
   useEffect(() => {
@@ -54,7 +53,6 @@ export default function VocabularyTesting() {
       setReadyToRun(readyToRun + 1);
       setTimerExpired(false);
       setCurrentWordCount(index + 1);
-      setButtonText("Next");
     } else {
       setError(true);
     }
@@ -97,7 +95,9 @@ export default function VocabularyTesting() {
             <TextInABox text={word} testId="word-text" />
           </div>
           <div className="col-sm-3">
-            <h1 style={{color: "blue"}} className="display rounded bg-light">{currentWordCount + " of " + allWords.length}</h1>
+            <h1 style={{ color: "blue" }} className="display rounded bg-light">
+              {currentWordCount + " of " + allWords.length}
+            </h1>
           </div>
         </div>
       )}
@@ -191,9 +191,17 @@ export default function VocabularyTesting() {
             styles.centered_button + " col-sm-12 justify-content-center pb-10"
           }
         >
-          <button className="btn btn-primary" onClick={handleClick}>
-            {buttonText}
-          </button>
+          {!inProgress && (
+            <button className="btn btn-primary" onClick={handleClick}>
+              Begin
+            </button>
+          )}
+
+          {inProgress && timerExpired && (
+            <button className="btn btn-primary" onClick={handleClick}>
+              Next
+            </button>
+          )}
         </div>
       </div>
     </div>
