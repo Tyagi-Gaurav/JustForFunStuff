@@ -42,7 +42,6 @@ export default function VocabularyTesting() {
   }, [inProgress]);
 
   const displayWord = (index) => {
-    console.log("Allwords: " + allWords);
     if (allWords && allWords !== "") {
       var selectedWord = allWords[index];
       setInProgress(true);
