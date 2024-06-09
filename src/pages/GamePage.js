@@ -28,7 +28,7 @@ export default function GamePage() {
           <Link to="/games/vocabtesting">
             <img
               className="card-img-top"
-              src="/image/VocabRevision.png"
+              src="/image/english_vocab.png"
               alt="vocab_test"
             />
           </Link>

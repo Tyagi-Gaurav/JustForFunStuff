@@ -66,7 +66,8 @@ val mongoClient = MongoClient.Factory.create(mongoClientSettings);
 val database = mongoClient.getDatabase("vocab");
 val collection = database.getCollection<Word>("word")
 
-words.forEach { word ->
+words.filter { word ->  word.word.trim().length > 0 && word.meanings[0].definition.trim().length > 0}
+    .forEach { word ->
     kotlinx.coroutines.runBlocking {
         go(word)
     }
