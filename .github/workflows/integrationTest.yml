@@ -40,6 +40,10 @@ jobs:
         id: api_testing
         run: ./mvnw test -DskipTests=false -pl jffs-end-to-end-tests
 
+      - name: Update NPM package
+        id: npm_install
+        run: npm install
+
       - name: Run Front end tests
         id: front_end
         run: npm test
