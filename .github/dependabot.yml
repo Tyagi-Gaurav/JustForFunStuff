@@ -9,10 +9,10 @@ updates:
     directories:
       - "/"
     schedule:
-      interval: "weekly"
+      interval: "daily"
 
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "daily"
 
