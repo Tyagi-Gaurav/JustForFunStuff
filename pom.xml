@@ -13,6 +13,7 @@
         <module>jffs-acceptance-tests</module>
         <module>jffs-end-to-end-tests</module>
         <module>jffs-api-gateway</module>
+        <module>jffs-admin</module>
     </modules>
 
     <properties>
