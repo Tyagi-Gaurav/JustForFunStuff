@@ -4,13 +4,15 @@
   "description": "Admin package for managing JFFS",
   "main": "index.js",
   "scripts": {
-    "start": "react-scripts start",
+    "start": "PORT=3001 react-scripts start",
     "test": "npm test"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@floating-ui/react": "^0.26.16",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.23.1"
   }
 }

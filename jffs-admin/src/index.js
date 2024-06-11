@@ -1,8 +1,34 @@
-import { createRoot } from 'react-dom/client';
+import ReactDOM from "react-dom/client";
+import { StrictMode } from "react";
+import NavBar from "./organisms/NavBar";
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 
-// Clear the existing HTML content
-document.body.innerHTML = '<div id="app"></div>';
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <NavbarWrapper />,
+    children: [
+      { path: "/vocab/list", element: <NavbarWrapper /> },
+      { path: "/vocab/add", element: <NavbarWrapper /> },
+    ],
+  },
+]);
 
-// Render your React component instead
-const root = createRoot(document.getElementById('app'));
-root.render(<h1>Hello, world</h1>);
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <div>
+    <RouterProvider router={router} />
+  </div>
+);
+
+function NavbarWrapper() {
+  return (
+    <StrictMode>
+      <div>
+        <NavBar />
+        <div className="container pt-2">
+          <Outlet />
+        </div>
+      </div>
+    </StrictMode>
+  );
+}
