@@ -1,11 +1,1 @@
-db.word.aggregate( [
-   {
-     $addFields: {
-       modifiedDateTime: new Date() ,
-     }
-   },
-   {
-     $addFields: { word:
-       { $add: [ "$modifiedDateTime"] } }
-   }
-] )
+db.word.updateMany({}, [ { $set: { modifiedDateTime: new Date()} } ] )
