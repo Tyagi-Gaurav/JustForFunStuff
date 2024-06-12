@@ -1,6 +1,6 @@
-package com.jffs.app
+package com.jffs.admin.app
 
-import com.jffs.app.config.DatabaseConfig
+import com.jffs.admin.app.config.DatabaseConfig
 import com.mongodb.ConnectionString
 import com.mongodb.MongoClientSettings
 import com.mongodb.ServerApi

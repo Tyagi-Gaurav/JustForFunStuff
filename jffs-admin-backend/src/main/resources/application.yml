@@ -1,0 +1,25 @@
+spring:
+  active: prod
+
+server:
+  port: ${SERVER_PORT:9090}
+  servlet:
+    context-path: /admin
+
+management:
+  server.port: ${SERVER_MGT_PORT:9081}
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure.include: health, status, mappings, metrics, configprops
+      path-mapping:
+        configprops: config
+
+database:
+  username: ${DB_USER:vocab_data}
+  password: ${DB_PWD:vocab_data}
+  name: ${DB_NAME:vocab_test}
+  host: ${DB_HOST:vocab_host}
+  scheme: ${DB_SCHEME:mongodb+srv}
