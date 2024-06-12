@@ -3,6 +3,7 @@ import com.mongodb.MongoClientSettings
 import com.mongodb.ServerApi
 import com.mongodb.ServerApiVersion
 import com.mongodb.kotlin.client.coroutine.MongoClient
+import java.time.LocalDateTime
 
 fun getAttribute(attributeName: String): List<String> {
     print("Input $attributeName (terminated by -1): ")
@@ -23,7 +24,8 @@ fun getAttribute(attributeName: String): List<String> {
 
 data class Word(
     val word: String,
-    val meanings: List<Meaning>
+    val meanings: List<Meaning>,
+    val modifiedDateTime: LocalDateTime?
 )
 
 data class Meaning(
@@ -45,7 +47,7 @@ do {
     val meanings: MutableList<Meaning> = mutableListOf()
     meanings.add(Meaning(definition!!, synonyms, examples))
 
-    words.add(Word(word!!, meanings))
+    words.add(Word(word!!, meanings, LocalDateTime.now()))
 
     print("Any more words? (Y/y/n/N): ")
     val option = readLine()
