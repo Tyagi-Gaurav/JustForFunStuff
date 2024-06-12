@@ -5,7 +5,7 @@ import java.time.LocalDateTime
 data class Word(
     val word: String,
     val meanings: List<Meaning>,
-    val modifiedDateTimestamp: LocalDateTime?
+    val modifiedDateTime: LocalDateTime?
 )
 
 data class Meaning(

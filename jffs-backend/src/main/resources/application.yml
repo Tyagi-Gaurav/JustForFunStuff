@@ -20,6 +20,7 @@ management:
 database:
   username: ${DB_USER:vocab_data}
   password: ${DB_PWD:vocab_data}
-  name: ${DB_NAME:vocab_test}
+  appName: ${APP_NAME:vocab_app}
+  dbName: ${DB_NAME:vocab_db}
   host: ${DB_HOST:vocab_host}
   scheme: ${DB_SCHEME:mongodb+srv}

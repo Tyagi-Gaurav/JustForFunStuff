@@ -70,7 +70,7 @@ class VocabResourceTest {
                 listOf("example1", "example2")
             )
         )
-        result?.get(0)?.modifiedDateTimestamp?.shouldBeWithin(ofSeconds(1), modifiedTime)
+        result?.get(0)?.modifiedDateTime?.shouldBeWithin(ofSeconds(1), modifiedTime)
 
         result?.get(1)?.word shouldBe "A Word 2"
         result?.get(1)?.meanings shouldBe listOf(
@@ -80,6 +80,6 @@ class VocabResourceTest {
                 listOf("example1", "example2")
             )
         )
-        result?.get(1)?.modifiedDateTimestamp shouldBe null
+        result?.get(1)?.modifiedDateTime shouldBe null
     }
 }
