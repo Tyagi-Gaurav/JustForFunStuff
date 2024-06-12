@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 @ConfigurationPropertiesScan(value = ["com.jffs.admin.app.config"])
-open class BeanFactory {
+open class AdminBeanFactory {
     @Bean
     open fun mongoDbClient(databaseConfig: DatabaseConfig): MongoClient {
         val connectionString = databaseConfig.connectionString();
