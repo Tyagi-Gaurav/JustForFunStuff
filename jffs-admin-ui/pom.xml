@@ -9,7 +9,7 @@
         <version>DEV-SNAPSHOT</version>
     </parent>
 
-    <artifactId>jffs-admin</artifactId>
+    <artifactId>jffs-admin-ui</artifactId>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
