@@ -24,22 +24,22 @@ class VocabularyTest {
     @BeforeEach
     void setUp() {
         page = browser.newPage();
-        page.navigate("http://localhost:3000/games/vocabtesting");
+        page.navigate("http://localhost/games/vocabtesting");
     }
 
     @Test
-    void errorMessageAppearsWhenNoWordsAreFound() {
+    void canAccessWords() {
         assertThat(page.getByText("Test your Vocabulary")).isVisible();
         assertThat(page.getByText("Can you think of the meaning before the timer runs out?")).isVisible();
 
         final var beginButton = page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Begin"));
         assertThat(beginButton).isVisible();
-        final var errorText = page.getByText("There seems to be some problem. Please try again later");
-        assertThat(errorText).not().isVisible();
 
         beginButton.click();
 
-        assertThat(errorText).isVisible();
+        final var word1 = page.getByText("Grumble");
+        final var word2 = page.getByText("Staunch");
+        assertThat(word1.or(word2)).isVisible();
     }
 
     @AfterAll

@@ -7,6 +7,11 @@
  - FrontEnd
    - `npm start`
 
+# Connecting to local database
+ - `docker-compose up -d --build`
+ - `mongosh --authenticationDatabase admin --username root` 
+ - `use testDB`
+
 # Local testing with DockerCompose
  - `docker-compose up -d --build`
  - `./mvnw test -DskipTests=false -pl jffs-end-to-end-tests`

@@ -8,8 +8,8 @@ services:
       context: jffs-api-gateway
     environment:
       - JFFS_BACKEND_HOST=jffs-backend
-      - JFFS_UI_HOST=jffs-ui
       - JFFS_BACKEND_PORT=8080
+      - JFFS_UI_HOST=jffs-ui
       - JFFS_UI_PORT=3000
     command: [ nginx, '-g', 'daemon off;' ]
     ports:
@@ -41,7 +41,8 @@ services:
     environment:
       - "DB_USER=root"
       - "DB_PWD=example"
-      - "DB_NAME=testUserDB"
+      - "APP_NAME=testDB"
+      - "DB_NAME=testDB"
       - "DB_HOST=database:27017"
       - "DB_SCHEME=mongodb"
     networks:
@@ -56,6 +57,9 @@ services:
       - "MONGO_INITDB_ROOT_USERNAME=root"
       - "MONGO_INITDB_ROOT_PASSWORD=example"
       - "MONGO_INITDB_DATABASE=testDB"
+    volumes:
+      - ./database/example_words_insert.js:/docker-entrypoint-initdb.d/example_words_insert.js:rw
+      - ./docker-output:/data/db
     networks:
       - overlay
 
