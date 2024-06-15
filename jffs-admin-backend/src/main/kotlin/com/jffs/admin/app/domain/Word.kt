@@ -13,3 +13,11 @@ data class Meaning(
     val synonyms: List<String>? = listOf(),
     val examples: List<String>? = listOf()
 )
+
+data class PaginatedWords(
+    val words : List<Word>,
+    val totalPages : Int,
+    val nextPage: Int,
+    val previousPage: Int,
+    val currentPage: Int
+)

@@ -3,7 +3,13 @@ package com.jffs.admin.app.resource
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class WordsDTO(val words: List<WordDTO>)
+data class PageinatedWordsDTO(
+    val words: List<WordDTO>,
+    val totalPages: Int,
+    val currentPage: Int,
+    val nextPage: Int,
+    val previousPage : Int
+)
 
 @Serializable
 data class WordDTO(
@@ -12,8 +18,10 @@ data class WordDTO(
 )
 
 @Serializable
-data class MeaningDTO(val definition: String,
-                      val synonyms: List<String>? = listOf(),
-                      val examples: List<String>? = listOf())
+data class MeaningDTO(
+    val definition: String,
+    val synonyms: List<String>? = listOf(),
+    val examples: List<String>? = listOf()
+)
 
 
