@@ -6,12 +6,8 @@ import com.jffs.app.domain.Word
 import com.jffs.tests.initializer.TestContainerDatabaseInitializer
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import com.mongodb.kotlin.client.coroutine.MongoCollection
-import io.kotest.matchers.collections.shouldHaveSize
-import io.kotest.matchers.date.shouldBeWithin
-import io.kotest.matchers.shouldBe
-import io.kotest.matchers.shouldNotBe
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
+import org.hamcrest.Matchers.containsInAnyOrder
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -19,7 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import java.time.Duration.ofSeconds
+import org.springframework.test.web.reactive.server.WebTestClient
+import org.springframework.test.web.servlet.client.MockMvcWebTestClient
+import org.springframework.web.context.WebApplicationContext
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 
@@ -32,8 +30,14 @@ class VocabControllerTest {
     var collection: MongoCollection<Word>? = null
     var modifiedTime = LocalDateTime.now(ZoneOffset.UTC)
 
+    @Autowired
+    lateinit var wac: WebApplicationContext;
+
+    lateinit var client: WebTestClient
+
     @BeforeEach
     fun setUp() {
+        client = MockMvcWebTestClient.bindToApplicationContext(wac).build()
         val database = mongoClient?.getDatabase("testDB")
         collection = database?.getCollection<Word>("word")
         runBlocking {
@@ -55,31 +59,25 @@ class VocabControllerTest {
     }
 
     @Test
-    fun getWords() { //TODO Change this test to read database
-        val result = runBlocking {
-            collection?.find()?.toList()
-        }
+    fun getWords() {
+        val responseBody = client.get().uri("/v1/words")
+            .exchange()
+            .expectStatus().isOk()
+            .expectHeader().contentType("application/json")
+            .expectBody()
+            .jsonPath("$.words[*].word").value(containsInAnyOrder("A Word 1", "A Word 2"))
+            .jsonPath("$.words[*].meanings[*].definition").value(containsInAnyOrder("A definition 1", "A definition 2"))
 
-        result shouldNotBe null
-        result?.shouldHaveSize(2)
-        result?.get(0)?.word shouldBe "A Word 1"
-        result?.get(0)?.meanings shouldBe listOf(
-            Meaning(
-                "A definition 1",
-                listOf("synonym1", "synonym2"),
-                listOf("example1", "example2")
-            )
-        )
-        result?.get(0)?.modifiedDateTime?.shouldBeWithin(ofSeconds(1), modifiedTime)
+            .jsonPath("$.words[0].meanings[0].synonyms[0]").isEqualTo("synonym1")
+            .jsonPath("$.words[0].meanings[0].synonyms[1]").isEqualTo("synonym2")
+            .jsonPath("$.words[0].meanings[0].examples.length()").isEqualTo(2)
+            .jsonPath("$.words[0].meanings[0].examples[0]").isEqualTo("example1")
+            .jsonPath("$.words[0].meanings[0].examples[1]").isEqualTo("example2")
 
-        result?.get(1)?.word shouldBe "A Word 2"
-        result?.get(1)?.meanings shouldBe listOf(
-            Meaning(
-                "A definition 2",
-                listOf("synonym1", "synonym2"),
-                listOf("example1", "example2")
-            )
-        )
-        result?.get(1)?.modifiedDateTime shouldBe null
+            .jsonPath("$.words[1].meanings[0].synonyms[0]").isEqualTo("synonym1")
+            .jsonPath("$.words[1].meanings[0].synonyms[1]").isEqualTo("synonym2")
+            .jsonPath("$.words[1].meanings[0].examples.length()").isEqualTo(2)
+            .jsonPath("$.words[1].meanings[0].examples[0]").isEqualTo("example1")
+            .jsonPath("$.words[1].meanings[0].examples[1]").isEqualTo("example2")
     }
 }
