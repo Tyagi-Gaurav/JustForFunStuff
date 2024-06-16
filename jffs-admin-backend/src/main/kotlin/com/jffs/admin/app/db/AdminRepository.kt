@@ -6,7 +6,6 @@ import com.jffs.admin.app.domain.Word
 import com.mongodb.client.model.Aggregates.*
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Indexes.descending
-import com.mongodb.client.model.Projections
 import com.mongodb.client.model.Projections.fields
 import com.mongodb.client.model.Projections.include
 import com.mongodb.kotlin.client.coroutine.MongoClient
@@ -18,7 +17,7 @@ import org.springframework.stereotype.Repository
 
 
 @Repository
-class VocabRepository(
+class AdminRepository(
     @Autowired val mongoClient: MongoClient,
     @Autowired val databaseConfig: DatabaseConfig
 ) {

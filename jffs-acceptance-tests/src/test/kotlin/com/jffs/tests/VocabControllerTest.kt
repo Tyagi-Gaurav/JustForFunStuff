@@ -26,7 +26,7 @@ import java.time.ZoneOffset
 @ContextConfiguration(initializers = [TestContainerDatabaseInitializer::class])
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(classes = [JffsApplication::class])
-class VocabResourceTest {
+class VocabControllerTest {
     @Autowired
     val mongoClient: MongoClient? = null;
     var collection: MongoCollection<Word>? = null
@@ -55,7 +55,7 @@ class VocabResourceTest {
     }
 
     @Test
-    fun getWords() {
+    fun getWords() { //TODO Change this test to read database
         val result = runBlocking {
             collection?.find()?.toList()
         }

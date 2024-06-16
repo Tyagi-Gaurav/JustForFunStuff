@@ -82,6 +82,11 @@
                 <version>${dependency.spring.boot.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-webflux</artifactId>
+                <version>${dependency.spring.boot.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>aws.sdk.kotlin</groupId>
                 <artifactId>ec2</artifactId>
                 <version>1.2.38</version>
