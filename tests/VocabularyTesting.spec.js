@@ -101,6 +101,8 @@ test.describe("Vocabulary Testing Page", () => {
       await expect(button).toBeVisible();
       await button.click();
 
+      await expect(page.getByTestId("countdown")).toBeVisible();
+
       const wordText = page.getByTestId("word-text");
       await expect(wordText).toBeVisible();
       await expect(wordText).toContainText("Some Word");
@@ -109,8 +111,6 @@ test.describe("Vocabulary Testing Page", () => {
       await expect(synonyms).not.toBeVisible();
       const fieldText = page.getByTestId("synonym-text");
       await expect(fieldText).not.toBeVisible();
-
-      await expect(page.getByTestId("countdown")).toBeVisible();
 
       await expect(synonyms).toBeVisible();
       await expect(fieldText).toBeVisible();
@@ -178,6 +178,8 @@ test.describe("Vocabulary Testing Page", () => {
       const beginButton = page.getByRole("button", { name: "Begin" });
       await expect(beginButton).toBeVisible();
       await beginButton.click();
+
+      await expect(page.getByTestId("countdown")).toBeVisible();
 
       const Meanings = page.getByText("Meaning", { exact: true });
       await expect(Meanings).toBeVisible();
