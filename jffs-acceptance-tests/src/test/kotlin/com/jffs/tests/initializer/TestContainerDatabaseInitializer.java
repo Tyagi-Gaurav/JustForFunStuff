@@ -27,14 +27,16 @@ public class TestContainerDatabaseInitializer implements ApplicationContextIniti
         // Override MySql configuration
         String newDatabaseUserName = "database.username=" + MONGO_USER;
         String newDatabasePassword = "database.password=" + MONGO_DB_PASSWORD;
-        String newDatabaseName = "database.name=" + MONGO_DB_NAME;
+        String newDatabaseAppName = "database.appName=" + MONGO_DB_NAME;
+        String newDatabaseDBName = "database.dbName=" + MONGO_DB_NAME;
         String newDatabaseHost = "database.host=" + mongoDBContainer.getHost() + ":" + mongoDBContainer.getMappedPort(27017);
         String newDatabaseScheme = "database.scheme=mongodb";
 
         TestPropertySourceUtils.addInlinedPropertiesToEnvironment(applicationContext,
                 newDatabaseUserName,
                 newDatabasePassword,
-                newDatabaseName,
+                newDatabaseAppName,
+                newDatabaseDBName,
                 newDatabaseHost,
                 newDatabaseScheme);
     }
