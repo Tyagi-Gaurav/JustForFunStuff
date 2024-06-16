@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { getWords } from "../api/vocab";
+import { getWords } from "../api/backend_api";
 
 export default function VocabList() {
   const [allWords, setAllWords] = useState();
+  const [nextPage, setNextPage] = useState(1);
   
   useEffect(() => {
-    getWords()
+    getWords(nextPage)
       .then((response) => {
         var data = response.data["words"];
         const rows = [];

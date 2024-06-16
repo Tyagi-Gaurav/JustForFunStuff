@@ -1,7 +1,7 @@
 import axios from "axios";
 
-export const getWords = (body) => {
-  return axios.get("/api/v1/words", null, {
+export const getWords = (pageNum) => {
+  return axios.get("/admin/v1/words/" + pageNum, null, {
     headers: {
       "accept-language": "application/json"
     },
