@@ -55,7 +55,6 @@ class AdminInMemoryTestController(@Autowired
 
     @GetMapping("/v1/words/{pageNum}")
     suspend fun words(@PathVariable("pageNum") pageNum : String): ResponseEntity<PaginatedWordsDTO> {
-        println ("received request")
         val paginatedWords = adminRepository.readAllWords(Integer.parseInt(pageNum))
         val words = paginatedWords.words
             .map { word ->

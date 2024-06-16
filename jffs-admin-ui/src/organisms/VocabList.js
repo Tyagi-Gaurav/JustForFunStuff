@@ -62,6 +62,7 @@ export default function VocabList() {
       </nav>
       <div>
         <table className="table table-striped">
+        <caption>Page {currentPage} of {totalPages}</caption>
           <thead>
             <tr>
               <th scope="col">Word</th>
