@@ -3,7 +3,7 @@ package com.jffs.admin.app.resource
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class PageinatedWordsDTO(
+data class PaginatedWordsDTO(
     val words: List<WordDTO>,
     val totalPages: Int,
     val currentPage: Int,
