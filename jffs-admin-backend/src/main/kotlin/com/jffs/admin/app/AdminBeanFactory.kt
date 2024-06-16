@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration
 open class AdminBeanFactory {
     @Bean
     open fun mongoDbClient(databaseConfig: DatabaseConfig): MongoClient {
-        val connectionString = databaseConfig.connectionString();
+        val connectionString = databaseConfig.connectionString()
         val serverApi = ServerApi.builder()
             .version(ServerApiVersion.V1)
             .build()

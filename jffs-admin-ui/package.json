@@ -4,7 +4,7 @@
   "description": "Admin package for managing JFFS",
   "main": "index.js",
   "scripts": {
-    "start": "PORT=3001 react-scripts start",
+    "start": "react-scripts start",
     "test": "npm test"
   },
   "author": "",
@@ -16,5 +16,5 @@
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.23.1"
   },
-  "proxy": "http://localhost:8080"
+  "proxy": "http://localhost:9090"
 }
