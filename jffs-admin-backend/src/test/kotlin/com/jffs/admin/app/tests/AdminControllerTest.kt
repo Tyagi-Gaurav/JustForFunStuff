@@ -51,14 +51,35 @@ class AdminControllerTest {
 
     @Test
     fun getPaginatedWords() {
-            client.get().uri("/v1/words/1")
-                .exchange()
-                .expectStatus().isOk()
-                .expectBody()
-                .jsonPath("$.totalPages").isEqualTo("3")
-                .jsonPath("$.currentPage").isEqualTo("1")
-                .jsonPath("$.nextPage").isEqualTo("2")
-                .jsonPath("$.previousPage").isEqualTo("-1")
+        client.get().uri("/v1/words/1")
+            .exchange()
+            .expectStatus().isOk()
+            .expectBody()
+            .jsonPath("$.words.length()").isEqualTo(10)
+            .jsonPath("$.totalPages").isEqualTo("3")
+            .jsonPath("$.currentPage").isEqualTo("1")
+            .jsonPath("$.nextPage").isEqualTo("2")
+            .jsonPath("$.previousPage").isEqualTo("-1")
+
+        client.get().uri("/v1/words/2")
+            .exchange()
+            .expectStatus().isOk()
+            .expectBody()
+            .jsonPath("$.words.length()").isEqualTo(10)
+            .jsonPath("$.totalPages").isEqualTo("3")
+            .jsonPath("$.currentPage").isEqualTo("2")
+            .jsonPath("$.nextPage").isEqualTo("3")
+            .jsonPath("$.previousPage").isEqualTo("1")
+
+        client.get().uri("/v1/words/3")
+            .exchange()
+            .expectStatus().isOk()
+            .expectBody()
+            .jsonPath("$.words.length()").isEqualTo(5)
+            .jsonPath("$.totalPages").isEqualTo("3")
+            .jsonPath("$.currentPage").isEqualTo("3")
+            .jsonPath("$.nextPage").isEqualTo("-1")
+            .jsonPath("$.previousPage").isEqualTo("2")
     }
 
     private fun generateListOfWords(wordsCount: Int): List<Word> {
