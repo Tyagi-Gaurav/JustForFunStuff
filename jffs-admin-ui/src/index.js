@@ -25,7 +25,7 @@ function NavbarWrapper() {
     <StrictMode>
       <div>
         <NavBar />
-        <div className="container pt-2">
+        <div className="container-lg">
           <Outlet />
         </div>
       </div>
