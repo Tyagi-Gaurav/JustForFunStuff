@@ -1,7 +1,7 @@
 import ReactDOM from "react-dom/client";
 import { StrictMode } from "react";
 import NavBar from "./organisms/NavBar";
-import VocabList from "./organisms/VocabList";
+import Vocab from "./organisms/Vocab";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -9,7 +9,7 @@ const router = createBrowserRouter([
     path: "/",
     element: <NavbarWrapper />,
     children: [
-      { path: "/vocab/list", element: <VocabList /> }
+      { path: "/vocab", element: <Vocab /> }
     ],
   },
 ]);

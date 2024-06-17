@@ -3,9 +3,6 @@ package com.jffs.admin.app
 import com.jffs.admin.app.db.AdminRepository
 import com.jffs.admin.app.domain.Meaning
 import com.jffs.admin.app.domain.Word
-import com.jffs.admin.app.resource.MeaningDTO
-import com.jffs.admin.app.resource.PaginatedWordsDTO
-import com.jffs.admin.app.resource.WordDTO
 import com.jffs.admin.app.tests.initializer.TestContainerDatabaseInitializer
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import kotlinx.coroutines.flow.count
@@ -17,10 +14,7 @@ import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration
 import org.springframework.boot.autoconfigure.mongo.MongoReactiveAutoConfiguration
 import org.springframework.boot.builder.SpringApplicationBuilder
 import org.springframework.context.annotation.ComponentScan
-import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
 import java.time.LocalDateTime
 
 @SpringBootApplication
@@ -53,37 +47,13 @@ class AdminInMemoryTestController(@Autowired
         }
     }
 
-    @GetMapping("/v1/words/{pageNum}")
-    suspend fun words(@PathVariable("pageNum") pageNum : String): ResponseEntity<PaginatedWordsDTO> {
-        val paginatedWords = adminRepository.readAllWords(Integer.parseInt(pageNum))
-        val words = paginatedWords.words
-            .map { word ->
-                WordDTO(
-                    word.word,
-                    word.meanings.map { meaning: Meaning ->
-                        MeaningDTO(
-                            meaning.definition,
-                            meaning.synonyms,
-                            meaning.examples
-                        )
-                    })
-            }.toList()
-        val response = PaginatedWordsDTO(words,
-            paginatedWords.totalPages,
-            paginatedWords.currentPage,
-            paginatedWords.nextPage,
-            paginatedWords.previousPage,
-        )
-        return ResponseEntity.ok(response)
-    }
-
     private fun generateListOfWords(wordsCount: Int): List<Word> {
         val words = mutableListOf<Word>()
         for (index in 1..wordsCount) {
             words.add(
                 Word(
-                    "A Word $index",
-                    listOf(Meaning("A definition $index", listOf("synonym$index"), listOf("example$index"))),
+                    "AWord$index",
+                    listOf(Meaning("A definition 1$index; A definition 2$index", listOf("synonym1$index; synonym2$index; synonym3$index"), listOf("example$index"))),
                     LocalDateTime.now()
                 )
             )
