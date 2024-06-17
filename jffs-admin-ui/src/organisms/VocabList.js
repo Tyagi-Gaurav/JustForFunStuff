@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getWords } from "../api/backend_api";
 
-export default function VocabList() {
+export default function VocabList({editCallback}) {
   const [allWords, setAllWords] = useState();
   const [nextPage, setNextPage] = useState(1);
   const [previousPage, setPreviousPage] = useState(-1);
@@ -10,10 +10,15 @@ export default function VocabList() {
 
   const handleNext = () => {
     getData(nextPage);
-  }
+  };
 
   const handlePrevious = () => {
     getData(previousPage);
+  };
+
+  function handleRowClick(word) {
+    console.log("Handle click for " + word);
+    editCallback(word);
   }
 
   function getData(nextPage) {
@@ -23,7 +28,11 @@ export default function VocabList() {
         const rows = [];
         for (let i = 0; i < data.length; i++) {
           rows.push(
-            <tr key={i} className="table-primary">
+            <tr
+              key={i}
+              className="table-primary"
+              onClick={() => handleRowClick(data[i]["word"])}
+            >
               <td>{data[i]["word"]}</td>
               <td>{data[i]["meanings"][0]["definition"]}</td>
             </tr>
@@ -39,21 +48,28 @@ export default function VocabList() {
         console.log(error);
       });
   }
- 
+
   useEffect(() => {
     getData(nextPage);
   }, []);
 
+
   return (
     <>
-      <nav aria-label="Page navigation example">
+      <nav aria-label="List Navigation">
         <ul className="pagination justify-content-center">
-          <li id="previous" className={previousPage === -1 ? "page-item disabled" : "page-item"}>
+          <li
+            id="previous"
+            className={previousPage === -1 ? "page-item disabled" : "page-item"}
+          >
             <a className="page-link" href="#" onClick={handlePrevious}>
               Previous
             </a>
           </li>
-          <li id="next" className={nextPage === -1 ? "page-item disabled" : "page-item"}>
+          <li
+            id="next"
+            className={nextPage === -1 ? "page-item disabled" : "page-item"}
+          >
             <a className="page-link" onClick={handleNext}>
               Next
             </a>
@@ -62,7 +78,9 @@ export default function VocabList() {
       </nav>
       <div>
         <table className="table table-striped">
-        <caption>Page {currentPage} of {totalPages}</caption>
+          <caption>
+            Page {currentPage} of {totalPages}
+          </caption>
           <thead>
             <tr>
               <th scope="col">Word</th>

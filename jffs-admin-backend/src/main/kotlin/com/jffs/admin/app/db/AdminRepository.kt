@@ -10,8 +10,10 @@ import com.mongodb.client.model.Projections.fields
 import com.mongodb.client.model.Projections.include
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import kotlinx.coroutines.flow.count
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toList
+import kotlinx.serialization.json.internal.writeJson
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Repository
 
@@ -49,5 +51,15 @@ class AdminRepository(
 
         val words = collection.aggregate(pipeline).map { value -> value }.toList()
         return PaginatedWords(words, totalPages, nextPage, previousPage, pageNum)
+    }
+
+    suspend fun findByWord(word: String) : Word? {
+        val database = mongoClient.getDatabase(databaseConfig.dbName);
+        val collection = database.getCollection<Word>("word")
+
+        println ("Finding word: $word");
+        val firstOrNull = collection.find<Word>(Filters.eq("word", word)).firstOrNull()
+        println ("Result: $firstOrNull")
+        return firstOrNull
     }
 }

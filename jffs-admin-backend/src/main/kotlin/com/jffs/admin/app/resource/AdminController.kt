@@ -25,12 +25,29 @@ class AdminController(@Autowired val adminRepository: AdminRepository) {
                         )
                     })
             }.toList()
-        val response = PaginatedWordsDTO(words,
+        val response = PaginatedWordsDTO(
+            words,
             paginatedWords.totalPages,
             paginatedWords.currentPage,
             paginatedWords.nextPage,
             paginatedWords.previousPage,
         )
         return ResponseEntity.ok(response)
+    }
+
+    @GetMapping("/v1/word/{word}", produces = ["application/json"])
+    suspend fun findWord(@PathVariable("word") word: String): ResponseEntity<WordDTO> {
+        val findByWord = adminRepository.findByWord(word)
+        println ("FindByWord: $findByWord")
+        return findByWord?.let {
+            ResponseEntity.ok(WordDTO(
+                it.word,
+                it.meanings.map { meaning: Meaning ->
+                    MeaningDTO(
+                        meaning.definition,
+                        meaning.synonyms,
+                        meaning.examples
+                    )
+                }))} ?: ResponseEntity.notFound().build()
     }
 }

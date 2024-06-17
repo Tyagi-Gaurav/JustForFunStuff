@@ -7,3 +7,11 @@ export const getWords = (pageNum) => {
     },
   });
 };
+
+export const getWord = (word) => {
+  return axios.get("/admin/v1/word/" + word, null, {
+    headers: {
+      "accept-language": "application/json"
+    },
+  });
+};
