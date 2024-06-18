@@ -3,13 +3,15 @@ import { StrictMode } from "react";
 import NavBar from "./organisms/NavBar";
 import Vocab from "./organisms/Vocab";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
+import VocabWordAdd from "./organisms/VocabWordAdd";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <NavbarWrapper />,
     children: [
-      { path: "/vocab", element: <Vocab /> }
+      { path: "/vocab", element: <Vocab /> },
+      { path: "/vocab/add", element: <VocabWordAdd /> }
     ],
   },
 ]);

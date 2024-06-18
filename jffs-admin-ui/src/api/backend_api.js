@@ -16,7 +16,7 @@ export const getWord = (word) => {
   });
 };
 
-export const saveWord = (oldWord, word) => {
+export const updateWord = (oldWord, word) => {
   return axios.post("/admin/v1/word/" + oldWord, word, {
     headers: {
       "content-type": "application/json"
