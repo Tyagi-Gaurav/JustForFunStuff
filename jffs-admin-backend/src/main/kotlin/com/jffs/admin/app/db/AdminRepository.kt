@@ -82,4 +82,11 @@ class AdminRepository(
 
         collection.insertOne(word)
     }
+
+    suspend fun delete(word: String) {
+        val database = mongoClient.getDatabase(databaseConfig.dbName);
+        val collection = database.getCollection<Word>("word")
+
+        collection.deleteOne(eq("word", word))
+    }
 }

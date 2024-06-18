@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const getWords = (pageNum) => {
-  return axios.get("/admin/v1/words/" + pageNum, null, {
+  return axios.get("/admin/v1/words/" + pageNum, {
     headers: {
       "accept-language": "application/json"
     },
@@ -9,7 +9,7 @@ export const getWords = (pageNum) => {
 };
 
 export const getWord = (word) => {
-  return axios.get("/admin/v1/word/" + word, null, {
+  return axios.get("/admin/v1/word/" + word, {
     headers: {
       "accept-language": "application/json"
     },
@@ -19,7 +19,7 @@ export const getWord = (word) => {
 export const updateWord = (oldWord, word) => {
   return axios.put("/admin/v1/word/" + oldWord, word, {
     headers: {
-      "content-type": "application/vnd+update.word.v1+json"
+      "Content-Type": "application/vnd+update.word.v1+json"
     },
   });
 };
@@ -27,7 +27,15 @@ export const updateWord = (oldWord, word) => {
 export const addWord = (word) => {
   return axios.post("/admin/v1/word", word, {
     headers: {
-      "content-type": "application/vnd+add.word.v1+json"
+      "Content-Type": "application/vnd+add.word.v1+json"
+    },
+  });
+};
+
+export const deleteWord = (word) => {
+  return axios.delete("/admin/v1/word/" + word, {
+    headers: {
+      "Content-Type": "application/vnd+delete.word.v1+json"
     },
   });
 };

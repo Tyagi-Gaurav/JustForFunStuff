@@ -88,4 +88,10 @@ class AdminController(@Autowired val adminRepository: AdminRepository) {
         adminRepository.add(word)
         return ResponseEntity.noContent().build()
     }
+
+    @DeleteMapping("/v1/word/{word}")
+    suspend fun deleteWord(@PathVariable("word") word: String) : ResponseEntity<String> {
+        adminRepository.delete(word)
+        return ResponseEntity.accepted().build()
+    }
 }

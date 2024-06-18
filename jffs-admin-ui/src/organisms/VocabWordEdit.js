@@ -1,31 +1,37 @@
 import { useEffect, useState } from "react";
-import { getWord, updateWord } from "../api/backend_api";
+import { getWord, updateWord, deleteWord } from "../api/backend_api";
 
-export default function VocabWordEdit({ wordToEdit }) {
+export default function VocabWordEdit({ wordToEdit, listCallback }) {
   const [word, setWord] = useState("");
   const [oldWord, setOldWord] = useState("");
   const [meaning, setMeaning] = useState("");
   const [synonyms, setSynonym] = useState([]);
   const [example, setExample] = useState([]);
   const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   const handleWordChange = (event) => {
     setSuccess(false);
+    setError(false);
     setWord(event.target.value);
   };
 
   const handleMeaningChange = (event) => {
     setSuccess(false);
+    setError(false);
     setMeaning(event.target.value);
   };
 
   const handleSynonymsChange = (event) => {
     setSuccess(false);
+    setError(false);
     setSynonym(event.target.value.split(","));
   };
 
   const handleExamplesChange = (event) => {
     setSuccess(false);
+    setError(false);
     setExample(event.target.value);
   };
 
@@ -44,8 +50,19 @@ export default function VocabWordEdit({ wordToEdit }) {
         setSuccess(true);
       })
       .catch((error) => {
-        //TODO Show error message
-        console.log("Error occurred " + error);
+        setError(true);
+        setErrorMsg(error);
+      });
+  };
+
+  const handleDelete = () => {
+    deleteWord(oldWord)
+      .then((value) => {
+        listCallback();
+      })
+      .catch((error) => {
+        setError(true);
+        setErrorMsg(error);
       });
   };
 
@@ -65,6 +82,11 @@ export default function VocabWordEdit({ wordToEdit }) {
       {success && (
         <div class="alert alert-primary align-items-center" role="alert">
           Success
+        </div>
+      )}
+      {error && (
+        <div class="alert alert-danger align-items-center" role="alert">
+          {errorMsg}
         </div>
       )}
       <div className="mb-3">
@@ -116,14 +138,25 @@ export default function VocabWordEdit({ wordToEdit }) {
           onChange={handleExamplesChange}
         />
       </div>
-      <div className="col-12">
-        <button
-          type="submit"
-          className="col-md-1 btn btn-primary"
-          onClick={handleSave}
-        >
-          Save
-        </button>
+      <div class="row">
+        <div className="col-6">
+          <button
+            type="submit"
+            className="btn btn-primary"
+            onClick={handleSave}
+          >
+            Save
+          </button>
+        </div>
+        <div className="col-2 offset-md-4 text-end">
+          <button
+            type="submit"
+            className="btn btn-danger"
+            onClick={handleDelete}
+          >
+            Delete
+          </button>
+        </div>
       </div>
     </>
   );
