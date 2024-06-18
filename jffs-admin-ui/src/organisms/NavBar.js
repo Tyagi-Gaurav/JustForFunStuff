@@ -16,7 +16,7 @@ export default function NavBar() {
               </a>
               <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                 <li><a className="dropdown-item" href="/">Add Word</a></li>
-                <li><a className="dropdown-item" href="/vocab/list">List Words</a></li>
+                <li><a className="dropdown-item" href="/vocab">List Words</a></li>
                 <li><hr className="dropdown-divider"/></li>
                 <li><a className="dropdown-item" href="/">Report Anomalies</a></li>
               </ul>

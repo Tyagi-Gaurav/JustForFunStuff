@@ -1,27 +1,53 @@
 import { useEffect, useState } from "react";
-import { getWord } from "../api/backend_api";
+import { getWord, saveWord } from "../api/backend_api";
 
-export default function VocabWordEdit({ wordToEdit }) {
+export default function VocabWordEdit({ wordToEdit , listCallback}) {
   const [word, setWord] = useState("");
+  const [oldWord, setOldWord] = useState("");
   const [meaning, setMeaning] = useState("");
-  const [synonyms, setSynonym] = useState("");
-  const [example, setExample] = useState("");
+  const [synonyms, setSynonym] = useState([]);
+  const [example, setExample] = useState([]);
 
-  function formattedArray(words) {
-    if (words) {
-      return words.join("\n ");
-    } else {
-      return "";
-    }
+  const handleWordChange = (event) => {
+    setWord(event.target.value);
+  }
+
+  const handleMeaningChange = (event) => {
+    setMeaning(event.target.value);
+  }
+
+  const handleSynonymsChange = (event) => {
+    setSynonym(event.target.value.split(","));
+  }
+
+  const handleExamplesChange = (event) => {
+    setExample(event.target.value);
+  }
+
+  const handleSave = () => {
+    saveWord(oldWord, {
+      word: word,
+      meanings: [{
+        definition: meaning,
+        synonyms: synonyms,
+        examples: example
+      }]
+    }).then((value) => {
+      listCallback("Call list");
+    }).catch((error) => {
+      //TODO Show error message
+      console.log("Error occurred " + error);
+    })
   }
 
   useEffect(() => {
+    setOldWord(wordToEdit);
     getWord(wordToEdit).then((wordResponse) => {
       setWord(wordResponse.data["word"]);
       var meaning = wordResponse.data["meanings"][0];
-      setSynonym(formattedArray(meaning["synonyms"]));
+      setSynonym(meaning["synonyms"]);
       setMeaning(meaning["definition"]);
-      setExample(formattedArray(meaning["examples"]));
+      setExample(meaning["examples"]);
     });
   }, []);
 
@@ -37,6 +63,7 @@ export default function VocabWordEdit({ wordToEdit }) {
           id="formControlWord"
           placeholder="Word"
           defaultValue={word}
+          onChange={handleWordChange}
         />
       </div>
       <div className="mb-3">
@@ -48,6 +75,7 @@ export default function VocabWordEdit({ wordToEdit }) {
           id="formControlMeaning"
           rows="3"
           defaultValue={meaning}
+          onChange={handleMeaningChange}
         />
       </div>
       <div className="mb-3">
@@ -59,6 +87,7 @@ export default function VocabWordEdit({ wordToEdit }) {
           id="formControlSynonyms"
           rows="3"
           defaultValue={synonyms}
+          onChange={handleSynonymsChange}
         />
       </div>
       <div className="mb-3">
@@ -70,10 +99,11 @@ export default function VocabWordEdit({ wordToEdit }) {
           id="formControlExamples"
           rows="3"
           defaultValue={example}
+          onChange={handleExamplesChange}
         />
       </div>
-      <div class="col-12">
-        <button type="submit" class="col-md-1 btn btn-primary">
+      <div className="col-12">
+        <button type="submit" className="col-md-1 btn btn-primary" onClick={handleSave}>
           Save
         </button>
       </div>

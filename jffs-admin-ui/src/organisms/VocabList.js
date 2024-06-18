@@ -17,7 +17,6 @@ export default function VocabList({editCallback}) {
   };
 
   function handleRowClick(word) {
-    console.log("Handle click for " + word);
     editCallback(word);
   }
 
