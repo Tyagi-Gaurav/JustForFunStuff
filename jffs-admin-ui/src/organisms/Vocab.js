@@ -7,16 +7,23 @@ export default function Vocab() {
     const [showEdit, setShowEdit] = useState(false);
     const [editWord, setEditWord] = useState("");
 
-  const editCallback = (word) => {
+  const callbackToShowEdit = (word) => {
     setEditWord(word);
     setShowList(false); 
     setShowEdit(true); 
   }
 
+  const callbackToShowList = () => {
+    setEditWord("");
+    setShowList(true); 
+    setShowEdit(false);
+  }
+
   return (
     <>
-      {showList && <VocabList editCallback={editCallback}/>}
-      {showEdit && <VocabWordEdit wordToEdit={editWord}/>}
+      {showList && <VocabList editCallback={callbackToShowEdit}/>}
+      {showEdit && <VocabWordEdit wordToEdit={editWord} listCallback={callbackToShowList}/>}
+      
     </>
   );
 }

@@ -53,7 +53,7 @@ class AdminInMemoryTestController(@Autowired
             words.add(
                 Word(
                     "AWord$index",
-                    listOf(Meaning("A definition 1$index; A definition 2$index", listOf("synonym1$index; synonym2$index; synonym3$index"), listOf("example$index"))),
+                    listOf(Meaning("A definition 1$index; A definition 2$index", listOf("synonym1$index", "synonym2$index", "synonym3$index"), listOf("example$index"))),
                     LocalDateTime.now()
                 )
             )

@@ -2,11 +2,15 @@ package com.jffs.admin.app.resource
 
 import com.jffs.admin.app.db.AdminRepository
 import com.jffs.admin.app.domain.Meaning
+import com.jffs.admin.app.domain.Word
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import java.time.LocalDateTime
 
 @Controller
 class AdminController(@Autowired val adminRepository: AdminRepository) {
@@ -38,7 +42,6 @@ class AdminController(@Autowired val adminRepository: AdminRepository) {
     @GetMapping("/v1/word/{word}", produces = ["application/json"])
     suspend fun findWord(@PathVariable("word") word: String): ResponseEntity<WordDTO> {
         val findByWord = adminRepository.findByWord(word)
-        println ("FindByWord: $findByWord")
         return findByWord?.let {
             ResponseEntity.ok(WordDTO(
                 it.word,
@@ -49,5 +52,24 @@ class AdminController(@Autowired val adminRepository: AdminRepository) {
                         meaning.examples
                     )
                 }))} ?: ResponseEntity.notFound().build()
+    }
+
+    @PostMapping("/v1/word/{word}", consumes = ["application/json"])
+    suspend fun saveWord(@PathVariable("word") oldWord: String, @RequestBody wordDTO: WordDTO) : ResponseEntity<String> {
+        val word = wordDTO.let {
+            Word(
+                it.word,
+                it.meanings.map { meaning: MeaningDTO ->
+                    Meaning(
+                        meaning.definition,
+                        meaning.synonyms,
+                        meaning.examples
+                    )
+                },
+                LocalDateTime.now()
+            )
+        }
+        adminRepository.save(oldWord, word)
+        return ResponseEntity.noContent().build()
     }
 }
