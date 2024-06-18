@@ -59,7 +59,7 @@ class AdminController(@Autowired val adminRepository: AdminRepository) {
                 it.meanings.map { meaning: MeaningDTO ->
                     Meaning(
                         meaning.definition,
-                        meaning.synonyms.map { it.trimMargin() },
+                        meaning.synonyms?.map { it.trim() },
                         meaning.examples
                     )
                 },
@@ -78,7 +78,7 @@ class AdminController(@Autowired val adminRepository: AdminRepository) {
                 it.meanings.map { meaning: MeaningDTO ->
                     Meaning(
                         meaning.definition,
-                        meaning.synonyms,
+                        meaning.synonyms?.map { it.trim() },
                         meaning.examples
                     )
                 },
