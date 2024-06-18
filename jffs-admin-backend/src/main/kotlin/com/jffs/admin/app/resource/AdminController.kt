@@ -6,10 +6,7 @@ import com.jffs.admin.app.domain.Word
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.*
 import java.time.LocalDateTime
 
 @Controller
@@ -54,8 +51,8 @@ class AdminController(@Autowired val adminRepository: AdminRepository) {
                 }))} ?: ResponseEntity.notFound().build()
     }
 
-    @PostMapping("/v1/word/{word}", consumes = ["application/json"])
-    suspend fun saveWord(@PathVariable("word") oldWord: String, @RequestBody wordDTO: WordDTO) : ResponseEntity<String> {
+    @PutMapping("/v1/word/{word}", consumes = ["application/vnd+update.word.v1+json"])
+    suspend fun updateWord(@PathVariable("word") oldWord: String, @RequestBody wordDTO: WordDTO) : ResponseEntity<String> {
         val word = wordDTO.let {
             Word(
                 it.word,
@@ -69,7 +66,26 @@ class AdminController(@Autowired val adminRepository: AdminRepository) {
                 LocalDateTime.now()
             )
         }
-        adminRepository.save(oldWord, word)
+        adminRepository.update(oldWord, word)
+        return ResponseEntity.noContent().build()
+    }
+
+    @PostMapping("/v1/word", consumes = ["application/vnd+add.word.v1+json"])
+    suspend fun addWord(@RequestBody wordDTO: WordDTO) : ResponseEntity<String> {
+        val word = wordDTO.let {
+            Word(
+                it.word,
+                it.meanings.map { meaning: MeaningDTO ->
+                    Meaning(
+                        meaning.definition,
+                        meaning.synonyms,
+                        meaning.examples
+                    )
+                },
+                LocalDateTime.now()
+            )
+        }
+        adminRepository.add(word)
         return ResponseEntity.noContent().build()
     }
 }

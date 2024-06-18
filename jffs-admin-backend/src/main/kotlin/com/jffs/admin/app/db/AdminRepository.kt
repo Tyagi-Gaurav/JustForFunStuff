@@ -4,8 +4,8 @@ import com.jffs.admin.app.config.DatabaseConfig
 import com.jffs.admin.app.domain.PaginatedWords
 import com.jffs.admin.app.domain.Word
 import com.mongodb.client.model.Aggregates.*
-import com.mongodb.client.model.Filters
-import com.mongodb.client.model.Filters.*
+import com.mongodb.client.model.Filters.eq
+import com.mongodb.client.model.Filters.regex
 import com.mongodb.client.model.Indexes.descending
 import com.mongodb.client.model.Projections.fields
 import com.mongodb.client.model.Projections.include
@@ -15,11 +15,9 @@ import kotlinx.coroutines.flow.count
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toList
-import kotlinx.serialization.json.internal.writeJson
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Repository
 import java.time.LocalDateTime
-import java.util.logging.Filter
 
 
 @Repository
@@ -61,13 +59,11 @@ class AdminRepository(
         val database = mongoClient.getDatabase(databaseConfig.dbName);
         val collection = database.getCollection<Word>("word")
 
-        println ("Finding word: $word");
         val firstOrNull = collection.find<Word>(eq("word", word)).firstOrNull()
-        println ("Result: $firstOrNull")
         return firstOrNull
     }
 
-    suspend fun save(word: String, newWord: Word) {
+    suspend fun update(word: String, newWord: Word) {
         val database = mongoClient.getDatabase(databaseConfig.dbName);
         val collection = database.getCollection<Word>("word")
 
@@ -78,5 +74,12 @@ class AdminRepository(
                 Updates.set("modifiedDateTime", LocalDateTime.now())
             ))
         )
+    }
+
+    suspend fun add(word: Word) {
+        val database = mongoClient.getDatabase(databaseConfig.dbName);
+        val collection = database.getCollection<Word>("word")
+
+        collection.insertOne(word)
     }
 }
