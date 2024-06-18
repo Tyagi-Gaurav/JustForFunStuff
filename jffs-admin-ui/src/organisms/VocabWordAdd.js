@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
-import { getWord, updateWord } from "../api/backend_api";
+import { useState } from "react";
+import { updateWord } from "../api/backend_api";
 
-export default function VocabWordEdit({ wordToEdit , listCallback}) {
+export default function VocabWordAdd({ listCallback}) {
   const [word, setWord] = useState("");
-  const [oldWord, setOldWord] = useState("");
   const [meaning, setMeaning] = useState("");
   const [synonyms, setSynonym] = useState([]);
   const [example, setExample] = useState([]);
@@ -25,7 +24,7 @@ export default function VocabWordEdit({ wordToEdit , listCallback}) {
   }
 
   const handleSave = () => {
-    updateWord(oldWord, {
+    updateWord({
       word: word,
       meanings: [{
         definition: meaning,
@@ -40,17 +39,6 @@ export default function VocabWordEdit({ wordToEdit , listCallback}) {
     })
   }
 
-  useEffect(() => {
-    setOldWord(wordToEdit);
-    getWord(wordToEdit).then((wordResponse) => {
-      setWord(wordResponse.data["word"]);
-      var meaning = wordResponse.data["meanings"][0];
-      setSynonym(meaning["synonyms"]);
-      setMeaning(meaning["definition"]);
-      setExample(meaning["examples"]);
-    });
-  }, []);
-
   return (
     <>
       <div className="mb-3">
@@ -62,7 +50,6 @@ export default function VocabWordEdit({ wordToEdit , listCallback}) {
           className="form-control"
           id="formControlWord"
           placeholder="Word"
-          defaultValue={word}
           onChange={handleWordChange}
         />
       </div>
@@ -74,7 +61,7 @@ export default function VocabWordEdit({ wordToEdit , listCallback}) {
           className="form-control"
           id="formControlMeaning"
           rows="3"
-          defaultValue={meaning}
+          placeholder="meaning 1; meaning 2"
           onChange={handleMeaningChange}
         />
       </div>
@@ -86,7 +73,7 @@ export default function VocabWordEdit({ wordToEdit , listCallback}) {
           className="form-control"
           id="formControlSynonyms"
           rows="3"
-          defaultValue={synonyms}
+          placeholder="synonym 1,synonym 2"
           onChange={handleSynonymsChange}
         />
       </div>
@@ -98,7 +85,7 @@ export default function VocabWordEdit({ wordToEdit , listCallback}) {
           className="form-control"
           id="formControlExamples"
           rows="3"
-          defaultValue={example}
+          placeholder="example1,example2"
           onChange={handleExamplesChange}
         />
       </div>
