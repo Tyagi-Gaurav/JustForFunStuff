@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { updateWord } from "../api/backend_api";
+import { addWord } from "../api/backend_api";
+
+//TODO Add clear button
 
 export default function VocabWordAdd({ listCallback}) {
   const [word, setWord] = useState("");
@@ -24,7 +26,7 @@ export default function VocabWordAdd({ listCallback}) {
   }
 
   const handleSave = () => {
-    updateWord({
+    addWord({
       word: word,
       meanings: [{
         definition: meaning,
@@ -32,7 +34,7 @@ export default function VocabWordAdd({ listCallback}) {
         examples: example
       }]
     }).then((value) => {
-      listCallback("Call list");
+       //TODO Show success message
     }).catch((error) => {
       //TODO Show error message
       console.log("Error occurred " + error);
