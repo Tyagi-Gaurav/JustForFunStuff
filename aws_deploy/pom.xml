@@ -37,7 +37,7 @@
         <dependency>
             <groupId>aws.sdk.kotlin</groupId>
             <artifactId>ssm-jvm</artifactId>
-            <version>1.2.33</version>
+            <version>1.2.35</version>
         </dependency>
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
