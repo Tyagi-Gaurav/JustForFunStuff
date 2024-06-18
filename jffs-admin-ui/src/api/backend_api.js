@@ -25,7 +25,7 @@ export const updateWord = (oldWord, word) => {
 };
 
 export const addWord = (word) => {
-  return axios.post("/admin/v1/word", {
+  return axios.post("/admin/v1/word", word, {
     headers: {
       "content-type": "application/vnd+add.word.v1+json"
     },

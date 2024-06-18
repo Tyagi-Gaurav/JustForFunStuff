@@ -1,44 +1,53 @@
 import { useEffect, useState } from "react";
 import { getWord, updateWord } from "../api/backend_api";
 
-export default function VocabWordEdit({ wordToEdit , listCallback}) {
+export default function VocabWordEdit({ wordToEdit }) {
   const [word, setWord] = useState("");
   const [oldWord, setOldWord] = useState("");
   const [meaning, setMeaning] = useState("");
   const [synonyms, setSynonym] = useState([]);
   const [example, setExample] = useState([]);
+  const [success, setSuccess] = useState(false);
 
   const handleWordChange = (event) => {
+    setSuccess(false);
     setWord(event.target.value);
-  }
+  };
 
   const handleMeaningChange = (event) => {
+    setSuccess(false);
     setMeaning(event.target.value);
-  }
+  };
 
   const handleSynonymsChange = (event) => {
+    setSuccess(false);
     setSynonym(event.target.value.split(","));
-  }
+  };
 
   const handleExamplesChange = (event) => {
+    setSuccess(false);
     setExample(event.target.value);
-  }
+  };
 
   const handleSave = () => {
     updateWord(oldWord, {
       word: word,
-      meanings: [{
-        definition: meaning,
-        synonyms: synonyms,
-        examples: example
-      }]
-    }).then((value) => {
-      listCallback("Call list");
-    }).catch((error) => {
-      //TODO Show error message
-      console.log("Error occurred " + error);
+      meanings: [
+        {
+          definition: meaning,
+          synonyms: synonyms,
+          examples: example,
+        },
+      ],
     })
-  }
+      .then((value) => {
+        setSuccess(true);
+      })
+      .catch((error) => {
+        //TODO Show error message
+        console.log("Error occurred " + error);
+      });
+  };
 
   useEffect(() => {
     setOldWord(wordToEdit);
@@ -53,6 +62,11 @@ export default function VocabWordEdit({ wordToEdit , listCallback}) {
 
   return (
     <>
+      {success && (
+        <div class="alert alert-primary align-items-center" role="alert">
+          Success
+        </div>
+      )}
       <div className="mb-3">
         <label htmlFor="formControlWord" className="form-label">
           Word
@@ -103,7 +117,11 @@ export default function VocabWordEdit({ wordToEdit , listCallback}) {
         />
       </div>
       <div className="col-12">
-        <button type="submit" className="col-md-1 btn btn-primary" onClick={handleSave}>
+        <button
+          type="submit"
+          className="col-md-1 btn btn-primary"
+          onClick={handleSave}
+        >
           Save
         </button>
       </div>

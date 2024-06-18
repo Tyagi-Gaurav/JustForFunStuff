@@ -13,16 +13,10 @@ export default function Vocab() {
     setShowEdit(true); 
   }
 
-  const callbackToShowList = () => {
-    setEditWord("");
-    setShowList(true); 
-    setShowEdit(false);
-  }
-
   return (
     <>
       {showList && <VocabList editCallback={callbackToShowEdit}/>}
-      {showEdit && <VocabWordEdit wordToEdit={editWord} listCallback={callbackToShowList}/>}
+      {showEdit && <VocabWordEdit wordToEdit={editWord}/>}
     </>
   );
 }
