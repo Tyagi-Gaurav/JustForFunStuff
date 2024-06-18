@@ -52,14 +52,16 @@ export default function VocabList({editCallback}) {
     getData(nextPage);
   }, []);
 
+  const customStyle = "padding-top: 5%"
 
   return (
     <>
       <nav aria-label="List Navigation">
-        <ul className="pagination justify-content-center">
+        <ul className="pagination justify-content-center" style={{"padding-top": "5%"}}>
           <li
             id="previous"
             className={previousPage === -1 ? "page-item disabled" : "page-item"}
+            style={{"padding-right": "2%"}}
           >
             <a className="page-link" href="#" onClick={handlePrevious}>
               Previous
@@ -68,6 +70,7 @@ export default function VocabList({editCallback}) {
           <li
             id="next"
             className={nextPage === -1 ? "page-item disabled" : "page-item"}
+            style={{"padding-left": "2%"}}
           >
             <a className="page-link" onClick={handleNext}>
               Next
