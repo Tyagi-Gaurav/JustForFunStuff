@@ -1,48 +1,60 @@
 import { useState } from "react";
 import { addWord } from "../api/backend_api";
 
-//TODO Add clear button
-
-export default function VocabWordAdd({ listCallback}) {
+export default function VocabWordAdd({ listCallback }) {
   const [word, setWord] = useState("");
   const [meaning, setMeaning] = useState("");
   const [synonyms, setSynonym] = useState([]);
   const [example, setExample] = useState([]);
+  const [success, setSuccess] = useState(false);
 
   const handleWordChange = (event) => {
     setWord(event.target.value);
-  }
+  };
 
   const handleMeaningChange = (event) => {
     setMeaning(event.target.value);
-  }
+  };
 
   const handleSynonymsChange = (event) => {
     setSynonym(event.target.value.split(","));
-  }
+  };
 
   const handleExamplesChange = (event) => {
-    setExample(event.target.value);
-  }
+    setExample(event.target.value.split(","));
+  };
 
   const handleSave = () => {
     addWord({
       word: word,
-      meanings: [{
-        definition: meaning,
-        synonyms: synonyms,
-        examples: example
-      }]
-    }).then((value) => {
-       //TODO Show success message
-    }).catch((error) => {
-      //TODO Show error message
-      console.log("Error occurred " + error);
+      meanings: [
+        {
+          definition: meaning,
+          synonyms: synonyms,
+          examples: example,
+        },
+      ],
     })
-  }
+      .then((value) => {
+        setSuccess(true);
+        setSynonym([]);
+        setExample([]);
+        setMeaning("");
+        setWord("");
+      })
+      .catch((error) => {
+        //TODO Show error message
+        console.log("Error occurred " + error);
+      });
+  };
 
   return (
     <>
+      {success && (
+        <div class="alert alert-primary align-items-center" role="alert">
+          Success
+        </div>
+      )}
       <div className="mb-3">
         <label htmlFor="formControlWord" className="form-label">
           Word
@@ -92,7 +104,11 @@ export default function VocabWordAdd({ listCallback}) {
         />
       </div>
       <div className="col-12">
-        <button type="submit" className="col-md-1 btn btn-primary" onClick={handleSave}>
+        <button
+          type="submit"
+          className="col-md-1 btn btn-primary"
+          onClick={handleSave}
+        >
           Save
         </button>
       </div>
