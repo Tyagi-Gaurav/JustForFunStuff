@@ -4,8 +4,8 @@ import com.jffs.admin.app.config.DatabaseConfig
 import com.jffs.admin.app.domain.PaginatedWords
 import com.jffs.admin.app.domain.Word
 import com.mongodb.client.model.Aggregates.*
-import com.mongodb.client.model.Filters.eq
-import com.mongodb.client.model.Filters.regex
+import com.mongodb.client.model.Filters
+import com.mongodb.client.model.Filters.*
 import com.mongodb.client.model.Indexes.descending
 import com.mongodb.client.model.Projections.fields
 import com.mongodb.client.model.Projections.include
@@ -59,8 +59,14 @@ class AdminRepository(
         val database = mongoClient.getDatabase(databaseConfig.dbName);
         val collection = database.getCollection<Word>("word")
 
-        val firstOrNull = collection.find<Word>(eq("word", word)).firstOrNull()
-        return firstOrNull
+        return collection.find<Word>(regex("word", ".*$word.*")).firstOrNull()
+    }
+
+    suspend fun findBySynonym(synonym: String) : Word? {
+        val database = mongoClient.getDatabase(databaseConfig.dbName);
+        val collection = database.getCollection<Word>("word")
+
+        return collection.find<Word>(regex("meanings.0.synonyms", ".*$synonym.*")).firstOrNull()
     }
 
     suspend fun update(word: String, newWord: Word) {
