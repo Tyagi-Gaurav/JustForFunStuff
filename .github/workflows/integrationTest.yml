@@ -40,6 +40,9 @@ jobs:
         id: npm_install
         run: npm install
 
+      - name: Install Playwright
+        run: npx playwright install
+
       - name: Run Front end tests
         id: front_end
         run: npm test
