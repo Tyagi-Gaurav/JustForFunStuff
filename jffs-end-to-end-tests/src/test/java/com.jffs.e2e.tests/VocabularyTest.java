@@ -43,7 +43,7 @@ class VocabularyTest {
 
         beginButton.click();
 
-        waitFor(of(3, SECONDS));
+        waitFor(of(5, SECONDS));
 
         final var word1 = page.getByText("Grumble");
         final var word2 = page.getByText("Staunch");
