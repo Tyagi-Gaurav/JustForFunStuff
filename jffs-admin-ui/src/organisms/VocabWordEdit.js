@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getWord, updateWord, deleteWord } from "../api/backend_api";
+import { search, updateWord, deleteWord } from "../api/backend_api";
 
 export default function VocabWordEdit({ wordToEdit, listCallback }) {
   const [word, setWord] = useState("");
@@ -68,7 +68,7 @@ export default function VocabWordEdit({ wordToEdit, listCallback }) {
 
   useEffect(() => {
     setOldWord(wordToEdit);
-    getWord(wordToEdit).then((wordResponse) => {
+    search("WORD", wordToEdit).then((wordResponse) => {
       setWord(wordResponse.data["word"]);
       var meaning = wordResponse.data["meanings"][0];
       setSynonym(meaning["synonyms"]);
