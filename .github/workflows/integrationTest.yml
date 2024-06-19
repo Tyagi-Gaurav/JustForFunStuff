@@ -41,7 +41,7 @@ jobs:
         run: npm install
 
       - name: Install Playwright
-        run: npx playwright install
+        run: npx playwright install install-deps
 
       - name: Run Front end tests
         id: front_end
