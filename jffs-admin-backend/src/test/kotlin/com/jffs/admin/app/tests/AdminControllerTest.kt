@@ -4,10 +4,14 @@ import com.jffs.admin.app.JffsAdminApplication
 import com.jffs.admin.app.domain.Meaning
 import com.jffs.admin.app.domain.Word
 import com.jffs.admin.app.tests.initializer.TestContainerDatabaseInitializer
+import com.mongodb.client.model.Filters
+import com.mongodb.client.model.Filters.regex
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import com.mongodb.kotlin.client.coroutine.MongoCollection
+import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.count
 import kotlinx.coroutines.runBlocking
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -41,17 +45,16 @@ class AdminControllerTest {
         client = MockMvcWebTestClient.bindToApplicationContext(wac).build()
         val database = mongoClient?.getDatabase("testDB")
         collection = database?.getCollection<Word>("word")
+
         runBlocking {
-            collection?.insertMany(
-                generateListOfWords(25)
-            )
-            println("Total number of words : ${collection?.find()?.count()}")
+            collection?.insertMany(generateListOfWords(25))
+            collection?.find()?.count() shouldBe 25
         }
     }
 
     @Test
     fun getPaginatedWords() {
-        client.get().uri("/v1/words/1")
+        client.get().uri("/v1/words/page/1")
             .exchange()
             .expectStatus().isOk()
             .expectBody()
@@ -61,7 +64,7 @@ class AdminControllerTest {
             .jsonPath("$.nextPage").isEqualTo("2")
             .jsonPath("$.previousPage").isEqualTo("-1")
 
-        client.get().uri("/v1/words/2")
+        client.get().uri("/v1/words/page/2")
             .exchange()
             .expectStatus().isOk()
             .expectBody()
@@ -71,7 +74,7 @@ class AdminControllerTest {
             .jsonPath("$.nextPage").isEqualTo("3")
             .jsonPath("$.previousPage").isEqualTo("1")
 
-        client.get().uri("/v1/words/3")
+        client.get().uri("/v1/words/page/3")
             .exchange()
             .expectStatus().isOk()
             .expectBody()
@@ -82,12 +85,20 @@ class AdminControllerTest {
             .jsonPath("$.previousPage").isEqualTo("2")
     }
 
+    @AfterEach
+    fun tearDown() {
+        runBlocking {
+            collection?.deleteMany(regex("word", ".*"))
+            collection?.find()?.count() shouldBe 0
+        }
+    }
+
     private fun generateListOfWords(wordsCount: Int): List<Word> {
         val words = mutableListOf<Word>()
         for (index in 1..wordsCount) {
             words.add(
                 Word(
-                    "A Word $index",
+                    "AWord$index",
                     listOf(Meaning("A definition $index", listOf("synonym$index"), listOf("example$index"))),
                     modifiedTime
                 )

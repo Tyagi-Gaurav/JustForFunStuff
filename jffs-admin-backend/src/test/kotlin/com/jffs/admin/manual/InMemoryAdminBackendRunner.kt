@@ -1,4 +1,4 @@
-package com.jffs.admin.app
+package com.jffs.admin.manual
 
 import com.jffs.admin.app.db.AdminRepository
 import com.jffs.admin.app.domain.Meaning
