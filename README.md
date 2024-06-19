@@ -7,6 +7,10 @@
  - FrontEnd
    - `npm start`
 
+# Run Github pipeline Locally
+ - `brew install act`
+ - Execute `act` in project home directory
+
 # Connecting to local database
  - `docker-compose up -d --build`
  - `mongosh --authenticationDatabase admin --username root` 
