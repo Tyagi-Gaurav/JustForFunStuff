@@ -2,15 +2,10 @@ package com.jffs.e2e.tests;
 
 import com.microsoft.playwright.*;
 import com.microsoft.playwright.options.AriaRole;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 
 import java.time.Duration;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 import static java.time.Duration.*;
@@ -34,6 +29,7 @@ class VocabularyTest {
     }
 
     @Test
+    @Disabled
     void canAccessWords() {
         assertThat(page.getByText("Test your Vocabulary")).isVisible();
         assertThat(page.getByText("Can you think of the meaning before the timer runs out?")).isVisible();

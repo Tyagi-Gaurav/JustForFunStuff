@@ -36,8 +36,8 @@ jobs:
       - name: Check running containers
         run: docker ps
 
-      - name: Show logs
-        run: docker logs -f database
+      - name: Show logs for database
+        run: docker logs database
 
       - name: Update NPM package
         id: npm_install
