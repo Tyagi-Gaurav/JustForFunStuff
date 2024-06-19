@@ -36,10 +36,6 @@ jobs:
       - name: Check running containers
         run: docker ps
 
-      - name: Run API test suite
-        id: api_testing
-        run: ./mvnw test -DskipTests=false -pl jffs-end-to-end-tests
-
       - name: Update NPM package
         id: npm_install
         run: npm install
@@ -47,3 +43,7 @@ jobs:
       - name: Run Front end tests
         id: front_end
         run: npm test
+
+      - name: Run End to End test suite
+        id: end_to_end_test_suite
+        run: ./mvnw test -DskipTests=false -pl jffs-end-to-end-tests
