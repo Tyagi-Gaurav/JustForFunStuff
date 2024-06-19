@@ -8,7 +8,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
+
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
+import static java.time.Duration.*;
+import static java.time.temporal.ChronoUnit.SECONDS;
 
 class VocabularyTest {
     static Playwright playwright;
@@ -37,9 +43,19 @@ class VocabularyTest {
 
         beginButton.click();
 
+        waitFor(of(3, SECONDS));
+
         final var word1 = page.getByText("Grumble");
         final var word2 = page.getByText("Staunch");
         assertThat(word1.or(word2)).isVisible();
+    }
+
+    private void waitFor(Duration duration) {
+        try {
+            Thread.sleep(duration.toMillis());
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @AfterAll
