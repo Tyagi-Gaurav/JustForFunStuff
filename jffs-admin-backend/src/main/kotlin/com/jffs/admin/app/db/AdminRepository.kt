@@ -37,7 +37,6 @@ class AdminRepository(
         val previousPage = if (pageNum == 1) -1 else pageNum - 1
 
         val pipeline = listOf(
-//            search(text(fieldPath("word"), "{ \$eq: Staunch }"), searchOptions().index("word_name_index")), -- WORKS
             match(regex("word", ".*")),
             sort(descending("_id")),
             skip((pageNum - 1) * 10),
