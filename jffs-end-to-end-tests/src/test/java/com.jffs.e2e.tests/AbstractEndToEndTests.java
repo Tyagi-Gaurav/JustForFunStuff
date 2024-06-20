@@ -11,6 +11,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
 
+import static java.net.http.HttpClient.newHttpClient;
 import static java.net.http.HttpRequest.newBuilder;
 import static java.net.http.HttpResponse.BodyHandlers.ofString;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -31,6 +32,17 @@ class AbstractEndToEndTests {
         } catch (IOException | InterruptedException | URISyntaxException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    protected HttpResponse<String> aGetRequest(String url) throws IOException, InterruptedException, URISyntaxException {
+        return newHttpClient().send(newBuilder()
+                .uri(new URI(url))
+                .GET()
+                .build(), ofString());
+    }
+
+    protected <T> int statusCodeFrom(HttpResponse<T> httpResponse) {
+        return httpResponse.statusCode();
     }
 
     @BeforeAll
