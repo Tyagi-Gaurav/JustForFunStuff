@@ -59,4 +59,4 @@ jobs:
         continue-on-error: true
 
       - name: Show logs for Gateway backend
-        run: docker exec -it jffs-api-gateway cat /var/log/jffs_backend_api.log
+        run: docker exec jffs-api-gateway cat /var/log/jffs_backend_api.log
