@@ -56,10 +56,3 @@ jobs:
       - name: Run End to End test suite
         id: end_to_end_test_suite
         run: ./mvnw test -DskipTests=false -pl jffs-end-to-end-tests
-        continue-on-error: true
-
-      - name: Show logs for Gateway backend
-        run: docker exec jffs-api-gateway cat /var/log/jffs_backend_api.log
-
-      - name: Show logs for API Backend
-        run: docker logs jffs-backend
