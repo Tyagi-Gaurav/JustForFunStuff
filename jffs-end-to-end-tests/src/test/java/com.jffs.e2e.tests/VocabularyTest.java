@@ -6,12 +6,14 @@ import org.junit.jupiter.api.*;
 
 
 import java.time.Duration;
+import java.util.List;
 
+import static com.jffs.e2e.tests.TestWordBuilder.*;
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 import static java.time.Duration.*;
 import static java.time.temporal.ChronoUnit.SECONDS;
 
-class VocabularyTest {
+class VocabularyTest extends AbstractEndToEndTests {
     static Playwright playwright;
     static Browser browser;
     private Page page;
@@ -29,8 +31,13 @@ class VocabularyTest {
     }
 
     @Test
-    @Disabled
     void canAccessWords() {
+        givenASetOfWordsHaveBeenCreated(aWord("some-word")
+                .withDefinition("A definition")
+                .withSynonyms(List.of("Synonym1", "Synonym2"))
+                .withExamples(List.of("Example1", "Example2"))
+                .build());
+
         assertThat(page.getByText("Test your Vocabulary")).isVisible();
         assertThat(page.getByText("Can you think of the meaning before the timer runs out?")).isVisible();
 
@@ -41,9 +48,9 @@ class VocabularyTest {
 
         waitFor(of(5, SECONDS));
 
-        final var word1 = page.getByText("Grumble");
-        final var word2 = page.getByText("Staunch");
-        assertThat(word1.or(word2)).isVisible();
+        final var word = page.getByTestId("word-text");
+        assertThat(word).isVisible();
+        assertThat(word.getByText("some-word")).isVisible();
     }
 
     private void waitFor(Duration duration) {
