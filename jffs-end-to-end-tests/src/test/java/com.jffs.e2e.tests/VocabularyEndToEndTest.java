@@ -50,6 +50,8 @@ class VocabularyEndToEndTest extends AbstractEndToEndTests {
             final var beginButton = page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Begin"));
             assertThat(beginButton).isVisible();
 
+            waitFor(of(2, SECONDS));
+
             final var errorText = page.getByText("There seems to be some problem. Please try again later");
             assertThat(errorText).not().isVisible();
             beginButton.click();
