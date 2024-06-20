@@ -10,6 +10,7 @@ import java.util.List;
 
 import static com.jffs.e2e.tests.TestWordBuilder.*;
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
+import static java.lang.Thread.sleep;
 import static java.time.Duration.*;
 import static java.time.temporal.ChronoUnit.SECONDS;
 
@@ -44,9 +45,13 @@ class VocabularyEndToEndTest extends AbstractEndToEndTests {
         final var beginButton = page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Begin"));
         assertThat(beginButton).isVisible();
 
+        final var errorText = page.getByText("There seems to be some problem. Please try again later");
+        assertThat(errorText).not().isVisible();
         beginButton.click();
 
         waitFor(of(5, SECONDS));
+
+        assertThat(errorText).not().isVisible();
 
         final var word = page.getByTestId("word-text");
         assertThat(word).isVisible();
@@ -55,7 +60,7 @@ class VocabularyEndToEndTest extends AbstractEndToEndTests {
 
     private void waitFor(Duration duration) {
         try {
-            Thread.sleep(duration.toMillis());
+            sleep(duration.toMillis());
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
