@@ -20,7 +20,7 @@ export default function VocabularyTesting() {
   const [countDownValue, setCountDownValue] = useState(3);
   const [readyToRun, setReadyToRun] = useState(0);
   const [meaning, setMeaning] = useState("");
-  const [synonyms, setSynonym] = useState("");
+  const [synonyms, setSynonyms] = useState("");
   const [example, setExample] = useState("");
   const [inProgress, setInProgress] = useState(false);
   const [timerExpired, setTimerExpired] = useState(true);
@@ -28,10 +28,12 @@ export default function VocabularyTesting() {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    if (setInProgress) {
+    if (!inProgress) {
       getWords()
         .then((response) => {
-          var data = response.data["words"];
+          let data = response.data["words"];
+          console.log("Response Data Received in UI: " + JSON.stringify(response));
+          console.log("Data Received in UI: " + JSON.stringify(data));
           setAllWords(data);
         })
         .catch((error) => {
@@ -42,11 +44,11 @@ export default function VocabularyTesting() {
 
   const displayWord = (index) => {
     if (allWords && allWords !== "") {
-      var selectedWord = allWords[index];
+      let selectedWord = allWords[index];
       setInProgress(true);
       setWord(selectedWord["word"]);
-      var meaning = selectedWord["meanings"][0];
-      setSynonym(formattedArray(meaning["synonyms"]));
+      let meaning = selectedWord["meanings"][0];
+      setSynonyms(formattedArray(meaning["synonyms"]));
       setMeaning(meaning["definition"]);
       setExample(formattedArray(meaning["examples"]));
       setCountDownValue(countDownValue);
