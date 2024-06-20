@@ -26,6 +26,7 @@
         <kotlin.compiler.jvmTarget>17</kotlin.compiler.jvmTarget>
         <dependency.kotlinx-coroutines-reactor.version>1.8.1</dependency.kotlinx-coroutines-reactor.version>
         <dependency.junit-jupiter-api.version>5.10.2</dependency.junit-jupiter-api.version>
+        <dependency.jackson.version>2.17.1</dependency.jackson.version>
     </properties>
 
     <build>
@@ -139,7 +140,12 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.module</groupId>
                 <artifactId>jackson-module-kotlin</artifactId>
-                <version>2.17.0</version>
+                <version>${dependency.jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${dependency.jackson.version}</version>
             </dependency>
 
             <!--  TEST DEPENDENCIES : START -->
@@ -189,6 +195,12 @@
                 <groupId>com.jayway.jsonpath</groupId>
                 <artifactId>json-path</artifactId>
                 <version>2.9.0</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.assertj</groupId>
+                <artifactId>assertj-core</artifactId>
+                <version>3.26.0</version>
                 <scope>test</scope>
             </dependency>
             <!--  TEST DEPENDENCIES : END -->
