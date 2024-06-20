@@ -60,3 +60,6 @@ jobs:
 
       - name: Show logs for Gateway backend
         run: docker exec jffs-api-gateway cat /var/log/jffs_backend_api.log
+
+      - name: Show logs for API Backend
+        run: docker logs jffs-backend

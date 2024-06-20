@@ -24,6 +24,7 @@ class VocabController(@Autowired val vocabRepository: VocabRepository) {
                             )
                         })
                 })
+        println ("Response $wordsDTO")
         return ResponseEntity.ok(wordsDTO);
     }
 }
