@@ -13,7 +13,7 @@ import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertTha
 import static java.time.Duration.*;
 import static java.time.temporal.ChronoUnit.SECONDS;
 
-class VocabularyTest extends AbstractEndToEndTests {
+class VocabularyEndToEndTest extends AbstractEndToEndTests {
     static Playwright playwright;
     static Browser browser;
     private Page page;
