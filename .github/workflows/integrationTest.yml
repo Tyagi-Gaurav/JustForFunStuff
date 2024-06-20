@@ -58,5 +58,5 @@ jobs:
         run: ./mvnw test -DskipTests=false -pl jffs-end-to-end-tests
         continue-on-error: true
 
-      - name: Show logs for jffs-backend
-        run: docker logs jffs-backend
+      - name: Show logs for Gateway backend
+        run: docker exec -it jffs-api-gateway cat /var/log/jffs_backend_api.log
