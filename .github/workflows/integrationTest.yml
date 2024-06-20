@@ -56,6 +56,7 @@ jobs:
       - name: Run End to End test suite
         id: end_to_end_test_suite
         run: ./mvnw test -DskipTests=false -pl jffs-end-to-end-tests
+        continue-on-error: true
 
       - name: Show logs for jffs-admin-backend
         run: docker logs jffs-admin-backend
