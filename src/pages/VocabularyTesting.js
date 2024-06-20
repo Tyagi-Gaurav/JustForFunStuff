@@ -56,6 +56,7 @@ export default function VocabularyTesting() {
       setTimerExpired(false);
       setCurrentWordCount(index + 1);
     } else {
+      console.log("Setting Error to true while displaying words.")
       setError(true);
     }
   };
@@ -69,6 +70,7 @@ export default function VocabularyTesting() {
         displayWord(0);
       }
     } else {
+      console.log("Setting Error to true while handling begin event.")
       setError(true);
     }
   };
