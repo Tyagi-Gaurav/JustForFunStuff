@@ -32,8 +32,8 @@ export default function VocabularyTesting() {
       getWords()
         .then((response) => {
           let data = response.data["words"];
-          console.log("Response Data Received in UI: " + JSON.stringify(response));
-          console.log("Data Received in UI: " + JSON.stringify(data));
+//          console.log("Response Data Received in UI: " + JSON.stringify(response));
+//          console.log("Data Received in UI: " + JSON.stringify(data));
           setAllWords(data);
         })
         .catch((error) => {
@@ -56,7 +56,7 @@ export default function VocabularyTesting() {
       setTimerExpired(false);
       setCurrentWordCount(index + 1);
     } else {
-      console.log("Setting Error to true while displaying words.")
+//      console.log("Setting Error to true while displaying words.")
       setError(true);
     }
   };
@@ -70,7 +70,7 @@ export default function VocabularyTesting() {
         displayWord(0);
       }
     } else {
-      console.log("Setting Error to true while handling begin event.")
+//      console.log("Setting Error to true while handling begin event.")
       setError(true);
     }
   };
