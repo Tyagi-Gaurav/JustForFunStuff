@@ -79,6 +79,16 @@ services:
     networks:
       - overlay
 
+  jffs-admin-backend-ui:
+    container_name: jffs-admin-backend-ui
+    build:
+      context: jffs-admin-ui
+    depends_on:
+      - jffs-admin-backend
+    ports:
+      - "3001:3000"
+    networks:
+      - overlay
 
 networks:
   overlay:

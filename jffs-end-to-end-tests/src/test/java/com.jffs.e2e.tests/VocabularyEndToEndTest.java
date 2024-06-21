@@ -33,6 +33,7 @@ class VocabularyEndToEndTest extends AbstractEndToEndTests {
     void setUp() {
         page = browser.newPage();
         page.navigate("http://localhost/games/vocabtesting");
+        page.onConsoleMessage(x -> System.out.println(x.text()));
     }
 
     @Test
@@ -42,7 +43,6 @@ class VocabularyEndToEndTest extends AbstractEndToEndTests {
                 .withSynonyms(List.of("Synonym1", "Synonym2"))
                 .withExamples(List.of("Example1", "Example2"))
                 .build());
-        page.onConsoleMessage(x -> System.out.println(x.text()));
 
         assertThat(page.getByText("Test your Vocabulary")).isVisible();
         assertThat(page.getByText("Can you think of the meaning before the timer runs out?")).isVisible();
