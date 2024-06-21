@@ -3,14 +3,15 @@ package com.jffs.admin.app.tests
 import com.jffs.admin.app.JffsAdminApplication
 import com.jffs.admin.app.domain.Meaning
 import com.jffs.admin.app.domain.Word
+import com.jffs.admin.app.resource.MeaningDTO
+import com.jffs.admin.app.resource.WordDTO
 import com.jffs.admin.app.tests.initializer.TestContainerDatabaseInitializer
-import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Filters.regex
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import com.mongodb.kotlin.client.coroutine.MongoCollection
 import io.kotest.matchers.shouldBe
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.count
-import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -20,6 +21,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.reactive.server.WebTestClient
+import org.springframework.test.web.reactive.server.body
 import org.springframework.test.web.servlet.client.MockMvcWebTestClient
 import org.springframework.web.context.WebApplicationContext
 import java.time.LocalDateTime
@@ -83,6 +85,36 @@ class AdminControllerTest {
             .jsonPath("$.currentPage").isEqualTo("3")
             .jsonPath("$.nextPage").isEqualTo("-1")
             .jsonPath("$.previousPage").isEqualTo("2")
+    }
+
+    @Test
+    fun update() {
+        client.get().uri("/v1/words/AWord1")
+            .exchange()
+            .expectStatus().isOk
+            .expectBody()
+            .jsonPath("$.word").isEqualTo("AWord1")
+            .jsonPath("$.meanings[0].definition").isEqualTo("A definition 1")
+            .jsonPath("$.meanings[0].synonyms[0]").isEqualTo("synonym1")
+            .jsonPath("$.meanings[0].examples[0]").isEqualTo("example1")
+
+        val updatedWordDTO : Deferred<WordDTO> =
+            GlobalScope.async { WordDTO("AWord1", listOf(MeaningDTO("A new definition 1", listOf("new synonym1"), listOf("new example1")))) }
+        client.put().uri("/v1/words/AWord1")
+            .body<WordDTO>(updatedWordDTO)
+            .header("Content-Type", "application/vnd+update.word.v1+json")
+            .exchange()
+            .expectStatus()
+            .isNoContent()
+
+        client.get().uri("/v1/words/AWord1")
+            .exchange()
+            .expectStatus().isOk
+            .expectBody()
+            .jsonPath("$.word").isEqualTo("AWord1")
+            .jsonPath("$.meanings[0].definition").isEqualTo("A new definition 1")
+            .jsonPath("$.meanings[0].synonyms[0]").isEqualTo("new synonym1")
+            .jsonPath("$.meanings[0].examples[0]").isEqualTo("new example1")
     }
 
     @AfterEach
