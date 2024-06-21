@@ -1,5 +1,6 @@
 package com.jffs.e2e.tests;
 
+import com.jffs.e2e.tests.core.AbstractEndToEndTests;
 import com.microsoft.playwright.*;
 import com.microsoft.playwright.options.AriaRole;
 import org.junit.jupiter.api.AfterAll;

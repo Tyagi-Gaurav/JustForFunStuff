@@ -1,6 +1,8 @@
-package com.jffs.e2e.tests;
+package com.jffs.e2e.tests.core;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jffs.e2e.tests.TestPaginatedWords;
+import com.jffs.e2e.tests.TestWord;
 import org.junit.jupiter.api.BeforeAll;
 
 import java.io.IOException;
@@ -11,16 +13,15 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
 
-import static java.net.http.HttpClient.newHttpClient;
 import static java.net.http.HttpRequest.newBuilder;
 import static java.net.http.HttpResponse.BodyHandlers.ofString;
 import static org.assertj.core.api.Assertions.assertThat;
 
-class AbstractEndToEndTests {
+public abstract class AbstractEndToEndTests {
     HttpClient httpClient = HttpClient.newHttpClient();
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    void givenASetOfWordsHaveBeenCreated(TestWord testWord) {
+    protected void givenASetOfWordsHaveBeenCreated(TestWord testWord) {
         try {
             HttpResponse<String> response = httpClient.send(newBuilder()
                     .uri(new URI("http://localhost:9090/admin/v1/words"))
@@ -32,13 +33,6 @@ class AbstractEndToEndTests {
         } catch (IOException | InterruptedException | URISyntaxException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    protected HttpResponse<String> aGetRequest(String url) throws IOException, InterruptedException, URISyntaxException {
-        return newHttpClient().send(newBuilder()
-                .uri(new URI(url))
-                .GET()
-                .build(), ofString());
     }
 
     protected <T> int statusCodeFrom(HttpResponse<T> httpResponse) {
