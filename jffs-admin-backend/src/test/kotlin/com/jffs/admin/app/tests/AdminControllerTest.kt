@@ -178,6 +178,24 @@ class AdminControllerTest {
     }
 
     @Test
+    fun delete() {
+        client.get().uri("/v1/words/AWord25")
+            .exchange()
+            .expectStatus().isOk
+            .expectBody()
+            .jsonPath("$.word").isEqualTo("AWord25")
+
+        client.delete().uri("/v1/words/AWord25")
+            .exchange()
+            .expectStatus()
+            .isAccepted
+
+        client.get().uri("/v1/words/AWord25")
+            .exchange()
+            .expectStatus().isNotFound
+    }
+
+    @Test
     fun searchWord() {
         client.get().uri("/v1/words/search?searchType=WORD&searchValue=AWord1")
             .exchange()
