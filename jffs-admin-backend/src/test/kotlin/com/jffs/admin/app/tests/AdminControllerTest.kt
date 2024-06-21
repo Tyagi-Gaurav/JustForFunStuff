@@ -16,6 +16,8 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.CsvSource
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ContextConfiguration
@@ -58,7 +60,7 @@ class AdminControllerTest {
     fun getPaginatedWords() {
         client.get().uri("/v1/words/page/1")
             .exchange()
-            .expectStatus().isOk()
+            .expectStatus().isOk
             .expectBody()
             .jsonPath("$.words.length()").isEqualTo(10)
             .jsonPath("$.totalPages").isEqualTo("3")
@@ -68,7 +70,7 @@ class AdminControllerTest {
 
         client.get().uri("/v1/words/page/2")
             .exchange()
-            .expectStatus().isOk()
+            .expectStatus().isOk
             .expectBody()
             .jsonPath("$.words.length()").isEqualTo(10)
             .jsonPath("$.totalPages").isEqualTo("3")
@@ -78,7 +80,7 @@ class AdminControllerTest {
 
         client.get().uri("/v1/words/page/3")
             .exchange()
-            .expectStatus().isOk()
+            .expectStatus().isOk
             .expectBody()
             .jsonPath("$.words.length()").isEqualTo(5)
             .jsonPath("$.totalPages").isEqualTo("3")
@@ -105,7 +107,7 @@ class AdminControllerTest {
             .header("Content-Type", "application/vnd+update.word.v1+json")
             .exchange()
             .expectStatus()
-            .isNoContent()
+            .isNoContent
 
         client.get().uri("/v1/words/AWord1")
             .exchange()
@@ -115,6 +117,41 @@ class AdminControllerTest {
             .jsonPath("$.meanings[0].definition").isEqualTo("A new definition 1")
             .jsonPath("$.meanings[0].synonyms[0]").isEqualTo("new synonym1")
             .jsonPath("$.meanings[0].examples[0]").isEqualTo("new example1")
+    }
+
+    @Test
+    fun searchWord() {
+        client.get().uri("/v1/words/search?searchType=WORD&searchValue=AWord1")
+            .exchange()
+            .expectStatus().isOk
+            .expectBody()
+            .jsonPath("$.word").isEqualTo("AWord1")
+            .jsonPath("$.meanings[0].definition").isEqualTo("A definition 1")
+            .jsonPath("$.meanings[0].synonyms[0]").isEqualTo("synonym1")
+            .jsonPath("$.meanings[0].examples[0]").isEqualTo("example1")
+    }
+
+    @Test
+    fun searchSynonym() {
+        client.get().uri("/v1/words/search?searchType=SYNONYM&searchValue=synonym1")
+            .exchange()
+            .expectStatus().isOk
+            .expectBody()
+            .jsonPath("$.word").isEqualTo("AWord1")
+            .jsonPath("$.meanings[0].definition").isEqualTo("A definition 1")
+            .jsonPath("$.meanings[0].synonyms[0]").isEqualTo("synonym1")
+            .jsonPath("$.meanings[0].examples[0]").isEqualTo("example1")
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = [
+        "WORD, abb",
+        "SYNONYM, ajhdjd"
+    ])
+    fun searchUnAvailableStrings(searchType : String, searchValue: String) {
+        client.get().uri("/v1/words/search?searchType=$searchType&searchValue=$searchValue")
+            .exchange()
+            .expectStatus().isNotFound
     }
 
     @AfterEach
