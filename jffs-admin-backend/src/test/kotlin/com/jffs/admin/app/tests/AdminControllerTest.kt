@@ -90,6 +90,59 @@ class AdminControllerTest {
     }
 
     @Test
+    fun addWordThatDoesNotExist() {
+        client.get().uri("/v1/words/ANewWord1")
+            .exchange()
+            .expectStatus().isNotFound
+
+        val newWord: Deferred<WordDTO> =
+            GlobalScope.async {
+                WordDTO(
+                    "ANewWord1",
+                    listOf(MeaningDTO("A new definition 1", listOf("new synonym1"), listOf("new example1")))
+                )
+            }
+        client.post().uri("/v1/words")
+            .body<WordDTO>(newWord)
+            .header("Content-Type", "application/vnd+add.word.v1+json")
+            .exchange()
+            .expectStatus()
+            .isNoContent
+
+        client.get().uri("/v1/words/ANewWord1")
+            .exchange()
+            .expectStatus().isOk
+            .expectBody()
+            .jsonPath("$.word").isEqualTo("ANewWord1")
+            .jsonPath("$.meanings[0].definition").isEqualTo("A new definition 1")
+            .jsonPath("$.meanings[0].synonyms[0]").isEqualTo("new synonym1")
+            .jsonPath("$.meanings[0].examples[0]").isEqualTo("new example1")
+    }
+
+    @Test
+    fun addWordThatDoesAlreadyExists() {
+        client.get().uri("/v1/words/AWord1")
+            .exchange()
+            .expectStatus().isOk
+            .expectBody()
+            .jsonPath("$.word").isEqualTo("AWord1")
+
+        val newWord: Deferred<WordDTO> =
+            GlobalScope.async {
+                WordDTO(
+                    "AWord1",
+                    listOf(MeaningDTO("A new definition 1", listOf("new synonym1"), listOf("new example1")))
+                )
+            }
+        client.post().uri("/v1/words")
+            .body<WordDTO>(newWord)
+            .header("Content-Type", "application/vnd+add.word.v1+json")
+            .exchange()
+            .expectStatus()
+            .is4xxClientError
+    }
+
+    @Test
     fun update() {
         client.get().uri("/v1/words/AWord1")
             .exchange()
@@ -100,8 +153,13 @@ class AdminControllerTest {
             .jsonPath("$.meanings[0].synonyms[0]").isEqualTo("synonym1")
             .jsonPath("$.meanings[0].examples[0]").isEqualTo("example1")
 
-        val updatedWordDTO : Deferred<WordDTO> =
-            GlobalScope.async { WordDTO("AWord1", listOf(MeaningDTO("A new definition 1", listOf("new synonym1"), listOf("new example1")))) }
+        val updatedWordDTO: Deferred<WordDTO> =
+            GlobalScope.async {
+                WordDTO(
+                    "AWord1",
+                    listOf(MeaningDTO("A new definition 1", listOf("new synonym1"), listOf("new example1")))
+                )
+            }
         client.put().uri("/v1/words/AWord1")
             .body<WordDTO>(updatedWordDTO)
             .header("Content-Type", "application/vnd+update.word.v1+json")
@@ -144,11 +202,14 @@ class AdminControllerTest {
     }
 
     @ParameterizedTest
-    @CsvSource(value = [
-        "WORD, abb",
-        "SYNONYM, ajhdjd"
-    ])
-    fun searchUnAvailableStrings(searchType : String, searchValue: String) {
+    @CsvSource(
+        value = [
+            "WORD, abb",
+            "SYNONYM, ajhdjd",
+            "abc, ajhdjd"
+        ]
+    )
+    fun searchUnAvailableStringsOrTypes(searchType: String, searchValue: String) {
         client.get().uri("/v1/words/search?searchType=$searchType&searchValue=$searchValue")
             .exchange()
             .expectStatus().isNotFound

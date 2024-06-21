@@ -91,6 +91,10 @@ class AdminController(@Autowired val adminRepository: AdminRepository) {
 
     @PostMapping("/v1/words", consumes = ["application/vnd+add.word.v1+json"])
     suspend fun addWord(@RequestBody wordDTO: WordDTO) : ResponseEntity<String> {
+        val databaseResponse = adminRepository.findByWord(wordDTO.word)
+        databaseResponse?.let {
+            return ResponseEntity.status(409).build()
+        }
         val word = wordDTO.let {
             Word(
                 it.word,
