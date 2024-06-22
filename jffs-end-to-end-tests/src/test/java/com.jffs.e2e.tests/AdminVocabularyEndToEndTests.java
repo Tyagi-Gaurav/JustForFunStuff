@@ -5,9 +5,7 @@ import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.BrowserType;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
@@ -33,5 +31,12 @@ class AdminVocabularyEndToEndTests extends AbstractEndToEndTests {
     @Test
     void title() {
         assertThat(page.getByText("Admin")).isVisible();
+    }
+
+    @AfterAll
+    static void close() {
+        if (browser != null) {
+            browser.close();
+        }
     }
 }

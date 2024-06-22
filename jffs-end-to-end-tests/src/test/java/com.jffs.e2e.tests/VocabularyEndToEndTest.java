@@ -79,7 +79,9 @@ class VocabularyEndToEndTest extends AbstractEndToEndTests {
     }
 
     @AfterAll
-    static void afterAll() {
-        browser.close();
+    static void close() {
+        if (browser != null) {
+            browser.close();
+        }
     }
 }
