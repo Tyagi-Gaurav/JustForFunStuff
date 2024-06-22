@@ -3,6 +3,10 @@ package com.jffs.e2e.tests.core;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jffs.e2e.tests.TestPaginatedWords;
 import com.jffs.e2e.tests.TestWord;
+import com.microsoft.playwright.Browser;
+import com.microsoft.playwright.BrowserType;
+import com.microsoft.playwright.Playwright;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 
 import java.io.IOException;
@@ -18,8 +22,16 @@ import static java.net.http.HttpResponse.BodyHandlers.ofString;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public abstract class AbstractEndToEndTests {
+    static Playwright playwright;
+    protected static Browser browser;
     HttpClient httpClient = HttpClient.newHttpClient();
     private static final ObjectMapper objectMapper = new ObjectMapper();
+
+    @BeforeAll
+    static void launchBrowser() {
+        playwright = Playwright.create();
+        browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(true));
+    }
 
     protected void givenASetOfWordsHaveBeenCreated(TestWord testWord) {
         try {
@@ -70,6 +82,13 @@ public abstract class AbstractEndToEndTests {
             });
         } catch (IOException | InterruptedException | URISyntaxException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    @AfterAll
+    static void close() {
+        if (browser != null) {
+            browser.close();
         }
     }
 }

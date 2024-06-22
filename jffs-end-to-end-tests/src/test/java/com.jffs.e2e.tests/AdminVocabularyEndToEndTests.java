@@ -1,25 +1,15 @@
 package com.jffs.e2e.tests;
 
 import com.jffs.e2e.tests.core.AbstractEndToEndTests;
-import com.microsoft.playwright.Browser;
-import com.microsoft.playwright.BrowserType;
-import com.microsoft.playwright.Page;
-import com.microsoft.playwright.Playwright;
+import com.microsoft.playwright.*;
+import com.microsoft.playwright.options.AriaRole;
 import org.junit.jupiter.api.*;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
 
 class AdminVocabularyEndToEndTests extends AbstractEndToEndTests {
-    static Playwright playwright;
-    static Browser browser;
     private Page page;
-
-    @BeforeAll
-    static void launchBrowser() {
-        playwright = Playwright.create();
-        browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(true));
-    }
 
     @BeforeEach
     void setUp() {
@@ -30,13 +20,29 @@ class AdminVocabularyEndToEndTests extends AbstractEndToEndTests {
 
     @Test
     void title() {
-        assertThat(page.getByText("Admin")).isVisible();
+        assertThat(page).hasTitle("Just for Fun Admin");
     }
 
-    @AfterAll
-    static void close() {
-        if (browser != null) {
-            browser.close();
+    @Test
+    void hasDropDownForVocabulary() {
+        Locator vocabularyMenuItem = page.getByText("Vocabulary");
+        assertThat(vocabularyMenuItem).isVisible();
+        Locator addWord = page.getByText("Add Word");
+        Locator listWord = page.getByText("List Words");
+
+        assertThat(addWord).not().isVisible();
+        assertThat(listWord).not().isVisible();
+
+        vocabularyMenuItem.click();
+
+        assertThat(addWord).isVisible();
+        assertThat(listWord).isVisible();
+    }
+
+    @AfterEach
+    void tearDown() {
+        if (page != null) {
+            page.close();
         }
     }
 }

@@ -19,15 +19,7 @@ import static java.time.temporal.ChronoUnit.SECONDS;
 import static org.junit.jupiter.api.Assertions.fail;
 
 class VocabularyEndToEndTest extends AbstractEndToEndTests {
-    static Playwright playwright;
-    static Browser browser;
     private Page page;
-
-    @BeforeAll
-    static void launchBrowser() {
-        playwright = Playwright.create();
-        browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(true));
-    }
 
     @BeforeEach
     void setUp() {
@@ -75,13 +67,6 @@ class VocabularyEndToEndTest extends AbstractEndToEndTests {
             sleep(duration.toMillis());
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
-        }
-    }
-
-    @AfterAll
-    static void close() {
-        if (browser != null) {
-            browser.close();
         }
     }
 }
