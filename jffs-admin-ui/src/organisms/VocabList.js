@@ -46,19 +46,21 @@ export default function VocabList({ editCallback }) {
 
   function createRowsFromData(data) {
     const rows = [];
-    for (let i = 0; i < data.length; i++) {
-      rows.push(
-        <tr
-          key={i}
-          className="table-primary"
-          onClick={() => handleRowClick(data[i]["word"])}
-        >
-          <td>{data[i]["word"]}</td>
-          <td>{data[i]["meanings"][0]["definition"]}</td>
-        </tr>
-      );
+    if (data) {
+      for (let i = 0; i < data.length; i++) {
+        rows.push(
+          <tr
+            key={i}
+            className="table-primary"
+            onClick={() => handleRowClick(data[i]["word"])}
+          >
+            <td>{data[i]["word"]}</td>
+            <td>{data[i]["meanings"][0]["definition"]}</td>
+          </tr>
+        );
+      }
+      setAllWords(rows);
     }
-    setAllWords(rows);
   }
 
   function getData(nextPage) {
