@@ -4,12 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jffs.e2e.tests.TestPaginatedWords;
 import com.jffs.e2e.tests.TestWord;
 import com.jffs.e2e.tests.TestWordBuilder;
-import com.microsoft.playwright.Browser;
-import com.microsoft.playwright.BrowserType;
-import com.microsoft.playwright.Playwright;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
+import com.microsoft.playwright.*;
+import org.junit.jupiter.api.*;
 
 import java.io.IOException;
 import java.net.URI;
@@ -17,17 +13,29 @@ import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.Duration;
 import java.util.ArrayList;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 import static java.net.http.HttpRequest.newBuilder;
 import static java.net.http.HttpResponse.BodyHandlers.ofString;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.awaitility.Awaitility.waitAtMost;
 
-public abstract class AbstractEndToEndTests implements WithHTTPSupport {
+public abstract class AbstractEndToEndTests implements WithHTTPSupport, WithPlaywrightWrapperAssertions {
     static Playwright playwright;
-    protected static Browser browser;
+    private static Browser browser;
+    protected Page page;
     HttpClient httpClient = HttpClient.newHttpClient();
     private static final ObjectMapper objectMapper = new ObjectMapper();
+    private static final Duration ASSERTION_TIMEOUT = Duration.ofSeconds(10);
+
+    @BeforeEach
+    void setUp() {
+        page = browser.newPage();
+        page.onConsoleMessage(x -> System.out.println(x.text()));
+    }
 
     @BeforeAll
     static void launchBrowser() {
@@ -48,6 +56,12 @@ public abstract class AbstractEndToEndTests implements WithHTTPSupport {
             throw new RuntimeException(e);
         }
     }
+
+    protected void thenEventually(Supplier<Locator> locatorSupplier, Function<Locator, Boolean> evaluator) {
+        waitAtMost(ASSERTION_TIMEOUT)
+                .until(() -> evaluator.apply(locatorSupplier.get()));
+    }
+
 
     @BeforeEach
     void deleteAllWords() throws Exception {
@@ -70,6 +84,13 @@ public abstract class AbstractEndToEndTests implements WithHTTPSupport {
                 throw new RuntimeException(e);
             }
         });
+    }
+
+    @AfterEach
+    void tearDown() {
+        if (page != null) {
+            page.close();
+        }
     }
 
     @AfterAll

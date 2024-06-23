@@ -7,3 +7,13 @@ upstream jffs_ui {
     zone jffs_ui 64k;
     server ${JFFS_UI_HOST}:${JFFS_UI_PORT};
 }
+
+upstream jffs_backend_admin_api {
+    zone jffs_backend_admin_api 64k;
+    server ${JFFS_BACKEND_ADMIN_API_HOST}:${JFFS_BACKEND_ADMIN_API_PORT};
+}
+
+upstream jffs_backend_admin_ui {
+    zone jffs_backend_admin_ui 64k;
+    server ${JFFS_BACKEND_ADMIN_UI_HOST}:${JFFS_BACKEND_ADMIN_UI_PORT};
+}
