@@ -46,6 +46,7 @@ export default function VocabList({ editCallback }) {
 
   function createRowsFromData(data) {
     const rows = [];
+    console.log(data);
     if (data) {
       for (let i = 0; i < data.length; i++) {
         rows.push(
@@ -148,3 +149,4 @@ export default function VocabList({ editCallback }) {
     </>
   );
 }
+  

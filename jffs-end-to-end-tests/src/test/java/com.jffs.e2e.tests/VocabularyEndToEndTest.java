@@ -17,13 +17,10 @@ import static java.time.temporal.ChronoUnit.SECONDS;
 import static org.junit.jupiter.api.Assertions.fail;
 
 class VocabularyEndToEndTest extends AbstractEndToEndTests {
-    private Page page;
 
     @BeforeEach
     void setUp() {
-        page = browser.newPage();
         page.navigate("http://localhost/games/vocabtesting");
-        page.onConsoleMessage(x -> System.out.println(x.text()));
     }
 
     @Test

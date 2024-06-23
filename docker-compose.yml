@@ -4,6 +4,8 @@ services:
     depends_on:
       - jffs-ui
       - jffs-backend
+      - jffs-admin-backend
+      - jffs-admin-backend-ui
     build:
       context: jffs-api-gateway
     environment:
@@ -11,6 +13,10 @@ services:
       - JFFS_BACKEND_PORT=8080
       - JFFS_UI_HOST=jffs-ui
       - JFFS_UI_PORT=3000
+      - JFFS_BACKEND_ADMIN_API_HOST=jffs-admin-backend
+      - JFFS_BACKEND_ADMIN_API_PORT=9090
+      - JFFS_BACKEND_ADMIN_UI_HOST=jffs-admin-backend-ui
+      - JFFS_BACKEND_ADMIN_UI_PORT=3000
     command: [ nginx, '-g', 'daemon off;' ]
     ports:
       - "80:80"

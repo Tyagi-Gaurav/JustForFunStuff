@@ -6,6 +6,6 @@ import java.util.function.Function;
 
 public interface WithPlaywrightWrapperAssertions {
     default Function<Locator, Boolean> isVisible() {
-        return (Locator locator) -> locator.isVisible();
+        return Locator::isVisible;
     }
 }
