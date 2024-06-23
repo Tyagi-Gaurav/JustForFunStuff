@@ -3,8 +3,6 @@ package com.jffs.e2e.tests;
 import com.jffs.e2e.tests.core.AbstractEndToEndTests;
 import com.microsoft.playwright.*;
 import com.microsoft.playwright.options.AriaRole;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -30,11 +28,10 @@ class VocabularyEndToEndTest extends AbstractEndToEndTests {
 
     @Test
     void canAccessWords() {
-        givenASetOfWordsHaveBeenCreated(aWord("some-word")
+        givenExists(aWord("some-word")
                 .withDefinition("A definition")
                 .withSynonyms(List.of("Synonym1", "Synonym2"))
-                .withExamples(List.of("Example1", "Example2"))
-                .build());
+                .withExamples(List.of("Example1", "Example2")));
 
         assertThat(page.getByText("Test your Vocabulary")).isVisible();
         assertThat(page.getByText("Can you think of the meaning before the timer runs out?")).isVisible();

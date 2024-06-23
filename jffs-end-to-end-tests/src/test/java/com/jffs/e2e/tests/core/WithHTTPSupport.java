@@ -16,4 +16,15 @@ public interface WithHTTPSupport {
                 .GET()
                 .build(), ofString());
     }
+
+    default HttpResponse<String> aDeleteRequest(String url) throws Exception {
+        return httpClient.send(newBuilder()
+                .uri(new URI(url))
+                .DELETE()
+                .build(), ofString());
+    }
+
+    default <T> int statusCodeFrom(HttpResponse<T> httpResponse) {
+        return httpResponse.statusCode();
+    }
 }
