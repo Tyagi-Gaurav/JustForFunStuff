@@ -67,6 +67,7 @@ export default function VocabList({ editCallback }) {
   function getData(nextPage) {
     getWords(nextPage)
       .then((response) => {
+        console.log("Raw response: " + JSON.stringify(response));
         var data = response.data["words"];
         createRowsFromData(data);
         setTotalPages(response.data["totalPages"]);
@@ -149,4 +150,3 @@ export default function VocabList({ editCallback }) {
     </>
   );
 }
-  

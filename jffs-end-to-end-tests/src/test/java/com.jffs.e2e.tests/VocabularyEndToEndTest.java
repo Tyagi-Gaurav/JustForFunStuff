@@ -1,9 +1,9 @@
 package com.jffs.e2e.tests;
 
 import com.jffs.e2e.tests.core.AbstractEndToEndTests;
-import com.microsoft.playwright.*;
+import com.microsoft.playwright.Page;
+import com.microsoft.playwright.PlaywrightException;
 import com.microsoft.playwright.options.AriaRole;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
@@ -18,13 +18,9 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 class VocabularyEndToEndTest extends AbstractEndToEndTests {
 
-    @BeforeEach
-    void setUp() {
-        page.navigate("http://localhost/games/vocabtesting");
-    }
-
     @Test
     void canAccessWords() {
+        page.navigate("http://localhost/games/vocabtesting");
         givenExists(aWord("some-word")
                 .withDefinition("A definition")
                 .withSynonyms(List.of("Synonym1", "Synonym2"))
