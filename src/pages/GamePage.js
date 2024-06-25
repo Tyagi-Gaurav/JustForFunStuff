@@ -9,7 +9,7 @@ export default function GamePage() {
           <Link to="/games/tictactoe">
             <img
               className="card-img-top"
-              src="/image/Noughts_crosses.png"
+              src="/image/NoughtsCrosses.png"
               alt="noughts_crosses"
             />
           </Link>
