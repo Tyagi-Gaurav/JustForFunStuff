@@ -1,11 +1,11 @@
 services:
   jffs-api-gateway:
     container_name: jffs-api-gateway
-#    depends_on:
-#      - jffs-ui
-#      - jffs-backend
-#      - jffs-admin-backend
-#      - jffs-admin-backend-ui
+    depends_on:
+      - jffs-ui
+      - jffs-backend
+      - jffs-admin-backend
+      - jffs-admin-backend-ui
     build:
       context: jffs-api-gateway
     environment:
@@ -24,77 +24,77 @@ services:
     networks:
       - overlay
 
-#  jffs-ui:
-#    container_name: jffs-ui
-#    build:
-#      context: .
-#    depends_on:
-#      - jffs-backend
-#    ports:
-#      - "3000:3000"
-#    networks:
-#      - overlay
-#
-#  jffs-backend:
-#    container_name: jffs-backend
-#    depends_on:
-#      - database
-#    build:
-#      context: jffs-backend
-#    ports:
-#      - "8080:8080"
-#      - "8081:8081"
-#    environment:
-#      - "DB_USER=root"
-#      - "DB_PWD=example"
-#      - "APP_NAME=testDB"
-#      - "DB_NAME=testDB"
-#      - "DB_HOST=database:27017"
-#      - "DB_SCHEME=mongodb"
-#    networks:
-#      - overlay
-#
-#  database:
-#    image: mongo:7.0
-#    container_name: database
-#    ports:
-#      - "27017:27017"
-#    environment:
-#      - "MONGO_INITDB_ROOT_USERNAME=root"
-#      - "MONGO_INITDB_ROOT_PASSWORD=example"
-#      - "MONGO_INITDB_DATABASE=testDB"
-#    networks:
-#      - overlay
-#
-#  jffs-admin-backend:
-#    container_name: jffs-admin-backend
-#    depends_on:
-#      - database
-#    build:
-#      context: jffs-admin-backend
-#    ports:
-#      - "9090:9090"
-#      - "9091:9091"
-#    environment:
-#      - "DB_USER=root"
-#      - "DB_PWD=example"
-#      - "APP_NAME=testDB"
-#      - "DB_NAME=testDB"
-#      - "DB_HOST=database:27017"
-#      - "DB_SCHEME=mongodb"
-#    networks:
-#      - overlay
-#
-#  jffs-admin-backend-ui:
-#    container_name: jffs-admin-backend-ui
-#    build:
-#      context: jffs-admin-ui
-#    depends_on:
-#      - jffs-admin-backend
-#    ports:
-#      - "3001:3000"
-#    networks:
-#      - overlay
+  jffs-ui:
+    container_name: jffs-ui
+    build:
+      context: .
+    depends_on:
+      - jffs-backend
+    ports:
+      - "3000:3000"
+    networks:
+      - overlay
+
+  jffs-backend:
+    container_name: jffs-backend
+    depends_on:
+      - database
+    build:
+      context: jffs-backend
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    environment:
+      - "DB_USER=root"
+      - "DB_PWD=example"
+      - "APP_NAME=testDB"
+      - "DB_NAME=testDB"
+      - "DB_HOST=database:27017"
+      - "DB_SCHEME=mongodb"
+    networks:
+      - overlay
+
+  database:
+    image: mongo:7.0
+    container_name: database
+    ports:
+      - "27017:27017"
+    environment:
+      - "MONGO_INITDB_ROOT_USERNAME=root"
+      - "MONGO_INITDB_ROOT_PASSWORD=example"
+      - "MONGO_INITDB_DATABASE=testDB"
+    networks:
+      - overlay
+
+  jffs-admin-backend:
+    container_name: jffs-admin-backend
+    depends_on:
+      - database
+    build:
+      context: jffs-admin-backend
+    ports:
+      - "9090:9090"
+      - "9091:9091"
+    environment:
+      - "DB_USER=root"
+      - "DB_PWD=example"
+      - "APP_NAME=testDB"
+      - "DB_NAME=testDB"
+      - "DB_HOST=database:27017"
+      - "DB_SCHEME=mongodb"
+    networks:
+      - overlay
+
+  jffs-admin-backend-ui:
+    container_name: jffs-admin-backend-ui
+    build:
+      context: jffs-admin-ui
+    depends_on:
+      - jffs-admin-backend
+    ports:
+      - "3001:3000"
+    networks:
+      - overlay
 
 networks:
   overlay:
