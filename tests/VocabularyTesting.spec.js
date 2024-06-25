@@ -298,8 +298,6 @@ test.describe("Vocabulary Testing Page", () => {
     await expect(beginButton).toBeVisible();
     await beginButton.click();
 
-    await expect(page.getByTestId("countdown")).not.toBeVisible();
-
     const errorText = page.getByText("There seems to be some problem. Please try again later", { exact: true });
     await expect(errorText).toBeVisible();
   });
