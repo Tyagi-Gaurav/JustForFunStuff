@@ -42,7 +42,7 @@
     ]
   },
   "devDependencies": {
-    "@playwright/test": "^1.44.1",
+    "@playwright/test": "^1.45.0",
     "playwright": "^1.44.1"
   },
   "proxy": "http://localhost:8080"
