@@ -1,7 +1,5 @@
+import Alert from "@mui/material/Alert";
+
 export default function AlertMessage({ type, message }) {
-  return (
-    <div className={"alert alert-" + type} role="alert">
-    {message}
-    </div>
-  );
+  return <Alert severity="error">{message}</Alert>;
 }

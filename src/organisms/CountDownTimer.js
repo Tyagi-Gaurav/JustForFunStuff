@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./countdowntimer.module.css";
+import { Typography } from "@mui/material";
 
 export default function CountDownTimer(props) {
   const [seconds, setSeconds] = useState(parseInt(props.inputDelay));
@@ -31,8 +32,15 @@ export default function CountDownTimer(props) {
   }
 
   return (
-    <label data-testid="countdown" className={styles.circle}>
+    <Typography
+      level="h1"
+      justifyContent="center"
+      data-testid="countdown"
+      className={styles.circle}
+      fontSize={60}
+      textAlign="center"
+    >
       {seconds}
-    </label>
+    </Typography>
   );
 }

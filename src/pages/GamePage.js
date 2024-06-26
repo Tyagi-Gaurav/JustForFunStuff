@@ -37,7 +37,7 @@ export default function GamePage() {
           </CardActionArea>
         </Card>
         <Card
-          sx={{ maxWidth: 400, maxHeight: 500, marginTop: 4, marginLeft: 4 }}
+          sx={{ maxWidth: 400, maxHeight: 550, marginTop: 4, marginLeft: 4 }}
         >
           <CardActionArea>
             <Link to="/games/vocabtesting">

@@ -5,6 +5,12 @@ import styles from "./VocabularyTesting.module.css";
 import AlertMessage from "../atoms/AlertMessage";
 import TextInABox from "../atoms/TextInABox";
 import Heading from "../atoms/Heading";
+import { Button, Box, Typography } from "@mui/material";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import { blue } from "@mui/material/colors";
 
 function formattedArray(words) {
   if (words) {
@@ -32,8 +38,8 @@ export default function VocabularyTesting() {
       getWords()
         .then((response) => {
           let data = response.data["words"];
-//          console.log("Response Data Received in UI: " + JSON.stringify(response));
-//          console.log("Data Received in UI: " + JSON.stringify(data));
+          //          console.log("Response Data Received in UI: " + JSON.stringify(response));
+          //          console.log("Data Received in UI: " + JSON.stringify(data));
           setAllWords(data);
         })
         .catch((error) => {
@@ -56,7 +62,7 @@ export default function VocabularyTesting() {
       setTimerExpired(false);
       setCurrentWordCount(index + 1);
     } else {
-//      console.log("Setting Error to true while displaying words.")
+      //      console.log("Setting Error to true while displaying words.")
       setError(true);
     }
   };
@@ -70,7 +76,7 @@ export default function VocabularyTesting() {
         displayWord(0);
       }
     } else {
-//      console.log("Setting Error to true while handling begin event.")
+      //      console.log("Setting Error to true while handling begin event.")
       setError(true);
     }
   };
@@ -80,134 +86,113 @@ export default function VocabularyTesting() {
   };
 
   return (
-    <div>
-      <Heading
-        headingStyle={styles.heading + " text-center"}
-        headingMessage="Test your Vocabulary"
-      />
+    <Box>
+      <Heading headingMessage="Test your Vocabulary" color="#ff8a08" />
+
+      {!inProgress && !word && (
+        <Box>
+          <Heading
+            headingMessage="Can you think of the meaning before the timer runs out?"
+            color="#ff8a08"
+          />
+        </Box>
+      )}
 
       {error && (
-        <AlertMessage
-          type="danger"
-          message="There seems to be some problem. Please try again later"
-        />
+        <Box justifyContent="center" display="flex">
+          <AlertMessage
+            type="danger"
+            message="There seems to be some problem. Please try again later"
+          />
+        </Box>
       )}
 
       {inProgress && word && (
-        <div className="row mb-2 pr-0">
-          <div className="col-sm-9">
-            <TextInABox text={word} testId="word-text" />
-          </div>
-          <div className="col-sm-3">
-            <h1 style={{ color: "blue" }} className="display rounded bg-light">
-              {currentWordCount + " of " + allWords.length}
-            </h1>
-          </div>
-        </div>
+        <Box>
+          <TextInABox text={word} testId="word-text" />
+        </Box>
       )}
 
-      {!error && (
-        <div className="row">
-          <div className="col-sm-12 text-center">
-            {inProgress ? (
-              <CountDownTimer
-                inputDelay={countDownValue}
-                ready={readyToRun}
-                action={doActionWhenTimerExpires}
-              />
-            ) : (
-              <label>
-                Can you think of the meaning before the timer runs out?
-              </label>
-            )}
-          </div>
-        </div>
+      {!error && inProgress && (
+        <Box display="flex" justifyContent="center">
+          <CountDownTimer
+            inputDelay={countDownValue}
+            ready={readyToRun}
+            action={doActionWhenTimerExpires}
+          />
+        </Box>
       )}
 
       {inProgress && timerExpired && (
-        <div className="accordion row pt-5" id="mean-syn-exa">
-          <div className="accordion-item p-0">
-            <h2 className="accordion-header">
-              <button
-                className="accordion-button"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapseOne"
-                aria-expanded="true"
-                aria-controls="collapseOne"
-              >
-                Meaning
-              </button>
-            </h2>
-            <div id="collapseOne" className="accordion-collapse collapse show">
-              <div className="accordion-body">
-                <strong data-testid="meanings-text">{meaning}</strong>
-              </div>
-            </div>
-          </div>
-          <div className="accordion-item  p-0">
-            <h2 className="accordion-header">
-              <button
-                className="accordion-button"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapseTwo"
-                aria-expanded="false"
-                aria-controls="collapseTwo"
-              >
-                Synonyms
-              </button>
-            </h2>
-            <div id="collapseTwo" className="accordion-collapse collapse show">
-              <div className="accordion-body">
-                <strong data-testid="synonym-text">{synonyms}</strong>
-              </div>
-            </div>
-          </div>
-          <div className="accordion-item  p-0">
-            <h2 className="accordion-header">
-              <button
-                className="accordion-button collapse show"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapseThree"
-                aria-expanded="false"
-                aria-controls="collapseThree"
-              >
-                Examples
-              </button>
-            </h2>
-            <div
-              id="collapseThree"
-              className="accordion-collapse collapse show"
+        <Box paddingTop="10px">
+          <Accordion defaultExpanded>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1-content"
+              id="panel1-header"
+              sx={{ bgcolor: "primary.light" }}
             >
-              <div className="accordion-body">
+              Meaning
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography>
+                <strong data-testid="meanings-text">{meaning}</strong>
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
+          <Accordion defaultExpanded>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1-content"
+              id="panel1-header"
+              sx={{ bgcolor: "secondary.light" }}
+            >
+              Synonyms
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography>
+                <strong data-testid="synonym-text">{synonyms}</strong>
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
+          <Accordion defaultExpanded>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1-content"
+              id="panel1-header"
+              sx={{ bgcolor: "warning.light" }}
+            >
+              Examples
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography>
                 <strong data-testid="examples-text">{example}</strong>
-              </div>
-            </div>
-          </div>
-        </div>
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
+        </Box>
       )}
 
-      <div className="row">
-        <div
-          className={
-            styles.centered_button + " col-sm-12 justify-content-center pb-10"
-          }
-        >
-          {!inProgress && (
-            <button className="btn btn-primary" onClick={handleClick}>
+      <Box display="flex" justifyContent="center" paddingTop={5}>
+        {!inProgress && (
+          <Box
+            justifyContent="center"
+            alignSelf="center"
+            paddingTop={4}
+            width="100"
+          >
+            <Button variant="contained" onClick={handleClick}>
               Begin
-            </button>
-          )}
+            </Button>
+          </Box>
+        )}
 
-          {inProgress && timerExpired && (
-            <button className="btn btn-primary" onClick={handleClick}>
-              Next
-            </button>
-          )}
-        </div>
-      </div>
-    </div>
+        {inProgress && timerExpired && (
+          <Button variant="contained" onClick={handleClick}>
+            Next
+          </Button>
+        )}
+      </Box>
+    </Box>
   );
 }
