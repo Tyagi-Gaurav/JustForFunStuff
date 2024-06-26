@@ -1,7 +1,8 @@
 import { useState } from "react";
 import styles from "./TicTacToe.module.css";
-import Square from "../atoms/Square.js"
+import Square from "../atoms/Square.js";
 import Heading from "../atoms/Heading.js";
+import { Box, Button } from "@mui/material";
 
 export default function TicTacToe() {
   const [squares, setSquares] = useState(
@@ -50,11 +51,21 @@ export default function TicTacToe() {
   return (
     <>
       <div className={styles.page}>
-        <Heading headingStyle={styles.heading + " text-center"} headingMessage="Tic-Tac-Toe"/>
-        <div className={styles.status + " pt-5"}>
-          <p className="text-center">{status}</p>
-        </div>
-        <div className={styles.row}>
+        <Heading headingMessage="Tic-Tac-Toe" color="#ff8a08" />
+        <Heading headingMessage={status} color="black" />
+        <Box
+          justifyContent="center"
+          alignSelf="center"
+          alignItems={"center"}
+          paddingTop={10}
+          sx={{
+            display: "grid",
+            gap: 0,
+            m: 0,
+            width: 300,
+            gridTemplateColumns: "repeat(3, 1fr)",
+          }}
+        >
           <Square
             id="square-1"
             value={squares[0]}
@@ -70,8 +81,19 @@ export default function TicTacToe() {
             value={squares[2]}
             onSquareClick={() => handleClick(2)}
           />
-        </div>
-        <div className={styles.row}>
+        </Box>
+        <Box
+          justifyContent="center"
+          alignSelf="center"
+          sx={{
+            display: "grid",
+            gap: 0,
+            m: 0,
+            padding: 0,
+            width: 300,
+            gridTemplateColumns: "repeat(3, 1fr)",
+          }}
+        >
           <Square
             id="square-4"
             value={squares[3]}
@@ -87,8 +109,18 @@ export default function TicTacToe() {
             value={squares[5]}
             onSquareClick={() => handleClick(5)}
           />
-        </div>
-        <div className={styles.row}>
+        </Box>
+        <Box
+          justifyContent="center"
+          alignSelf="center"
+          sx={{
+            display: "grid",
+            gap: 0,
+            padding: 0,
+            width: 300,
+            gridTemplateColumns: "repeat(3, 1fr)",
+          }}
+        >
           <Square
             id="square-7"
             value={squares[6]}
@@ -104,14 +136,17 @@ export default function TicTacToe() {
             value={squares[8]}
             onSquareClick={() => handleClick(8)}
           />
-        </div>
-        <div className={styles.replay + " justify-content-center"}>
-          <button
-            className="btn btn-primary"
-            onClick={() => resetGame()}>
+        </Box>
+        <Box
+          justifyContent="center"
+          alignSelf="center"
+          paddingTop={4}
+          width="100"
+        >
+          <Button variant="contained" onClick={() => resetGame()}>
             Restart
-          </button>
-        </div>
+          </Button>
+        </Box>
       </div>
     </>
   );
