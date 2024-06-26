@@ -1,8 +1,9 @@
-export default function TextInABox({text, testId}) {
+import { Typography } from "@mui/material";
+
+export default function TextInABox({ text, testId }) {
   return (
-        <h3 className="display-1 rounded bg-light word" data-testid={testId}>
-          {text}
-        </h3>
-    
+    <Typography variant="h1" gutterBottom data-testid={testId}>
+      {text}
+    </Typography>
   );
 }

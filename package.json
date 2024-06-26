@@ -21,7 +21,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "npx playwright test GamesPage.spec.js --project chromium",
+    "test": "npx playwright test --project chromium",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

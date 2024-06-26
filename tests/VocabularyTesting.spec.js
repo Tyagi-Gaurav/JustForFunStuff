@@ -285,7 +285,6 @@ test.describe("Vocabulary Testing Page", () => {
   test("when there are no words display a message on the screen", async ({
     page,
   }) => {
-    await page.goto("http://localhost:3000/games/vocabtesting");
     await page.route("*/**/api/v1/words", async (route, request) => {
       expect(request.method()).toBe("GET");
 
@@ -294,6 +293,8 @@ test.describe("Vocabulary Testing Page", () => {
       });
     });
 
+    await page.goto("http://localhost:3000/games/vocabtesting");
+    
     const beginButton = page.getByRole("button", { name: "Begin" });
     await expect(beginButton).toBeVisible();
     await beginButton.click();
