@@ -4,9 +4,7 @@ test.describe("Home Page", () => {
   test.describe("Layout", () => {
     test("shows tic-tac-toe game card heading", async ({ page }) => {
       await page.goto("http://localhost:3000/games");
-      const tictactoeHeading = page.getByRole("heading", {
-        name: "Tic-Tac-Toe",
-      });
+      const tictactoeHeading = page.getByTestId("tictactoe-heading");
       await expect(tictactoeHeading).toBeVisible();
     });
 

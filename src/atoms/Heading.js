@@ -1,7 +1,14 @@
-export default function Heading({headingStyle, headingMessage}) {
+import { Typography } from "@mui/material";
+
+export default function Heading({color, headingMessage}) {
   return (
-    <div className={headingStyle + " text-center"}>
-      <h1>{headingMessage}</h1>
-    </div>
+    <Typography level="h1" 
+      fontWeight={500} 
+      fontFamily="Shantell Sans"
+      fontSize="2rem"
+      textAlign={"center"}
+      color={color}
+      paddingTop={4}
+      justifyContent="center">{headingMessage}</Typography>
   );
 }
