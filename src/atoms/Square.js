@@ -1,16 +1,23 @@
 import styles from "../pages/TicTacToe.module.css";
-import { Box } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 
 export default function Square({ id, value, onSquareClick }) {
-  function getClassNames() {
-    return styles.square + " " + styles[value.color];
+  function getColor() {
+    if (value.color === "ocolor") {
+      return "#f2613f";
+    }
+    if (value.color === "xcolor") {
+      return "#481e14";
+    }
+    
+    return "#ffc94a";
   }
 
   return (
     <Box paddingX={0} >
-      <button id={id} className={getClassNames()} onClick={onSquareClick}>
-        {value.text}
-      </button>
+      <Button variant="outlined" id={id} className={styles.square} onClick={onSquareClick}>
+        <Typography variant="h3" color={getColor()}>{value.text}</Typography>
+      </Button>
     </Box>
   );
 }
