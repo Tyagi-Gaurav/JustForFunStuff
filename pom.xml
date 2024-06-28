@@ -13,7 +13,6 @@
         <module>jffs-acceptance-tests</module>
         <module>jffs-end-to-end-tests</module>
         <module>jffs-api-gateway</module>
-        <module>jffs-admin-ui</module>
         <module>jffs-admin-backend</module>
     </modules>
 
@@ -30,8 +29,8 @@
     </properties>
 
     <build>
-        <sourceDirectory>src/main/kotlin</sourceDirectory>
-        <testSourceDirectory>src/test/kotlin</testSourceDirectory>
+        <sourceDirectory>jffs-ui/src/main/kotlin</sourceDirectory>
+        <testSourceDirectory>jffs-ui/src/test/kotlin</testSourceDirectory>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>

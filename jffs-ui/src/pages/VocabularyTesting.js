@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { getWords } from "../api/vocab";
 import CountDownTimer from "../organisms/CountDownTimer";
-import styles from "./VocabularyTesting.module.css";
 import AlertMessage from "../atoms/AlertMessage";
 import TextInABox from "../atoms/TextInABox";
 import Heading from "../atoms/Heading";
@@ -10,7 +9,6 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AccordionDetails from "@mui/material/AccordionDetails";
-import { blue } from "@mui/material/colors";
 
 function formattedArray(words) {
   if (words) {
@@ -101,7 +99,7 @@ export default function VocabularyTesting() {
       {error && (
         <Box justifyContent="center" display="flex">
           <AlertMessage
-            type="danger"
+            type="error"
             message="There seems to be some problem. Please try again later"
           />
         </Box>

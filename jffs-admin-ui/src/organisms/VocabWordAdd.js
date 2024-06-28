@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { addWord } from "../api/backend_api";
+import AlertMessage from "../atoms/AlertMessage";
+import { TextField, Button } from "@mui/material";
 
 export default function VocabWordAdd({ listCallback }) {
   const [word, setWord] = useState("");
@@ -24,7 +26,9 @@ export default function VocabWordAdd({ listCallback }) {
     setExample(event.target.value.split(","));
   };
 
-  const handleSave = () => {
+  const handleSave = (event) => {
+    event.preventDefault()
+    console.log("Inside Handle Save");
     addWord({
       word: word,
       meanings: [
@@ -50,68 +54,55 @@ export default function VocabWordAdd({ listCallback }) {
 
   return (
     <>
-      {success && (
-        <div class="alert alert-primary align-items-center" role="alert">
-          Success
-        </div>
-      )}
-      <div className="mb-3">
-        <label htmlFor="formControlWord" className="form-label">
-          Word
-        </label>
-        <input
-          type="Word"
-          className="form-control"
-          id="formControlWord"
-          placeholder="Word"
+      {success && <AlertMessage type="success" message="Success" />}
+      <h2>Add Word</h2>
+      <form onSubmit={handleSave}>
+        <TextField
+          type="text"
+          variant="outlined"
+          color="secondary"
+          label="Word"
+          value={word}
+          fullWidth
           onChange={handleWordChange}
+          required
+          sx={{mb: 4}}
         />
-      </div>
-      <div className="mb-3">
-        <label htmlFor="formControlMeaning" className="form-label">
-          Meaning
-        </label>
-        <textarea
-          className="form-control"
-          id="formControlMeaning"
-          rows="3"
-          placeholder="meaning 1; meaning 2"
+        <TextField
+          type="text"
+          variant="outlined"
+          color="secondary"
+          label="Meaning"
+          value={meaning}
           onChange={handleMeaningChange}
+          fullWidth
+          required
+          sx={{ mb: 4 }}
         />
-      </div>
-      <div className="mb-3">
-        <label htmlFor="formControlSynomyms" className="form-label">
-          Synonyms
-        </label>
-        <textarea
-          className="form-control"
-          id="formControlSynonyms"
-          rows="3"
-          placeholder="synonym 1,synonym 2"
+        <TextField
+          type="text"
+          variant="outlined"
+          color="secondary"
+          label="Synonyms"
+          placeholder="synonym1, synonym2, etc."
+          value={synonyms}
           onChange={handleSynonymsChange}
+          fullWidth
+          sx={{ mb: 4 }}
         />
-      </div>
-      <div className="mb-3">
-        <label htmlFor="formControlExamples" className="form-label">
-          Examples
-        </label>
-        <textarea
-          className="form-control"
-          id="formControlExamples"
-          rows="3"
-          placeholder="example1,example2"
+        <TextField
+          type="text"
+          variant="outlined"
+          color="secondary"
+          label="Examples"
+          placeholder="example1, example2, etc."
+          value={example}
           onChange={handleExamplesChange}
+          fullWidth
+          sx={{ mb: 4 }}
         />
-      </div>
-      <div className="col-12">
-        <button
-          type="submit"
-          className="col-md-1 btn btn-primary"
-          onClick={handleSave}
-        >
-          Save
-        </button>
-      </div>
+        <Button variant="outlined" color="secondary" type="submit">Submit</Button>
+      </form>
     </>
   );
 }

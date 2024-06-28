@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react";
 import { getWords, search } from "../api/backend_api";
+import Paper from "@mui/material/Paper";
+import TableContainer from "@mui/material/TableContainer";
+import Table from '@mui/material/Table';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import { styled } from "@mui/material";
 
 export default function VocabList({ editCallback }) {
   const [allWords, setAllWords] = useState();
@@ -46,18 +54,18 @@ export default function VocabList({ editCallback }) {
 
   function createRowsFromData(data) {
     const rows = [];
-    console.log(data);
+    // console.log(data);
     if (data) {
       for (let i = 0; i < data.length; i++) {
         rows.push(
-          <tr
+          <StyledTableRow
             key={i}
             className="table-primary"
             onClick={() => handleRowClick(data[i]["word"])}
           >
-            <td>{data[i]["word"]}</td>
-            <td>{data[i]["meanings"][0]["definition"]}</td>
-          </tr>
+            <TableCell>{data[i]["word"]}</TableCell>
+            <TableCell>{data[i]["meanings"][0]["definition"]}</TableCell>
+          </StyledTableRow>
         );
       }
       setAllWords(rows);
@@ -67,7 +75,7 @@ export default function VocabList({ editCallback }) {
   function getData(nextPage) {
     getWords(nextPage)
       .then((response) => {
-        console.log("Raw response: " + JSON.stringify(response));
+        // console.log("Raw response: " + JSON.stringify(response));
         var data = response.data["words"];
         createRowsFromData(data);
         setTotalPages(response.data["totalPages"]);
@@ -81,72 +89,36 @@ export default function VocabList({ editCallback }) {
   }
 
   useEffect(() => {
+    // preventDefault();
     getData(nextPage);
   }, []);
 
+  const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    '&:nth-of-type(odd)': {
+      backgroundColor: "#A0DEFF",
+    },
+    '&:nth-of-type(even)': {
+      backgroundColor: "#B3C8CF",
+    },
+  }));
+
   return (
     <>
-      <form className="row pb-3 pt-5">
-        <div className="col-2">
-          <select className="form-select" onChange={handleSearchSelection}>
-            <option value="">Search by</option>
-            <option value="WORD">Word</option>
-            <option value="SYNONYM">Synonym</option>
-          </select>
-        </div>
-        <div className="col-3">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Search term"
-            onChange={handleSearchSelectionValueChange}
-          />
-        </div>
-        <div className="col-2">
-          <button type="button" className="btn btn-primary" onClick={handleGo}>
-            Go
-          </button>
-        </div>
-      </form>
-      <div className="text-success">
-        <hr />
-      </div>
-      <div>
-        <table className="table table-striped">
-          <caption>
-            Page {currentPage} of {totalPages}
-          </caption>
-          <thead>
-            <tr>
-              <th scope="col">Word</th>
-              <th scope="col">Meaning</th>
-            </tr>
-          </thead>
-          <tbody>{allWords}</tbody>
-        </table>
-      </div>
-      <nav aria-label="List Navigation">
-        <ul className="pagination justify-content-center">
-          <li
-            id="previous"
-            className={previousPage === -1 ? "page-item disabled" : "page-item"}
-            style={{ paddingRight: "2%" }}
-          >
-            <a className="page-link" href="#" onClick={handlePrevious}>
-              Previous
-            </a>
-          </li>
-          <li
-            id="next"
-            className={nextPage === -1 ? "page-item disabled" : "page-item"}
-            style={{ paddingLeft: "2%" }}
-          >
-            <a className="page-link" onClick={handleNext}>
-              Next
-            </a>
-          </li>
-        </ul>
-      </nav>
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <TableHead>
+          <TableRow sx={{
+            backgroundColor: "#FFF9D0"
+          }}>
+            <TableCell><strong>Word</strong></TableCell>
+            <TableCell align="left"><strong>Meaning</strong></TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+        {allWords}
+        </TableBody>
+        </Table>
+      </TableContainer>
     </>
   );
 }
