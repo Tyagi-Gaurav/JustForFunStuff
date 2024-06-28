@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { search, updateWord, deleteWord } from "../api/backend_api";
+import AlertMessage from "../atoms/AlertMessage";
+import { TextField, Button, Box } from "@mui/material";
 
 export default function VocabWordEdit({ wordToEdit, listCallback }) {
   const [word, setWord] = useState("");
@@ -55,6 +57,10 @@ export default function VocabWordEdit({ wordToEdit, listCallback }) {
       });
   };
 
+  const handleCancel = () => {
+    listCallback();
+  };
+
   const handleDelete = () => {
     deleteWord(oldWord)
       .then((value) => {
@@ -79,85 +85,86 @@ export default function VocabWordEdit({ wordToEdit, listCallback }) {
 
   return (
     <>
-      {success && (
-        <div class="alert alert-primary align-items-center" role="alert">
-          Success
-        </div>
-      )}
-      {error && (
-        <div class="alert alert-danger align-items-center" role="alert">
-          {errorMsg}
-        </div>
-      )}
-      <div className="mb-3">
-        <label htmlFor="formControlWord" className="form-label">
-          Word
-        </label>
-        <input
-          type="Word"
-          className="form-control"
-          id="formControlWord"
-          placeholder="Word"
-          defaultValue={word}
+      {success && <AlertMessage type="success" message="Success" />}
+      {error && <AlertMessage type="error" message="{errorMsg}" />}
+      <h2>Edit Word</h2>
+      <form>
+        <TextField
+          type="text"
+          variant="outlined"
+          color="secondary"
+          label="Word"
+          value={word}
+          fullWidth
           onChange={handleWordChange}
+          required
+          sx={{ mb: 4 }}
         />
-      </div>
-      <div className="mb-3">
-        <label htmlFor="formControlMeaning" className="form-label">
-          Meaning
-        </label>
-        <textarea
-          className="form-control"
-          id="formControlMeaning"
-          rows="3"
-          defaultValue={meaning}
+        <TextField
+          type="text"
+          variant="outlined"
+          color="secondary"
+          label="Meaning"
+          value={meaning}
           onChange={handleMeaningChange}
+          fullWidth
+          required
+          sx={{ mb: 4 }}
         />
-      </div>
-      <div className="mb-3">
-        <label htmlFor="formControlSynomyms" className="form-label">
-          Synonyms
-        </label>
-        <textarea
-          className="form-control"
-          id="formControlSynonyms"
-          rows="3"
-          defaultValue={synonyms}
+        <TextField
+          type="text"
+          variant="outlined"
+          color="secondary"
+          label="Synonyms"
+          placeholder="synonym1, synonym2, etc."
+          value={synonyms}
           onChange={handleSynonymsChange}
+          fullWidth
+          sx={{ mb: 4 }}
         />
-      </div>
-      <div className="mb-3">
-        <label htmlFor="formControlExamples" className="form-label">
-          Examples
-        </label>
-        <textarea
-          className="form-control"
-          id="formControlExamples"
-          rows="3"
-          defaultValue={example}
+        <TextField
+          type="text"
+          variant="outlined"
+          color="secondary"
+          label="Examples"
+          placeholder="example1, example2, etc."
+          value={example}
           onChange={handleExamplesChange}
+          fullWidth
+          sx={{ mb: 4 }}
         />
-      </div>
-      <div class="row">
-        <div className="col-6">
-          <button
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <Button
+            variant="contained"
+            color="secondary"
             type="submit"
-            className="btn btn-primary"
             onClick={handleSave}
           >
-            Save
-          </button>
-        </div>
-        <div className="col-2 offset-md-4 text-end">
-          <button
+            Submit
+          </Button>
+          <Button
+            variant="outlined"
+            color="error"
             type="submit"
-            className="btn btn-danger"
+            onClick={handleCancel}
+          >
+            Back
+          </Button>
+          <Button
+            variant="outlined"
+            color="error"
+            type="submit"
             onClick={handleDelete}
           >
             Delete
-          </button>
-        </div>
-      </div>
+          </Button>
+        </Box>
+      </form>
     </>
   );
 }

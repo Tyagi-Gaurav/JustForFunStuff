@@ -1,5 +1,5 @@
 import Alert from "@mui/material/Alert";
 
 export default function AlertMessage({ type, message }) {
-  return <Alert severity="error">{message}</Alert>;
+  return <Alert severity={type}>{message}</Alert>;
 }
