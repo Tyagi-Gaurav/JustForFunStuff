@@ -27,7 +27,6 @@
     "@playwright/test": "^1.44.1",
     "playwright": "^1.44.1"
   },
-  "proxy": "http://localhost:9090",
   "browserslist": {
     "production": [
       ">0.2%",
@@ -39,5 +38,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "proxy": "http://jffs-admin-backend:9090"
 }

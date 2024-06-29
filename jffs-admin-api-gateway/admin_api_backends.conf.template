@@ -1,0 +1,9 @@
+upstream jffs_admin_backend_api {
+    zone jffs_admin_backend_api 64k;
+    server ${JFFS_ADMIN_BACKEND_HOST}:${JFFS_ADMIN_BACKEND_PORT};
+}
+
+upstream jffs_admin_ui {
+    zone jffs_admin_ui 64k;
+    server ${JFFS_ADMIN_UI_HOST}:${JFFS_ADMIN_UI_PORT};
+}

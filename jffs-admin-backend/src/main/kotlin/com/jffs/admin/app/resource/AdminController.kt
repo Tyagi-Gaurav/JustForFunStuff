@@ -3,6 +3,8 @@ package com.jffs.admin.app.resource
 import com.jffs.admin.app.db.AdminRepository
 import com.jffs.admin.app.domain.Meaning
 import com.jffs.admin.app.domain.Word
+import org.apache.logging.log4j.LogManager
+import org.apache.logging.log4j.Logger
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
@@ -11,8 +13,11 @@ import java.time.LocalDateTime
 
 @Controller
 class AdminController(@Autowired val adminRepository: AdminRepository) {
+    private val LOG: Logger = LogManager.getLogger("APP")
+
     @GetMapping("/v1/words/page/{pageNum}", produces = ["application/json"])
     suspend fun getPaginatedWords(@PathVariable("pageNum") pageNum: String): ResponseEntity<PaginatedWordsDTO> {
+        LOG.info("Request received for GetPaginatedWords for pageNum $pageNum")
         val paginatedWords = adminRepository.readAllWords(Integer.parseInt(pageNum))
         val words = paginatedWords.words
             .map { word ->
@@ -38,6 +43,7 @@ class AdminController(@Autowired val adminRepository: AdminRepository) {
 
     @GetMapping("/v1/words/{word}", produces = ["application/json"])
     suspend fun findWord(@PathVariable("word") word: String): ResponseEntity<WordDTO> {
+        LOG.info("Request received for FindWord for word $word")
         val databaseResponse = adminRepository.findByWord(word)
         return databaseResponse?.let {
             ResponseEntity.ok(WordDTO(
@@ -54,7 +60,7 @@ class AdminController(@Autowired val adminRepository: AdminRepository) {
     @GetMapping("/v1/words/search", produces = ["application/json"])
     suspend fun search(@RequestParam("searchType") searchType: String,
                        @RequestParam("searchValue") searchValue: String): ResponseEntity<WordDTO> {
-
+        LOG.info("Request received for search for searchType: $searchType, searchValue: $searchValue")
         val databaseResponse = if (searchType == "WORD") adminRepository.findByWord(searchValue) else
             adminRepository.findBySynonym(searchValue)
 
@@ -72,6 +78,7 @@ class AdminController(@Autowired val adminRepository: AdminRepository) {
 
     @PutMapping("/v1/words/{word}", consumes = ["application/vnd+update.word.v1+json"])
     suspend fun updateWord(@PathVariable("word") oldWord: String, @RequestBody wordDTO: WordDTO) : ResponseEntity<String> {
+        LOG.info("Request received for Update word for word $oldWord with $wordDTO")
         val word = wordDTO.let {
             Word(
                 it.word,
@@ -91,6 +98,7 @@ class AdminController(@Autowired val adminRepository: AdminRepository) {
 
     @PostMapping("/v1/words", consumes = ["application/vnd+add.word.v1+json"])
     suspend fun addWord(@RequestBody wordDTO: WordDTO) : ResponseEntity<String> {
+        LOG.info("Request received for addWord with $wordDTO")
         val databaseResponse = adminRepository.findByWord(wordDTO.word)
         databaseResponse?.let {
             return ResponseEntity.status(409).build()
@@ -114,6 +122,7 @@ class AdminController(@Autowired val adminRepository: AdminRepository) {
 
     @DeleteMapping("/v1/words/{word}")
     suspend fun deleteWord(@PathVariable("word") word: String) : ResponseEntity<String> {
+        LOG.info("Request received for deleteWord with $word")
         adminRepository.delete(word)
         return ResponseEntity.accepted().build()
     }

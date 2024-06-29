@@ -9,21 +9,30 @@ export default function VocabWordAdd({ listCallback }) {
   const [synonyms, setSynonym] = useState([]);
   const [example, setExample] = useState([]);
   const [success, setSuccess] = useState(false);
+  const [error, setError] = useState("");
 
   const handleWordChange = (event) => {
     setWord(event.target.value);
+    setSuccess(false);
+    setError("");
   };
 
   const handleMeaningChange = (event) => {
     setMeaning(event.target.value);
+    setSuccess(false);
+    setError("");
   };
 
   const handleSynonymsChange = (event) => {
     setSynonym(event.target.value.split(","));
+    setSuccess(false);
+    setError("");
   };
 
   const handleExamplesChange = (event) => {
     setExample(event.target.value.split(","));
+    setSuccess(false);
+    setError("");
   };
 
   const handleSave = (event) => {
@@ -41,20 +50,21 @@ export default function VocabWordAdd({ listCallback }) {
     })
       .then((value) => {
         setSuccess(true);
+        setError("");
         setSynonym([]);
         setExample([]);
         setMeaning("");
         setWord("");
       })
       .catch((error) => {
-        //TODO Show error message
-        console.log("Error occurred " + error);
+        setError(error);
       });
   };
 
   return (
     <>
       {success && <AlertMessage type="success" message="Success" />}
+      {error && <AlertMessage type="danger" message={error} />}
       <h2>Add Word</h2>
       <form onSubmit={handleSave}>
         <TextField
