@@ -16,6 +16,10 @@
  - `mongosh --authenticationDatabase admin --username root` 
  - `use testDB`
 
+# Useful database commands
+ - Show Collections: `show collections;`
+ - Find all in collection: `db.word.find();`
+
 # Local testing with DockerCompose
  - `docker-compose up -d --build`
  - `./mvnw test -DskipTests=false -pl jffs-end-to-end-tests`
