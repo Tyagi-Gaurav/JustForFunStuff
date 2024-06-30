@@ -1,30 +1,25 @@
 package com.jffs.e2e.tests;
 
 import com.jffs.e2e.tests.core.AbstractEndToEndTests;
-import com.jffs.e2e.tests.core.WithPlaywrightWrapperAssertions;
+import com.jffs.e2e.tests.core.WithAdminApp;
 import com.jffs.e2e.tests.core.WithSyntacticSugar;
 import com.microsoft.playwright.Locator;
-import com.microsoft.playwright.Page;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import java.time.Duration;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 import static com.jffs.e2e.tests.TestWordBuilder.aWord;
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
-class AdminVocabularyEndToEndTests extends AbstractEndToEndTests implements WithSyntacticSugar {
+class AdminVocabularyEndToEndTests extends AbstractEndToEndTests implements WithSyntacticSugar, WithAdminApp {
     @Nested
     class LandingPage {
         @BeforeEach
         void setup() {
-            page.navigate("http://localhost:3001/");
+            page.navigate(adminAppUrl());
         }
 
         @Test
@@ -54,7 +49,7 @@ class AdminVocabularyEndToEndTests extends AbstractEndToEndTests implements With
     class ListItem {
         @BeforeEach
         void setup() {
-            page.navigate("http://localhost:3001/");
+            page.navigate(adminAppUrl());
         }
 
         @Test
