@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import { getWords, search } from "../api/backend_api";
 import Paper from "@mui/material/Paper";
 import TableContainer from "@mui/material/TableContainer";
-import Table from '@mui/material/Table';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import { styled } from "@mui/material";
+import Table from "@mui/material/Table";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import { Button, styled } from "@mui/material";
+import { TableFooter } from "@mui/material";
 
 export default function VocabList({ editCallback }) {
   const [allWords, setAllWords] = useState();
@@ -94,10 +95,10 @@ export default function VocabList({ editCallback }) {
   }, []);
 
   const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    '&:nth-of-type(odd)': {
+    "&:nth-of-type(odd)": {
       backgroundColor: "#A0DEFF",
     },
-    '&:nth-of-type(even)': {
+    "&:nth-of-type(even)": {
       backgroundColor: "#B3C8CF",
     },
   }));
@@ -106,17 +107,32 @@ export default function VocabList({ editCallback }) {
     <>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <TableRow sx={{
-            backgroundColor: "#FFF9D0"
-          }}>
-            <TableCell><strong>Word</strong></TableCell>
-            <TableCell align="left"><strong>Meaning</strong></TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-        {allWords}
-        </TableBody>
+          <TableHead>
+            <TableRow
+              sx={{
+                backgroundColor: "#FFF9D0",
+              }}
+            >
+              <TableCell>
+                <strong>Word</strong>
+              </TableCell>
+              <TableCell align="left">
+                <strong>Meaning</strong>
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>{allWords}</TableBody>
+          <TableFooter>
+            <TableRow>
+              <TableCell>
+                Page {currentPage} of {totalPages}
+              </TableCell>
+              <TableCell>
+                <Button>&lt; Previous</Button>
+                <Button onClick={handleNext} disabled={currentPage === totalPages}>Next &gt;</Button>
+              </TableCell>
+            </TableRow>
+          </TableFooter>
         </Table>
       </TableContainer>
     </>

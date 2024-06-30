@@ -19,15 +19,15 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 import static java.net.http.HttpRequest.newBuilder;
 import static java.net.http.HttpResponse.BodyHandlers.ofString;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.waitAtMost;
 
-public abstract class AbstractEndToEndTests implements WithHTTPSupport, WithPlaywrightWrapperAssertions, WithSyntacticSugar {
+public abstract class AbstractEndToEndTests implements WithHTTPSupport, WithPlaywrightWrapperAssertions, WithSyntacticSugar, WithPlaywrightElementProvider {
     static Playwright playwright;
     private static Browser browser;
     protected Page page;
@@ -65,9 +65,25 @@ public abstract class AbstractEndToEndTests implements WithHTTPSupport, WithPlay
         return HttpResponseAssert.assertThat(httpResponse);
     }
 
-    protected void thenEventually(Supplier<Locator> locatorSupplier, Function<Locator, Boolean> evaluator) {
+    protected void when(Function<Page, Locator> locatorProvider, Consumer<Locator> action) {
+        action.accept(locatorProvider.apply(page));
+    }
+
+    protected void and(Function<Page, Locator> locatorProvider, Consumer<Locator> action) {
+        action.accept(locatorProvider.apply(page));
+    }
+
+    protected void and(Function<Page, Locator> locatorProvider, Function<Locator, Boolean> evaluator) {
+        assertThat(evaluator.apply(locatorProvider.apply(page))).isTrue();
+    }
+
+    protected void given(Function<Page, Locator> locatorProvider, Function<Locator, Boolean> evaluator) {
+        waitAtMost(ASSERTION_TIMEOUT).until(() -> evaluator.apply(locatorProvider.apply(page)));
+    }
+
+    protected void thenEventually(Function<Page, Locator> locatorProvider, Function<Locator, Boolean> evaluator) {
         waitAtMost(ASSERTION_TIMEOUT)
-                .until(() -> evaluator.apply(locatorSupplier.get()));
+                .until(() -> evaluator.apply(locatorProvider.apply(page)));
     }
 
 
