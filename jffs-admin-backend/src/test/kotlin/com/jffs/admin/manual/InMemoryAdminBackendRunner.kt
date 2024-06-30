@@ -19,9 +19,8 @@ import java.time.LocalDateTime
 
 @SpringBootApplication
 @EnableAutoConfiguration(exclude = [MongoAutoConfiguration::class, MongoReactiveAutoConfiguration::class])
-@ComponentScan("com.jffs.admin.app")
+@ComponentScan("com.jffs.admin.app", "com.jffs.admin.manual")
 open class InMemoryAdminBackendRunner
-
 
 fun main() {
     SpringApplicationBuilder(InMemoryAdminBackendRunner::class.java)
