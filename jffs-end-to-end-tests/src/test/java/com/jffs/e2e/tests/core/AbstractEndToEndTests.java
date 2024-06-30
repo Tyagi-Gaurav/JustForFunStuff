@@ -4,8 +4,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jffs.e2e.tests.TestPaginatedWords;
 import com.jffs.e2e.tests.TestWord;
 import com.jffs.e2e.tests.TestWordBuilder;
+import com.jffs.e2e.tests.core.assertion.HttpResponseAssert;
 import com.microsoft.playwright.*;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 
 import java.io.IOException;
 import java.net.URI;
@@ -23,7 +27,7 @@ import static java.net.http.HttpResponse.BodyHandlers.ofString;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.waitAtMost;
 
-public abstract class AbstractEndToEndTests implements WithHTTPSupport, WithPlaywrightWrapperAssertions {
+public abstract class AbstractEndToEndTests implements WithHTTPSupport, WithPlaywrightWrapperAssertions, WithSyntacticSugar {
     static Playwright playwright;
     private static Browser browser;
     protected Page page;
@@ -57,6 +61,10 @@ public abstract class AbstractEndToEndTests implements WithHTTPSupport, WithPlay
         }
     }
 
+    protected HttpResponseAssert assertThatAnHttpCallFor(HttpResponse<String> httpResponse) {
+        return HttpResponseAssert.assertThat(httpResponse);
+    }
+
     protected void thenEventually(Supplier<Locator> locatorSupplier, Function<Locator, Boolean> evaluator) {
         waitAtMost(ASSERTION_TIMEOUT)
                 .until(() -> evaluator.apply(locatorSupplier.get()));
@@ -68,7 +76,7 @@ public abstract class AbstractEndToEndTests implements WithHTTPSupport, WithPlay
         final var wordsToDelete = new ArrayList<>();
         int page = 1;
         while (page > 0) {
-            final var response = aGetRequest("http://localhost:9090/admin/v1/words/page/" + page);
+            final var response = aGetRequestWith("http://localhost:9090/admin/v1/words/page/" + page);
 
             assertThat(response.statusCode()).isEqualTo(200);
             final var testPaginatedWords = objectMapper.readValue(response.body(), TestPaginatedWords.class);
@@ -78,7 +86,7 @@ public abstract class AbstractEndToEndTests implements WithHTTPSupport, WithPlay
 
         wordsToDelete.forEach(word -> {
             try {
-                final var response = aDeleteRequest("http://localhost:9090/admin/v1/words/" + word);
+                final var response = aDeleteRequestWith("http://localhost:9090/admin/v1/words/" + word);
                 assertThat(response.statusCode()).isEqualTo(202);
             } catch (Exception e) {
                 throw new RuntimeException(e);
