@@ -13,6 +13,10 @@ import static com.jffs.e2e.tests.TestWordBuilder.aWord;
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
 class AdminVocabularyEndToEndTests extends AbstractEndToEndTests implements WithSyntacticSugar, WithAdminApp {
+
+    private static final String PREVIOUS_BUTTON = "< Previous";
+    private static final String NEXT_BUTTON = "Next >";
+
     @Nested
     class LandingPage {
         @BeforeEach
@@ -86,16 +90,45 @@ class AdminVocabularyEndToEndTests extends AbstractEndToEndTests implements With
             and(aMenuItem(withName("List Words")), isClicked());
 
             thenEventually(aLabel(withText("Page 1 of 3")), isVisible());
-            thenEventually(aButton(withName("< Previous")), isVisible());
-            thenEventually(aButton(withName("Next >")), isVisible());
+            thenEventually(aButton(withName(PREVIOUS_BUTTON)), isVisible());
+            thenEventually(aButton(withName(NEXT_BUTTON)), isVisible());
 
-            when(aButton(withName("Next >")), isClicked());
+            when(aButton(withName(NEXT_BUTTON)), isClicked());
             thenEventually(aLabel(withText("Page 2 of 3")), isVisible());
 
-            when(aButton(withName("Next >")), isClicked());
+            when(aButton(withName(NEXT_BUTTON)), isClicked());
             thenEventually(aLabel(withText("Page 3 of 3")), isVisible());
-            and(aButton(withName("Next >")), isVisible());
-            and(aButton(withName("Next >")), isDisabled());
+            and(aButton(withName(NEXT_BUTTON)), isVisible());
+            and(aButton(withName(NEXT_BUTTON)), isDisabled());
+        }
+
+        @Test
+        void listItemCheckPreviousButton() {
+            givenSomeWordsExist();
+
+            given(aMenuItem(withText("Vocabulary")), isVisible());
+            and(aMenuItem(withText("Vocabulary")), isClicked());
+
+            thenEventually(aMenuItem(withName("List Words")), isVisible());
+            and(aMenuItem(withName("List Words")), isClicked());
+
+            thenEventually(aLabel(withText("Page 1 of 3")), isVisible());
+            thenEventually(aButton(withName(PREVIOUS_BUTTON)), isVisible());
+            thenEventually(aButton(withName(PREVIOUS_BUTTON)), isDisabled());
+            thenEventually(aButton(withName(NEXT_BUTTON)), isVisible());
+
+            when(aButton(withName(NEXT_BUTTON)), isClicked());
+            thenEventually(aButton(withName(PREVIOUS_BUTTON)), isEnabled());
+
+            when(aButton(withName(NEXT_BUTTON)), isClicked());
+            thenEventually(aButton(withName(PREVIOUS_BUTTON)), isEnabled());
+
+            when(aButton(withName(PREVIOUS_BUTTON)), isClicked());
+            thenEventually(aLabel(withText("Page 2 of 3")), isVisible());
+
+            when(aButton(withName(PREVIOUS_BUTTON)), isClicked());
+            thenEventually(aLabel(withText("Page 1 of 3")), isVisible());
+            thenEventually(aButton(withName(PREVIOUS_BUTTON)), isDisabled());
         }
 
     }

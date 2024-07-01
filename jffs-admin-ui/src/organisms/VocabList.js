@@ -128,7 +128,7 @@ export default function VocabList({ editCallback }) {
                 Page {currentPage} of {totalPages}
               </TableCell>
               <TableCell>
-                <Button>&lt; Previous</Button>
+                <Button onClick={handlePrevious} disabled={currentPage === 1}>&lt; Previous</Button>
                 <Button onClick={handleNext} disabled={currentPage === totalPages}>Next &gt;</Button>
               </TableCell>
             </TableRow>

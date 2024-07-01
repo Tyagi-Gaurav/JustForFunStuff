@@ -14,6 +14,10 @@ public interface WithPlaywrightWrapperAssertions {
         return Locator::isDisabled;
     }
 
+    default Function<Locator, Boolean> isEnabled() {
+        return Locator::isEnabled;
+    }
+
     default Function<Locator, Boolean> isNotVisible() {
         return locator -> !locator.isVisible();
     }
