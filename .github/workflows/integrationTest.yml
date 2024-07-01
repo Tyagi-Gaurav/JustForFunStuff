@@ -39,14 +39,16 @@ jobs:
       - name: Show logs for jffs-admin-backend
         run: docker logs jffs-admin-backend
 
+      - name: npm install to update dependencies
+        run: npm install
+        working-directory: jffs-ui
+        
       - name: Install Playwright
         run: npx playwright install
+        working-directory: jffs-ui
 
       - name: Install Playwright Dependencies
         run: npx playwright install-deps
-
-      - name: npm install to update dependencies
-        run: npm install
         working-directory: jffs-ui
 
       - name: Run Front end tests
