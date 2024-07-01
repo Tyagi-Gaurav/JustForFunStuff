@@ -25,4 +25,8 @@ public interface WithPlaywrightWrapperAssertions {
     default Consumer<Locator> isClicked() {
         return Locator::click;
     }
+
+    default Consumer<Locator> selectsOption(String word) {
+        return locator -> locator.selectOption(word);
+    }
 }

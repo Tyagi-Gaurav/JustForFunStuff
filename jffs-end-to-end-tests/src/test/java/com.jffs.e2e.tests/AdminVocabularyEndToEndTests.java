@@ -56,11 +56,7 @@ class AdminVocabularyEndToEndTests extends AbstractEndToEndTests implements With
 
         @Test
         void listItemOnVocabShouldNotDisplayRecordsWhenNoDataReturnedByApi() {
-            given(aMenuItem(withText("Vocabulary")), isVisible());
-            and(aMenuItem(withText("Vocabulary")), isClicked());
-
-            thenEventually(aMenuItem(withName("List Words")), isVisible());
-            and(aMenuItem(withName("List Words")), isClicked());
+            givenListItemIsClicked();
             thenEventually(aLabel(withText("Page 1 of 0")), isVisible());
         }
 
@@ -68,11 +64,7 @@ class AdminVocabularyEndToEndTests extends AbstractEndToEndTests implements With
         void listItemOnVocabShouldDisplayRecordsWhenDataReturnedByApi() {
             givenSomeWordsExist();
 
-            given(aMenuItem(withText("Vocabulary")), isVisible());
-            and(aMenuItem(withText("Vocabulary")), isClicked());
-
-            thenEventually(aMenuItem(withName("List Words")), isVisible());
-            and(aMenuItem(withName("List Words")), isClicked());
+            givenListItemIsClicked();
 
             thenEventually(aLabel(withText("Page 1 of 3")), isVisible());
             thenEventually(aButton(withName("< Previous")), isVisible());
@@ -83,11 +75,7 @@ class AdminVocabularyEndToEndTests extends AbstractEndToEndTests implements With
         void listItemCheckNextButton() {
             givenSomeWordsExist();
 
-            given(aMenuItem(withText("Vocabulary")), isVisible());
-            and(aMenuItem(withText("Vocabulary")), isClicked());
-
-            thenEventually(aMenuItem(withName("List Words")), isVisible());
-            and(aMenuItem(withName("List Words")), isClicked());
+            givenListItemIsClicked();
 
             thenEventually(aLabel(withText("Page 1 of 3")), isVisible());
             thenEventually(aButton(withName(PREVIOUS_BUTTON)), isVisible());
@@ -106,11 +94,7 @@ class AdminVocabularyEndToEndTests extends AbstractEndToEndTests implements With
         void listItemCheckPreviousButton() {
             givenSomeWordsExist();
 
-            given(aMenuItem(withText("Vocabulary")), isVisible());
-            and(aMenuItem(withText("Vocabulary")), isClicked());
-
-            thenEventually(aMenuItem(withName("List Words")), isVisible());
-            and(aMenuItem(withName("List Words")), isClicked());
+            givenListItemIsClicked();
 
             thenEventually(aLabel(withText("Page 1 of 3")), isVisible());
             thenEventually(aButton(withName(PREVIOUS_BUTTON)), isVisible());
@@ -130,7 +114,6 @@ class AdminVocabularyEndToEndTests extends AbstractEndToEndTests implements With
             thenEventually(aLabel(withText("Page 1 of 3")), isVisible());
             thenEventually(aButton(withName(PREVIOUS_BUTTON)), isDisabled());
         }
-
     }
 
     private void givenSomeWordsExist() {
@@ -140,5 +123,13 @@ class AdminVocabularyEndToEndTests extends AbstractEndToEndTests implements With
                     .withSynonyms(List.of("Synonym1" + i, "Synonym2" + i))
                     .withExamples(List.of("Example1" + i, "Example2" + i)));
         }
+    }
+
+    private void givenListItemIsClicked() {
+        given(aMenuItem(withText("Vocabulary")), isVisible());
+        and(aMenuItem(withText("Vocabulary")), isClicked());
+
+        thenEventually(aMenuItem(withName("List Words")), isVisible());
+        and(aMenuItem(withName("List Words")), isClicked());
     }
 }

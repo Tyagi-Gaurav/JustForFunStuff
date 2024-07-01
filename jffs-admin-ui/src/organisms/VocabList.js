@@ -7,7 +7,17 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
-import { Button, styled } from "@mui/material";
+import FormControl from "@mui/material/FormControl";
+import SendIcon from '@mui/icons-material/Send';
+import {
+  Button,
+  styled,
+  TextField,
+  Box,
+  InputLabel,
+  Select,
+  MenuItem
+} from "@mui/material";
 import { TableFooter } from "@mui/material";
 
 export default function VocabList({ editCallback }) {
@@ -17,13 +27,15 @@ export default function VocabList({ editCallback }) {
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
   const [searchValue, setSearchValue] = useState("");
-  const [searchType, setSearchType] = useState(0);
+  const [searchType, setSearchType] = useState("WORD");
 
   const handleNext = () => {
     getData(nextPage);
   };
 
   const handleGo = () => {
+    console.log("Handle Go with " + searchValue);
+    console.log("Handle Go with " + searchType);
     if (searchValue && searchType) {
       search(searchType, searchValue)
         .then((response) => {
@@ -90,7 +102,6 @@ export default function VocabList({ editCallback }) {
   }
 
   useEffect(() => {
-    // preventDefault();
     getData(nextPage);
   }, []);
 
@@ -105,7 +116,44 @@ export default function VocabList({ editCallback }) {
 
   return (
     <>
-      <TableContainer component={Paper}>
+     <p/>
+      <Box
+        display="flex"
+        flexDirection="row"
+        component="fieldset"
+        sx={{ p: 2, borderRadius: "16px", border: 1, borderColor: "grey.500"}}
+      >
+        <legend>Search Box</legend>
+        <FormControl
+          sx={{ m: 1, minWidth: 80, flexDirection: "row", justifyContent: "space-between" }}
+          fullWidth
+          display="flex"
+        >
+          <InputLabel id="search-by-label">Search By</InputLabel>
+          <Select
+            labelId="search-by-label"
+            id="search-by-zselect"
+            data-testId="search-by-select"
+            label="Search By"
+            sx={{ minWidth: 150 }}
+            value={searchType}
+            onChange={handleSearchSelection}>
+            <MenuItem value={"WORD"}>Word</MenuItem>
+            <MenuItem value={"SYNONYM"}>Synonym</MenuItem>
+          </Select>
+          <TextField
+            type="text"
+            variant="outlined"
+            color="secondary"
+            label="Word"
+            required
+            onChange={handleSearchSelectionValueChange}
+            sx={{ minWidth: 400 }}
+          />
+          <Button variant="contained" endIcon={<SendIcon />} onClick={handleGo}>Go</Button>
+        </FormControl>
+      </Box>
+      <TableContainer component={Paper} sx={{ paddingTop: "10px" }}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow
@@ -128,8 +176,15 @@ export default function VocabList({ editCallback }) {
                 Page {currentPage} of {totalPages}
               </TableCell>
               <TableCell>
-                <Button onClick={handlePrevious} disabled={currentPage === 1}>&lt; Previous</Button>
-                <Button onClick={handleNext} disabled={currentPage === totalPages}>Next &gt;</Button>
+                <Button onClick={handlePrevious} disabled={currentPage === 1}>
+                  &lt; Previous
+                </Button>
+                <Button
+                  onClick={handleNext}
+                  disabled={currentPage === totalPages}
+                >
+                  Next &gt;
+                </Button>
               </TableCell>
             </TableRow>
           </TableFooter>
