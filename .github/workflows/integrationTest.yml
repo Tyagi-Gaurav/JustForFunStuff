@@ -42,9 +42,9 @@ jobs:
       - name: npm install to update dependencies
         run: npm install
         working-directory: jffs-ui
-        
+
       - name: Install Playwright
-        run: npx playwright install
+        run: npx playwright install --with-deps
         working-directory: jffs-ui
 
       - name: Install Playwright Dependencies
