@@ -39,9 +39,9 @@ jobs:
       - name: Show logs for jffs-admin-backend
         run: docker logs jffs-admin-backend
 
-      - name: Update NPM package
-        id: npm_install
-        run: npm install
+#      - name: Update NPM package
+#        id: npm_install
+#        run: npm install
 
       - name: Install Playwright
         run: npx playwright install
