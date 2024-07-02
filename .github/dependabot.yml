@@ -17,7 +17,11 @@ updates:
       - dependency-name: "aws.sdk.kotlin:ec2"
 
   - package-ecosystem: "npm"
-    directory: "/"
+    directory: "/jffs-ui"
     schedule:
       interval: "daily"
 
+  - package-ecosystem: "npm"
+    directory: "/jffs-admin-ui"
+    schedule:
+      interval: "daily"
