@@ -18,8 +18,8 @@ public interface WithPlaywrightWrapperAssertions {
         return Locator::isEnabled;
     }
 
-    default Function<Locator, Boolean> isNotVisible() {
-        return locator -> !locator.isVisible();
+    default Function<Locator, Boolean> not(Function<Locator, Boolean> function) {
+        return locator -> !function.apply(locator);
     }
 
     default Consumer<Locator> isClicked() {

@@ -15,7 +15,7 @@ export default function Square({ id, value, onSquareClick }) {
 
   return (
     <Box paddingX={0} >
-      <Button variant="outlined" id={id} className={styles.square} onClick={onSquareClick}>
+      <Button variant="outlined" id={id} data-testid={id} className={styles.square} onClick={onSquareClick}>
         <Typography variant="h3" color={getColor()}>{value.text}</Typography>
       </Button>
     </Box>
