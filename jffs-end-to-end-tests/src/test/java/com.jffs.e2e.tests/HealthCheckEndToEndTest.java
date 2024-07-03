@@ -1,14 +1,13 @@
 package com.jffs.e2e.tests;
 
 import com.jffs.e2e.tests.core.AbstractEndToEndTests;
-import com.jffs.e2e.tests.core.WithAdminApp;
 import com.jffs.e2e.tests.core.WithJffsApp;
 import org.junit.jupiter.api.Test;
 
 import static com.jffs.e2e.tests.core.builder.JsonXPathMatcherBuilder.aJsonMessage;
 import static org.hamcrest.Matchers.equalTo;
 
-class HealthCheckEndToEndTest extends AbstractEndToEndTests implements WithAdminApp, WithJffsApp {
+class HealthCheckEndToEndTest extends AbstractEndToEndTests implements WithJffsApp {
     @Test
     void healthCheckJffsAdminBackendApp() throws Exception {
         assertThatAnHttpCallFor(aGetRequestWith(adminMgtUrlWithPath("actuator/health")))

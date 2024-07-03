@@ -29,7 +29,12 @@ import static java.net.http.HttpResponse.BodyHandlers.ofString;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.waitAtMost;
 
-public abstract class AbstractEndToEndTests implements WithHTTPSupport, WithPlaywrightWrapperAssertions, WithSyntacticSugar, WithPlaywrightElementProvider {
+public abstract class AbstractEndToEndTests implements
+        WithHTTPSupport,
+        WithPlaywrightWrapperAssertions,
+        WithSyntacticSugar,
+        WithPlaywrightElementProvider,
+        WithAdminApp {
     static Playwright playwright;
     private static Browser browser;
     protected Page page;
@@ -94,7 +99,7 @@ public abstract class AbstractEndToEndTests implements WithHTTPSupport, WithPlay
         final var wordsToDelete = new ArrayList<>();
         int page = 1;
         while (page > 0) {
-            final var response = aGetRequestWith("http://localhost:9090/admin/v1/words/page/" + page);
+            final var response = aGetRequestWith(adminAppUrlWithPath("admin/v1/words/page/" + page));
 
             assertThat(response.statusCode()).isEqualTo(200);
             final var testPaginatedWords = objectMapper.readValue(response.body(), TestPaginatedWords.class);
@@ -104,7 +109,7 @@ public abstract class AbstractEndToEndTests implements WithHTTPSupport, WithPlay
 
         wordsToDelete.forEach(word -> {
             try {
-                final var response = aDeleteRequestWith("http://localhost:9090/admin/v1/words/" + word);
+                final var response = aDeleteRequestWith(adminAppUrlWithPath("admin/v1/words/" + word));
                 assertThat(response.statusCode()).isEqualTo(202);
             } catch (Exception e) {
                 throw new RuntimeException(e);

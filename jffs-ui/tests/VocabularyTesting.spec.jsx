@@ -1,7 +1,7 @@
 import { BrowserRouter } from "react-router-dom";
 import { describe, test, expect } from "vitest";
 import VocabularyTesting from "../src/pages/VocabularyTesting";
-import { render, screen, act } from "@testing-library/react";
+import { render, screen, act, waitFor } from "@testing-library/react";
 
 describe("Vocabulary Testing Page", () => {
   describe("Layout", () => {
@@ -40,72 +40,30 @@ describe("Vocabulary Testing Page", () => {
       }
     );
   });
+
+  describe("Interaction", () => {
+    test("Show error when no words available on begin", async () => {
+      render(
+        <BrowserRouter>
+          <VocabularyTesting />
+        </BrowserRouter>
+      );
+
+      const beginButton = screen.getByRole('button', {name: "Begin"});
+      expect(beginButton).toBeVisible();
+      act(() => beginButton.click());
+
+      await waitFor(() => {
+        const errorText = screen.getByText("There seems to be some problem. Please try again later");
+        expect(errorText).toBeVisible();
+      });
+    });
+  });
 });
 
 //test.describe("Vocabulary Testing Page", () => {
 //
 //  test.describe("Interaction", () => {
-//    test.beforeEach(async ({ page }) => {
-//      showLogsOnConsoleFor(page);
-//
-//      await page.route("*/**/api/v1/words", async (route, request) => {
-//        expect(request.method()).toBe("GET");
-//
-//        await route.fulfill({
-//          status: 200,
-//          body: JSON.stringify({
-//            words: [
-//              {
-//                word: "Some Word",
-//                meanings: [
-//                  {
-//                    definition: "A meaning",
-//                    synonyms: [
-//                      "Synonym1",
-//                      "Synonym2",
-//                      "Synonym3",
-//                      "Synonym4",
-//                      "Synonym5",
-//                    ],
-//                    examples: ["Example 1", "Example 2"],
-//                  },
-//                ],
-//              },
-//            ],
-//          }),
-//        });
-//      });
-//    });
-//
-//    test("when word is received the timer should be displayed", async ({
-//      page,
-//    }) => {
-//      await page.goto("http://localhost:3000/games/vocabtesting");
-//
-//      const text = page.getByText(
-//        "Can you think of the meaning before the timer runs out?"
-//      );
-//      await expect(text).toBeVisible();
-//
-//      const button = page.getByRole("button", { name: "Begin" });
-//      await expect(button).toBeVisible();
-//      await button.click();
-//
-//      await expect(page.getByTestId("countdown")).toBeVisible();
-//    });
-//
-//    test("when word is received it should be displayed on screen", async ({
-//      page,
-//    }) => {
-//      await page.goto("http://localhost:3000/games/vocabtesting");
-//      const button = page.getByRole("button", { name: "Begin" });
-//      await expect(button).toBeVisible();
-//      await button.click();
-//
-//      const wordText = page.getByTestId("word-text");
-//      await expect(wordText).toBeVisible();
-//      await expect(wordText).toContainText("Some Word");
-//    });
 //
 //    test("when word is received its synonyms should be displayed on screen after the timer has finished", async ({
 //      page,

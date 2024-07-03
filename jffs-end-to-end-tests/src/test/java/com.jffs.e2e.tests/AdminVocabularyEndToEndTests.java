@@ -57,7 +57,7 @@ class AdminVocabularyEndToEndTests extends AbstractEndToEndTests implements With
         @Test
         void listItemOnVocabShouldNotDisplayRecordsWhenNoDataReturnedByApi() {
             givenListItemIsClicked();
-            thenEventually(aLabel(withText("Page 1 of 0")), isVisible());
+            thenEventually(aLabel(byText("Page 1 of 0")), isVisible());
         }
 
         @Test
@@ -66,7 +66,7 @@ class AdminVocabularyEndToEndTests extends AbstractEndToEndTests implements With
 
             givenListItemIsClicked();
 
-            thenEventually(aLabel(withText("Page 1 of 3")), isVisible());
+            thenEventually(aLabel(byText("Page 1 of 3")), isVisible());
             thenEventually(aButton(withName("< Previous")), isVisible());
             thenEventually(aButton(withName("Next >")), isVisible());
         }
@@ -77,15 +77,15 @@ class AdminVocabularyEndToEndTests extends AbstractEndToEndTests implements With
 
             givenListItemIsClicked();
 
-            thenEventually(aLabel(withText("Page 1 of 3")), isVisible());
+            thenEventually(aLabel(byText("Page 1 of 3")), isVisible());
             thenEventually(aButton(withName(PREVIOUS_BUTTON)), isVisible());
             thenEventually(aButton(withName(NEXT_BUTTON)), isVisible());
 
             when(aButton(withName(NEXT_BUTTON)), isClicked());
-            thenEventually(aLabel(withText("Page 2 of 3")), isVisible());
+            thenEventually(aLabel(byText("Page 2 of 3")), isVisible());
 
             when(aButton(withName(NEXT_BUTTON)), isClicked());
-            thenEventually(aLabel(withText("Page 3 of 3")), isVisible());
+            thenEventually(aLabel(byText("Page 3 of 3")), isVisible());
             and(aButton(withName(NEXT_BUTTON)), isVisible());
             and(aButton(withName(NEXT_BUTTON)), isDisabled());
         }
@@ -96,7 +96,7 @@ class AdminVocabularyEndToEndTests extends AbstractEndToEndTests implements With
 
             givenListItemIsClicked();
 
-            thenEventually(aLabel(withText("Page 1 of 3")), isVisible());
+            thenEventually(aLabel(byText("Page 1 of 3")), isVisible());
             thenEventually(aButton(withName(PREVIOUS_BUTTON)), isVisible());
             thenEventually(aButton(withName(PREVIOUS_BUTTON)), isDisabled());
             thenEventually(aButton(withName(NEXT_BUTTON)), isVisible());
@@ -108,19 +108,19 @@ class AdminVocabularyEndToEndTests extends AbstractEndToEndTests implements With
             thenEventually(aButton(withName(PREVIOUS_BUTTON)), isEnabled());
 
             when(aButton(withName(PREVIOUS_BUTTON)), isClicked());
-            thenEventually(aLabel(withText("Page 2 of 3")), isVisible());
+            thenEventually(aLabel(byText("Page 2 of 3")), isVisible());
 
             when(aButton(withName(PREVIOUS_BUTTON)), isClicked());
-            thenEventually(aLabel(withText("Page 1 of 3")), isVisible());
+            thenEventually(aLabel(byText("Page 1 of 3")), isVisible());
             thenEventually(aButton(withName(PREVIOUS_BUTTON)), isDisabled());
         }
     }
 
     private void givenListItemIsClicked() {
-        given(aMenuItem(withText("Vocabulary")), isVisible());
-        and(aMenuItem(withText("Vocabulary")), isClicked());
+        given(aMenuItem(byText("Vocabulary")), isVisible());
+        and(aMenuItem(byText("Vocabulary")), isClicked());
 
-        thenEventually(aMenuItem(withName("List Words")), isVisible());
-        and(aMenuItem(withName("List Words")), isClicked());
+        thenEventually(aMenuItem(byText("List Words")), isVisible());
+        and(aMenuItem(byText("List Words")), isClicked());
     }
 }
