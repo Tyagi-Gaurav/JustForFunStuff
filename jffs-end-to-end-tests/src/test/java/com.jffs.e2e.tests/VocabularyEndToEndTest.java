@@ -9,7 +9,7 @@ import static java.lang.Thread.sleep;
 class VocabularyEndToEndTest extends AbstractEndToEndTests implements WithJffsApp {
 
     @Test
-    void showWordAfterBeginButtonIsClicked() {
+    void showWordAndItsDataAfterBeginButtonIsClicked() {
         givenSomeWordsExist();
         page.navigate(appUrlWithPath("games/vocabtesting"));
 
@@ -21,7 +21,19 @@ class VocabularyEndToEndTest extends AbstractEndToEndTests implements WithJffsAp
         thenEventually(aLabel(byText("There seems to be some problem. Please try again later")), not(isVisible()));
 
         thenEventually(anElement(byTestId("countdown")), isVisible());
-        thenEventually(anElement(byTestId("word-text")), isVisible());
-        thenEventually(anElement(byTestId("word-text")), hasValueLike("Word.*"));
+        and(anElement(byTestId("word-text")), isVisible());
+        and(anElement(byTestId("word-text")), hasValueLike("Word.*"));
+
+        thenEventually(anElement(byTestId("synonym-text")), isVisible());
+        and(anElement(byTestId("synonym-text")), hasValueLike("Synonym1.*, Synonym2.*"));
+
+        thenEventually(anElement(byTestId("meanings-text")), isVisible());
+        and(anElement(byTestId("meanings-text")), hasValueLike("Definition.*"));
+
+        thenEventually(anElement(byTestId("examples-text")), isVisible());
+        and(anElement(byTestId("examples-text")), hasValueLike("Example.*, Example2.*"));
+
+        thenEventually(aButton(withText("Begin")), not(isVisible()));
+        thenEventually(aButton(withText("Next")), isVisible());
     }
 }
