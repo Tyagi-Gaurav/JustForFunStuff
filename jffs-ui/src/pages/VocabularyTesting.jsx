@@ -106,7 +106,7 @@ export default function VocabularyTesting() {
       )}
 
       {inProgress && word && (
-        <Box>
+        <Box display="flex" justifyContent="center">
           <TextInABox text={word} testId="word-text" />
         </Box>
       )}
