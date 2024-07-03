@@ -44,26 +44,3 @@ describe("Home Page", () => {
     });
   });
 });
-
-//import { test, expect } from "@playwright/test";
-//
-//test.describe("Home Page", () => {
-//  test.describe("Layout", () => {//
-//  test.describe("Interaction", () => {
-//    test("Navigates to tic-tac-toe game page", async ({ page }) => {
-//      await page.goto("http://localhost:3000/games");
-//      const image_tag = page.getByAltText("noughts_crosses");
-//      await image_tag.click();
-//      const status = page.getByText("Next Player to Play: X");
-//      await expect(status).toBeVisible();
-//    });
-//
-//    test("Navigates to vocabulary testing game page", async ({ page }) => {
-//      await page.goto("http://localhost:3000/games");
-//      const image_tag = page.getByAltText("vocab_test");
-//      await image_tag.click();
-//      const status = page.getByText("Test your Vocabulary");
-//      await expect(status).toBeVisible();
-//    });
-//  });
-//});

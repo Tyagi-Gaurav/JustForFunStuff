@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { getWords } from "../api/vocab";
 import CountDownTimer from "../organisms/CountDownTimer";
 import AlertMessage from "../atoms/AlertMessage";
@@ -31,24 +31,9 @@ export default function VocabularyTesting() {
   const [currentWordCount, setCurrentWordCount] = useState(0);
   const [error, setError] = useState(false);
 
-  useEffect(() => {
-    if (!inProgress) {
-      getWords()
-        .then((response) => {
-          let data = response.data["words"];
-          //          console.log("Response Data Received in UI: " + JSON.stringify(response));
-          //          console.log("Data Received in UI: " + JSON.stringify(data));
-          setAllWords(data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-  }, [inProgress]);
-
-  const displayWord = (index) => {
-    if (allWords && allWords !== "") {
-      let selectedWord = allWords[index];
+  const displayWord = (data, index) => {
+    if (data && data !== "") {
+      let selectedWord = data[index];
       setInProgress(true);
       setWord(selectedWord["word"]);
       let meaning = selectedWord["meanings"][0];
@@ -60,18 +45,32 @@ export default function VocabularyTesting() {
       setTimerExpired(false);
       setCurrentWordCount(index + 1);
     } else {
-      //      console.log("Setting Error to true while displaying words.")
+      //console.log("Setting Error to true while displaying words.")
       setError(true);
     }
   };
 
   const handleClick = (event) => {
     event.preventDefault();
-    if (allWords && allWords.length > 0) {
+    if (!inProgress) {
+      getWords()
+        .then((response) => {
+          let data = response.data["words"];
+          // console.log(
+          //   "Response Data Received in UI: " + JSON.stringify(response)
+          // );
+          // console.log("Data Received in UI: " + JSON.stringify(data));
+          setAllWords(data);
+          displayWord(data, 0);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else if (allWords && allWords.length > 0) {
       if (currentWordCount < allWords.length) {
-        displayWord(currentWordCount);
+        displayWord(allWords, currentWordCount);
       } else {
-        displayWord(0);
+        displayWord(allWords, 0);
       }
     } else {
       //      console.log("Setting Error to true while handling begin event.")
