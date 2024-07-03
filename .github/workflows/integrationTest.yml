@@ -43,17 +43,9 @@ jobs:
         run: npm install
         working-directory: jffs-ui
 
-      - name: Install Playwright
-        run: npx playwright install --with-deps
-        working-directory: jffs-ui
-
-      - name: Install Playwright Dependencies
-        run: npx playwright install-deps
-        working-directory: jffs-ui
-
       - name: Run Front end tests
         id: front_end
-        run: npm test
+        run: npm run test:run
         working-directory: jffs-ui
 
       - name: Run End to End test suite
