@@ -5,6 +5,10 @@ public interface WithSyntacticSugar {
         return t;
     }
 
+    default <T> T withId (T t) {
+        return t;
+    }
+
     default <T> T withName (T t) {
         return t;
     }

@@ -11,6 +11,10 @@ public interface WithPlaywrightElementProvider {
         return (page) -> page.getByText(text);
     }
 
+    default Function<Page, Locator> anElement(String testId) {
+        return (page) -> page.getByTestId(testId);
+    }
+
     default Function<Page, Locator> aButton(String buttonText) {
         return (page) -> page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName(buttonText));
     }

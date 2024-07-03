@@ -67,7 +67,7 @@ export default function VocabularyTesting() {
 
   const handleClick = (event) => {
     event.preventDefault();
-    if (allWords) {
+    if (allWords && allWords.length > 0) {
       if (currentWordCount < allWords.length) {
         displayWord(currentWordCount);
       } else {
