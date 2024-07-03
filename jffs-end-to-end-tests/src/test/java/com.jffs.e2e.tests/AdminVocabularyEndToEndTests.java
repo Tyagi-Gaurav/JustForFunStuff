@@ -116,15 +116,6 @@ class AdminVocabularyEndToEndTests extends AbstractEndToEndTests implements With
         }
     }
 
-    private void givenSomeWordsExist() {
-        for (int i = 1; i <= 25; i++) {
-            givenExists(aWord("Word" + i)
-                    .withDefinition("Definition" + i)
-                    .withSynonyms(List.of("Synonym1" + i, "Synonym2" + i))
-                    .withExamples(List.of("Example1" + i, "Example2" + i)));
-        }
-    }
-
     private void givenListItemIsClicked() {
         given(aMenuItem(withText("Vocabulary")), isVisible());
         and(aMenuItem(withText("Vocabulary")), isClicked());

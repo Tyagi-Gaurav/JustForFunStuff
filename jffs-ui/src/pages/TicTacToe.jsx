@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styles from "./TicTacToe.module.css";
-import Square from "../atoms/Square.js";
-import Heading from "../atoms/Heading.js";
+import Square from "../atoms/Square.jsx";
+import Heading from "../atoms/Heading.jsx";
 import { Box, Button } from "@mui/material";
 
 export default function TicTacToe() {
@@ -68,16 +68,19 @@ export default function TicTacToe() {
         >
           <Square
             id="square-1"
+            data-testid="square-1"
             value={squares[0]}
             onSquareClick={() => handleClick(0)}
           />
           <Square
             id="square-2"
+            data-testid="square-2"
             value={squares[1]}
             onSquareClick={() => handleClick(1)}
           />
           <Square
             id="square-3"
+            data-testid="square-3"
             value={squares[2]}
             onSquareClick={() => handleClick(2)}
           />
@@ -96,16 +99,19 @@ export default function TicTacToe() {
         >
           <Square
             id="square-4"
+            data-testid="square-4"
             value={squares[3]}
             onSquareClick={() => handleClick(3)}
           />
           <Square
             id="square-5"
+            data-testid="square-5"
             value={squares[4]}
             onSquareClick={() => handleClick(4)}
           />
           <Square
             id="square-6"
+            data-testid="square-6"
             value={squares[5]}
             onSquareClick={() => handleClick(5)}
           />
@@ -123,16 +129,19 @@ export default function TicTacToe() {
         >
           <Square
             id="square-7"
+            data-testid="square-7"
             value={squares[6]}
             onSquareClick={() => handleClick(6)}
           />
           <Square
             id="square-8"
+            data-testid="square-8"
             value={squares[7]}
             onSquareClick={() => handleClick(7)}
           />
           <Square
             id="square-9"
+            data-testid="square-9"
             value={squares[8]}
             onSquareClick={() => handleClick(8)}
           />

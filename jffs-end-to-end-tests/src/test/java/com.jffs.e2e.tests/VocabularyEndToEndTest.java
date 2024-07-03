@@ -20,28 +20,21 @@ class VocabularyEndToEndTest extends AbstractEndToEndTests {
 
     @Test
     void canAccessWords() {
+        givenSomeWordsExist();
         page.navigate("http://localhost/games/vocabtesting");
-        givenExists(aWord("some-word")
-                .withDefinition("A definition")
-                .withSynonyms(List.of("Synonym1", "Synonym2"))
-                .withExamples(List.of("Example1", "Example2")));
 
-        assertThat(page.getByText("Test your Vocabulary")).isVisible();
-        assertThat(page.getByText("Can you think of the meaning before the timer runs out?")).isVisible();
+        thenEventually(aLabel(withText("Test your Vocabulary")), isVisible());
+        thenEventually(aLabel(withText("Can you think of the meaning before the timer runs out?")), isVisible());
 
         try {
-            final var beginButton = page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Begin"));
-            assertThat(beginButton).isVisible();
+            thenEventually(aButton(withText("Begin")), isVisible());
+            thenEventually(aLabel(withText("There seems to be some problem. Please try again later")), not(isVisible()));
 
-            waitFor(of(2, SECONDS));
-
-            final var errorText = page.getByText("There seems to be some problem. Please try again later");
-            assertThat(errorText).not().isVisible();
-            beginButton.click();
+            when(aButton(withText("Begin")), isClicked());
 
             waitFor(of(5, SECONDS));
 
-            assertThat(errorText).not().isVisible();
+            thenEventually(aLabel(withText("There seems to be some problem. Please try again later")), not(isVisible()));
 
             final var word = page.getByTestId("word-text");
             assertThat(word).isVisible();

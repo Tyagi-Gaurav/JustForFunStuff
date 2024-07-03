@@ -19,9 +19,11 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+import static com.jffs.e2e.tests.TestWordBuilder.aWord;
 import static java.net.http.HttpRequest.newBuilder;
 import static java.net.http.HttpResponse.BodyHandlers.ofString;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -108,6 +110,15 @@ public abstract class AbstractEndToEndTests implements WithHTTPSupport, WithPlay
                 throw new RuntimeException(e);
             }
         });
+    }
+
+    protected void givenSomeWordsExist() {
+        for (int i = 1; i <= 25; i++) {
+            givenExists(aWord("Word" + i)
+                    .withDefinition("Definition" + i)
+                    .withSynonyms(List.of("Synonym1" + i, "Synonym2" + i))
+                    .withExamples(List.of("Example1" + i, "Example2" + i)));
+        }
     }
 
     @AfterEach
