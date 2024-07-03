@@ -25,7 +25,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.45.0",
-    "playwright": "^1.45.0"
+    "playwright": "^1.45.1"
   },
   "browserslist": {
     "production": [
