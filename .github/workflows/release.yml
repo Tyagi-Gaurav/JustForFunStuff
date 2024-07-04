@@ -27,7 +27,7 @@ jobs:
       - name: Create a release
         env:
           GH_ALL_ACCESS_TOKEN: ${{ secrets.ALL_ACCESS_TOKEN }}
-          GH_TOKEN: ${{ secrets.ALL_ACCESS_TOKEN }} # Needs to be set or workflow fails with 401
+          GH_TOKEN: ${{ github.token }} # Needs to be set or workflow fails with 401
           OWNER: ${{ github.repository_owner }}
           REPO: ${{ github.repository }}
         run: ./release-project.sh
