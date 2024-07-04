@@ -15,4 +15,4 @@ curl -L \
   https://api.github.com/repos/"${OWNER}"/"${REPO}"/releases \
   -d "${BODY}"
 
-gh release create "$NEW_TAG" --generate-notes
+#gh release create "$NEW_TAG" --generate-notes
