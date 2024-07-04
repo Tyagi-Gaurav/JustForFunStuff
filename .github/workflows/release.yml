@@ -43,5 +43,5 @@ jobs:
           GH_TOKEN: ${{ github.token }} # Needs to be set or workflow fails with 401
           OWNER: ${{ github.repository_owner }}
           REPO: ${{ github.repository }}
-          RELEASE_TAG: ${{ outputs.release_tag }}
+          RELEASE_TAG: ${{ release.outputs.release_tag }}
         run: ./release-project.sh
