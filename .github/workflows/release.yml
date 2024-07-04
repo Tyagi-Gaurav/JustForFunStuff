@@ -33,6 +33,7 @@ jobs:
         run: |
           LATEST_TAG=`git describe --tags $(git rev-list --tags --max-count=1)`
           echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_OUTPUT
+          echo "::notice $LATEST_TAG"
 
 #      - name: Build project
 #        run: mvn clean package
