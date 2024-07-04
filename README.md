@@ -73,16 +73,8 @@
    - `sudo /usr/bin/certbot renew --quiet`
 
 # Prepare to release
-- Checkin and push everything
-- `mvn clean package`
-- `cd jffs-ui`
-- Build image for UI (Replace tag with eg v1.9)
-    - `docker build -t chonku/jffs-ui:LATEST -t chonku/jffs-ui:v1.12 .`
-- `docker image push chonku/jffs-ui:v1.12`
-- `cd jffs-backend`
-- `docker build -t chonku/jffs-backend:LATEST -t chonku/jffs-backend:v1.12 .`
-- `docker image push chonku/jffs-backend:v1.12`
-- `git push origin tag v1.12`
+- Create release manually from github home page
+- Run release workflow
 
 # Release instructions
   - Ensure Prepare to release instructions are complete

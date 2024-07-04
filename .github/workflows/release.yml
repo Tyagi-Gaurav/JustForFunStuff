@@ -32,9 +32,6 @@ jobs:
           LATEST_TAG=`git describe --tags $(git rev-list --tags --max-count=1)`
           echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_OUTPUT
 
-#      - name: Build project
-#        run: mvn clean package
-
       - name: Build jffs-ui image
         run: |
           docker build -t chonku/jffs-ui:LATEST -t chonku/jffs-ui:"${RELEASE_TAG}" .
@@ -44,6 +41,22 @@ jobs:
 
       - name: Push jffs-ui image
         run: |
-          docker image push chonku/jffs-ui:"${RELEASE_TAG}"
+          docker image push chonku/jffs-ui:${RELEASE_TAG}
+        env:
+          RELEASE_TAG: ${{ steps.fetch_tag.outputs.LATEST_TAG }}
+
+      - name: Build project
+        run: mvn clean package
+
+      - name: Build jffs-backend image
+        run: |
+          docker build -t chonku/jffs-backend:LATEST -t chonku/jffs-backend:${RELEASE_TAG} .
+        working-directory: jffs-backend
+        env:
+          RELEASE_TAG: ${{ steps.fetch_tag.outputs.LATEST_TAG }}
+
+      - name: Push jffs-backend image
+        run: |
+          docker image push chonku/jffs-backend:${RELEASE_TAG}
         env:
           RELEASE_TAG: ${{ steps.fetch_tag.outputs.LATEST_TAG }}
