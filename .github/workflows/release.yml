@@ -36,12 +36,14 @@ jobs:
 #        run: mvn clean package
 
       - name: Build jffs-ui image
-        run: docker build -t chonku/jffs-ui:LATEST -t chonku/jffs-ui:"${RELEASE_TAG}"
+        run: |
+          docker build -t chonku/jffs-ui:LATEST -t chonku/jffs-ui:"${RELEASE_TAG}"
         working-directory: jffs-ui
         env:
           RELEASE_TAG: ${{ steps.fetch_tag.outputs.LATEST_TAG }}
 
       - name: Push jffs-ui image
-        run: docker image push chonku/jffs-ui:"${RELEASE_TAG}"
+        run: |
+          docker image push chonku/jffs-ui:"${RELEASE_TAG}"
         env:
           RELEASE_TAG: ${{ steps.fetch_tag.outputs.LATEST_TAG }}
