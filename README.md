@@ -74,34 +74,29 @@
 
 # Prepare to release
 - Checkin and push everything
-- Create tag
-    - `python3 main.py`
+- `mvn clean package`
+- `cd jffs-ui`
 - Build image for UI (Replace tag with eg v1.9)
-    - `docker build -t chonku/jffs-ui:LATEST -t chonku/jffs-ui:v1.11 .`
-- `docker image push chonku/jffs-ui:v1.11`
+    - `docker build -t chonku/jffs-ui:LATEST -t chonku/jffs-ui:v1.12 .`
+- `docker image push chonku/jffs-ui:v1.12`
 - `cd jffs-backend`
-- `docker build -t chonku/jffs-backend:LATEST -t chonku/jffs-backend:v1.11 .`
-- `docker image push chonku/jffs-backend:v1.11`
-- `cd ../jffs-api-gateway`
-- `docker build -t chonku/jffs-api-gateway:LATEST -t chonku/jffs-api-gateway:v1.11 .`
-- `docker image push chonku/jffs-api-gateway:v1.11`
+- `docker build -t chonku/jffs-backend:LATEST -t chonku/jffs-backend:v1.12 .`
+- `docker image push chonku/jffs-backend:v1.12`
 
 # Release instructions
   - Ensure Prepare to release instructions are complete
   - SSH into the machine
-    - `docker pull chonku/jffs-ui:v1.11`
-    - `docker pull chonku/jffs-backend:v1.11`
-    - `docker pull chonku/jffs-api-gateway:v1.11`
+    - `docker pull chonku/jffs-ui:v1.12`
+    - `docker pull chonku/jffs-backend:v1.12`
     - `docker stop jffs-backend && docker rm jffs-backend`
-    - `docker run -p 8080:8080 -p 8081:8081 -d -e "DB_USER=<>" -e "DB_PWD=<>" -e "DB_NAME=Prod" -e "DB_HOST=<>" -e "DB_SCHEME=mongodb+srv" --name jffs-backend chonku/jffs-backend:v1.11`
+    - `docker run -p 8080:8080 -p 8081:8081 -d -e "DB_USER=<>" -e "DB_PWD=<>" -e "DB_NAME=Prod" -e "DB_HOST=<>" -e "DB_SCHEME=mongodb+srv" --name jffs-backend chonku/jffs-backend:v1.12`
     - Run Healthcheck for application using the command
       - `wget -O - http://localhost:8081/actuator/health` 
     - `docker stop jffs-ui && docker rm jffs-ui`
-    - `docker run -p 3000:3000 -d --name jffs-ui chonku/jffs-ui:v1.11`    
+    - `docker run -p 3000:3000 -d --name jffs-ui chonku/jffs-ui:v1.12`    
 
 # Other commands
    - Stop Nginx
      - `sudo systemctl stop nginx`
 
-# Mongo Database Setup
    
