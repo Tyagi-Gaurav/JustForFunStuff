@@ -7,8 +7,6 @@ jobs:
   release:
     name: create release
     runs-on: ubuntu-latest
-    outputs:
-      release_tag: ${{ steps.fetch_tag.outputs.LATEST_TAG }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -33,7 +31,6 @@ jobs:
         run: |
           LATEST_TAG=`git describe --tags $(git rev-list --tags --max-count=1)`
           echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_OUTPUT
-          echo "::notice $LATEST_TAG"
 
 #      - name: Build project
 #        run: mvn clean package
@@ -44,5 +41,6 @@ jobs:
           GH_TOKEN: ${{ github.token }} # Needs to be set or workflow fails with 401
           OWNER: ${{ github.repository_owner }}
           REPO: ${{ github.repository }}
-          RELEASE_TAG: ${{ steps.fetch_tag.outputs.release_tag }}
         run: ./release-project.sh
+        with:
+          RELEASE_TAG: ${{ steps.fetch_tag.outputs.LATEST_TAG }}
