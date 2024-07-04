@@ -27,6 +27,13 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
+      - name: Get latest tag
+        id: fetch_tag
+        shell: bash
+        run: |
+          LATEST_TAG=`git describe --tags $(git rev-list --tags --max-count=1)`
+          echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_OUTPUT
+
 #      - name: Build project
 #        run: mvn clean package
 
@@ -36,4 +43,5 @@ jobs:
           GH_TOKEN: ${{ github.token }} # Needs to be set or workflow fails with 401
           OWNER: ${{ github.repository_owner }}
           REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ outputs.release_tag }}
         run: ./release-project.sh
