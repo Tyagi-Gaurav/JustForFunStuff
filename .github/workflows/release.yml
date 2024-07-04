@@ -37,7 +37,7 @@ jobs:
 
       - name: Build jffs-ui image
         run: |
-          docker build -t chonku/jffs-ui:LATEST -t chonku/jffs-ui:"${RELEASE_TAG}"
+          docker build -t chonku/jffs-ui:LATEST -t chonku/jffs-ui:"${RELEASE_TAG}" .
         working-directory: jffs-ui
         env:
           RELEASE_TAG: ${{ steps.fetch_tag.outputs.LATEST_TAG }}
