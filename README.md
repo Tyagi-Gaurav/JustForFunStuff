@@ -82,6 +82,7 @@
 - `cd jffs-backend`
 - `docker build -t chonku/jffs-backend:LATEST -t chonku/jffs-backend:v1.12 .`
 - `docker image push chonku/jffs-backend:v1.12`
+- `git push origin tag v1.12`
 
 # Release instructions
   - Ensure Prepare to release instructions are complete

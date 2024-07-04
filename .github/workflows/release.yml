@@ -30,4 +30,4 @@ jobs:
           GH_TOKEN: ${{ secrets.ALL_ACCESS_TOKEN }}
           OWNER: ${{ github.repository_owner }}
           REPO: ${{ github.repository }}
-        run: ./scripts/release-project.sh
+        run: ./release-project.sh
