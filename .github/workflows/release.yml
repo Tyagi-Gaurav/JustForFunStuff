@@ -7,6 +7,7 @@ jobs:
   release:
     name: create release
     runs-on: ubuntu-latest
+      release_tag: ${{ steps.fetch_tag.outputs.LATEST_TAG }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -41,6 +42,5 @@ jobs:
           GH_TOKEN: ${{ github.token }} # Needs to be set or workflow fails with 401
           OWNER: ${{ github.repository_owner }}
           REPO: ${{ github.repository }}
-        run: ./release-project.sh
-        with:
           RELEASE_TAG: ${{ steps.fetch_tag.outputs.LATEST_TAG }}
+        run: ./release-project.sh
