@@ -80,6 +80,10 @@ public abstract class AbstractEndToEndTests implements
         action.accept(locatorProvider.apply(page));
     }
 
+    protected void given(Function<Page, Locator> locatorProvider, Consumer<Locator> action) {
+        action.accept(locatorProvider.apply(page));
+    }
+
     protected void and(Function<Page, Locator> locatorProvider, Function<Locator, Boolean> evaluator) {
         assertThat(evaluator.apply(locatorProvider.apply(page))).isTrue();
     }
@@ -124,6 +128,11 @@ public abstract class AbstractEndToEndTests implements
                     .withSynonyms(List.of("Synonym1" + i, "Synonym2" + i))
                     .withExamples(List.of("Example1" + i, "Example2" + i)));
         }
+    }
+
+    protected boolean doesWordExist(String word) throws Exception {
+        final var response = aGetRequestWith(adminAppUrlWithPath("admin/v1/words/" + word));
+        return response.statusCode() == 200;
     }
 
     @AfterEach

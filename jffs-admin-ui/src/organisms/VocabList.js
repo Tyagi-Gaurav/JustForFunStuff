@@ -34,8 +34,8 @@ export default function VocabList({ editCallback }) {
   };
 
   const handleGo = () => {
-    console.log("Handle Go with " + searchValue);
-    console.log("Handle Go with " + searchType);
+//    console.log("Handle Go with " + searchValue);
+//    console.log("Handle Go with " + searchType);
     if (searchValue && searchType) {
       search(searchType, searchValue)
         .then((response) => {

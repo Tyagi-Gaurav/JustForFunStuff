@@ -22,4 +22,8 @@ public interface WithPlaywrightElementProvider {
     default Function<Page, Locator> aButton(String buttonText) {
         return (page) -> page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName(buttonText));
     }
+
+    default Function<Page, Locator> aCell(String cellText) {
+        return (page) -> page.getByRole(AriaRole.CELL, new Page.GetByRoleOptions().setName(cellText));
+    }
 }
