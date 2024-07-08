@@ -173,4 +173,35 @@ class AdminVocabularyEndToEndTests extends AbstractEndToEndTests implements With
                     .containsExamples("Example1", "Example2");
         }
     }
+
+    @Nested
+    class EditItem {
+        @Test
+        void editWord() throws Exception {
+            page.navigate(adminAppUrl());
+            givenSomeWordsExist();
+
+            givenExists(aWord("WordToBeEdited")
+                    .withDefinition("A Definition that should be edited")
+                    .withSynonyms(List.of("Synonym1", "Synonym2"))
+                    .withExamples(List.of("Example1", "Example2")));
+
+            givenListItemIsClicked();
+            thenEventually(aLabel(byText("Page 1 of 3")), isVisible());
+            given(textBoxLabelled("Word"), isFilledWith("WordToBeEdited"));
+            given(aButton(withName("GO")), isClicked());
+
+            thenEventually(aCell(withText("WordToBeEdited")), isVisible());
+            given(aCell(withText("WordToBeEdited")), isClicked());
+            given(textBoxLabelled("Meaning"), isFilledWith("A Definition that has been edited"));
+            given(textBoxLabelled("Synonyms"), isFilledWith("Synonym1,Synonym2,Synonym3"));
+            thenEventually(aButton(withName("SUBMIT")), isVisible());
+            when(aButton(withName("SUBMIT")), isClicked());
+
+            TestWordAssert.assertThat(getFromApp("WordToBeEdited"))
+                    .hasDefinition("A Definition that has been edited")
+                    .containsSynonyms("Synonym1", "Synonym2", "Synonym3")
+                    .containsExamples("Example1", "Example2");
+        }
+    }
 }
