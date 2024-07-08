@@ -32,6 +32,6 @@ public class TestWordBuilder {
     }
 
     public TestWord build() {
-        return new TestWord(word, List.of(new TestMeaning(definition, synonyms, examples)));
+        return new TestWord(word, List.of(new TestWord.TestMeaning(definition, synonyms, examples)));
     }
 }

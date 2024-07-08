@@ -1,5 +1,9 @@
 package com.jffs.e2e.tests.core;
 
+import com.jffs.e2e.tests.TestWord;
+
+import java.net.http.HttpClient;
+
 public interface WithAdminApp {
     default String adminAppUrl() {
         return "http://localhost:8060";

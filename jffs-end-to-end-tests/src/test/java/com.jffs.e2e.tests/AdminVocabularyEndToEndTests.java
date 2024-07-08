@@ -1,19 +1,22 @@
 package com.jffs.e2e.tests;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jffs.e2e.tests.core.AbstractEndToEndTests;
 import com.jffs.e2e.tests.core.WithAdminApp;
 import com.jffs.e2e.tests.core.WithSyntacticSugar;
+import com.jffs.e2e.tests.core.assertion.TestWordAssert;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
-import com.microsoft.playwright.options.AriaRole;
 import org.assertj.core.api.Assertions;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import static com.jffs.e2e.tests.TestWordBuilder.aWord;
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
@@ -22,6 +25,8 @@ class AdminVocabularyEndToEndTests extends AbstractEndToEndTests implements With
 
     private static final String PREVIOUS_BUTTON = "< Previous";
     private static final String NEXT_BUTTON = "Next >";
+    private ObjectMapper objectMapper = new ObjectMapper();
+
 
     @Nested
     class LandingPage {
@@ -131,12 +136,12 @@ class AdminVocabularyEndToEndTests extends AbstractEndToEndTests implements With
 
             givenExists(aWord("WordToBeDeleted")
                     .withDefinition("A Definition that should be deleted")
-                    .withSynonyms(List.of("Synonym1","Synonym2"))
+                    .withSynonyms(List.of("Synonym1", "Synonym2"))
                     .withExamples(List.of("Example1", "Example2")));
 
             givenListItemIsClicked();
             thenEventually(aLabel(byText("Page 1 of 3")), isVisible());
-            given(searchByWordFor(), isFilledWith("WordToBeDeleted"));
+            given(textBoxLabelled("Word"), isFilledWith("WordToBeDeleted"));
             given(aButton(withName("GO")), isClicked());
 
             thenEventually(aCell(withText("WordToBeDeleted")), isVisible());
@@ -146,22 +151,26 @@ class AdminVocabularyEndToEndTests extends AbstractEndToEndTests implements With
 
             Assertions.assertThat(doesWordExist("WordToBeDeleted")).isFalse();
         }
-
-        private Consumer<Locator> isFilledWith(String text) {
-            return locator -> locator.fill(text);
-        }
-
-        private Function<Page, Locator> searchByWordFor() {
-            Locator word = page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Word"));
-            return page -> word;
-        }
     }
 
-    private void givenListItemIsClicked() {
-        given(aMenuItem(byText("Vocabulary")), isVisible());
-        and(aMenuItem(byText("Vocabulary")), isClicked());
+    @Nested
+    class AddItem {
+        @Test
+        void addWord() throws Exception {
+            page.navigate(adminAppUrl());
+            givenSomeWordsExist();
+            givenAddItemIsClicked();
 
-        thenEventually(aMenuItem(byText("List Words")), isVisible());
-        and(aMenuItem(byText("List Words")), isClicked());
+            given(textBoxLabelled("Word"), isFilledWith("WordToBeAdded"));
+            given(textBoxLabelled("Meaning"), isFilledWith("A Definition to be added"));
+            given(textBoxLabelled("Synonyms"), isFilledWith("Synonym1,Synonym2"));
+            given(textBoxLabelled("Examples"), isFilledWith("Example1,Example2"));
+            given(aButton(withName("SUBMIT")), isClicked());
+
+            TestWordAssert.assertThat(getFromApp("WordToBeAdded"))
+                    .hasDefinition("A Definition to be added")
+                    .containsSynonyms("Synonym1", "Synonym2")
+                    .containsExamples("Example1", "Example2");
+        }
     }
 }

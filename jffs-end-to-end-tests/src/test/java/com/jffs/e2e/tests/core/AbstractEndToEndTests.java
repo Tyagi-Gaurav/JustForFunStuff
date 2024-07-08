@@ -6,6 +6,10 @@ import com.jffs.e2e.tests.TestWord;
 import com.jffs.e2e.tests.TestWordBuilder;
 import com.jffs.e2e.tests.core.assertion.HttpResponseAssert;
 import com.microsoft.playwright.*;
+import com.microsoft.playwright.options.AriaRole;
+import org.assertj.core.api.Assertions;
+import org.assertj.core.api.iterable.Extractor;
+import org.hamcrest.Matcher;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -22,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import static com.jffs.e2e.tests.TestWordBuilder.aWord;
 import static java.net.http.HttpRequest.newBuilder;
@@ -97,6 +102,26 @@ public abstract class AbstractEndToEndTests implements
                 .until(() -> evaluator.apply(locatorProvider.apply(page)));
     }
 
+    protected <T> void thenEventually(Supplier<T> supplier, Matcher<T> matcher) {
+        waitAtMost(ASSERTION_TIMEOUT)
+                .until(() -> matcher.matches(supplier.get()));
+    }
+
+    protected void givenListItemIsClicked() {
+        given(aMenuItem(byText("Vocabulary")), isVisible());
+        and(aMenuItem(byText("Vocabulary")), isClicked());
+
+        thenEventually(aMenuItem(byText("List Words")), isVisible());
+        and(aMenuItem(byText("List Words")), isClicked());
+    }
+
+    protected void givenAddItemIsClicked() {
+        given(aMenuItem(byText("Vocabulary")), isVisible());
+        and(aMenuItem(byText("Vocabulary")), isClicked());
+
+        thenEventually(aMenuItem(byText("Add Word")), isVisible());
+        and(aMenuItem(byText("Add Word")), isClicked());
+    }
 
     @BeforeEach
     void deleteAllWords() throws Exception {
@@ -133,6 +158,12 @@ public abstract class AbstractEndToEndTests implements
     protected boolean doesWordExist(String word) throws Exception {
         final var response = aGetRequestWith(adminAppUrlWithPath("admin/v1/words/" + word));
         return response.statusCode() == 200;
+    }
+
+    protected TestWord getFromApp(String word) throws Exception {
+        final var response = aGetRequestWith(adminAppUrlWithPath("admin/v1/words/" + word));
+        Assertions.assertThat(response.statusCode()).isEqualTo(200);
+        return objectMapper.readValue(response.body(), TestWord.class);
     }
 
     @AfterEach

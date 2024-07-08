@@ -26,4 +26,8 @@ public interface WithPlaywrightElementProvider {
     default Function<Page, Locator> aCell(String cellText) {
         return (page) -> page.getByRole(AriaRole.CELL, new Page.GetByRoleOptions().setName(cellText));
     }
+
+    default Function<Page, Locator> textBoxLabelled(String textBoxLabel) {
+        return page -> page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName(textBoxLabel));
+    }
 }
