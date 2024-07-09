@@ -13,7 +13,7 @@ management:
       show-details: always
   endpoints:
     web:
-      exposure.include: health, status, mappings, metrics, configprops
+      exposure.include: health, status, mappings, metrics, configprops, prometheus
       path-mapping:
         configprops: config
 
