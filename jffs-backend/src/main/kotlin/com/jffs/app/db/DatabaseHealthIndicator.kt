@@ -2,6 +2,7 @@ package com.jffs.app.db
 
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withTimeout
 import org.bson.BsonDocument
 import org.bson.BsonInt64
 import org.springframework.beans.factory.annotation.Autowired
@@ -18,7 +19,9 @@ class DatabaseHealthIndicator(@Autowired val mongoClient: MongoClient)
         val dbStats = BsonDocument("dbStats", BsonInt64(1))
         try {
             runBlocking {
-                database.runCommand(dbStats)
+                withTimeout(500) {
+                    database.runCommand(dbStats)
+                }
             }
 
             return Health.up().build()
