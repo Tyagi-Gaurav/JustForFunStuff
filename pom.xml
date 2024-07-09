@@ -145,6 +145,12 @@
                 <artifactId>jackson-databind</artifactId>
                 <version>${dependency.jackson.version}</version>
             </dependency>
+            <dependency>
+                <groupId>io.micrometer</groupId>
+                <artifactId>micrometer-registry-prometheus</artifactId>
+                <version>1.13.1</version>
+            </dependency>
+
             <!-- Logging Dependencies -->
             <dependency>
                 <groupId>org.apache.logging.log4j</groupId>
