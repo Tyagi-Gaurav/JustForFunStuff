@@ -51,4 +51,15 @@ class ActuatorTest {
         parsedJsonResponse.read("$.status") as String shouldBe "UP"
         parsedJsonResponse.read("$.components.database.status") as String shouldBe "UP"
     }
+
+    @Test
+    fun actuatorPrometheusCheck() {
+        val httpClient = HttpClient.newHttpClient()
+        val healthCheckRequest = newBuilder()
+            .uri(URI.create("http://localhost:$managementPort/actuator/prometheus"))
+            .build();
+        val response = httpClient.send(healthCheckRequest, HttpResponse.BodyHandlers.ofString())
+
+        response.statusCode() shouldBe 200
+    }
 }
