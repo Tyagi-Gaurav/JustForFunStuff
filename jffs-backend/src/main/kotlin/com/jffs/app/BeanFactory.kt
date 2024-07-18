@@ -1,7 +1,7 @@
 package com.jffs.app
 
 import com.jffs.app.config.DatabaseConfig
-import com.jffs.app.metrics.EndpointMetrics
+import com.jffs.app.metrics.EndpointLatencyTimer
 import com.jffs.app.metrics.EndpointRequestCounter
 import com.mongodb.ConnectionString
 import com.mongodb.MongoClientSettings
@@ -38,8 +38,8 @@ open class BeanFactory() {
     }
 
     @Bean
-    open fun endpointMetrics(meterRegistry: MeterRegistry) : EndpointMetrics {
-        return EndpointMetrics(meterRegistry)
+    open fun endpointMetrics(meterRegistry: MeterRegistry) : EndpointLatencyTimer {
+        return EndpointLatencyTimer(meterRegistry)
     }
 
     @Bean

@@ -6,6 +6,8 @@ import com.jffs.tests.initializer.TestContainerDatabaseInitializer
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.ValueSource
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.server.LocalManagementPort
 import org.springframework.test.context.ContextConfiguration
@@ -52,11 +54,12 @@ class ActuatorTest {
         parsedJsonResponse.read("$.components.database.status") as String shouldBe "UP"
     }
 
-    @Test
-    fun actuatorPrometheusCheck() {
+    @ParameterizedTest
+    @ValueSource(strings = ["metrics", "health", "config", "mappings", "info"])
+    fun actuatorPrometheusCheck(pathExposedUnderActuator : String) {
         val httpClient = HttpClient.newHttpClient()
         val healthCheckRequest = newBuilder()
-            .uri(URI.create("http://localhost:$managementPort/actuator/prometheus"))
+            .uri(URI.create("http://localhost:$managementPort/actuator/$pathExposedUnderActuator"))
             .build();
         val response = httpClient.send(healthCheckRequest, HttpResponse.BodyHandlers.ofString())
 
