@@ -6,10 +6,8 @@ import com.jffs.e2e.tests.TestWord;
 import com.jffs.e2e.tests.TestWordBuilder;
 import com.jffs.e2e.tests.core.assertion.HttpResponseAssert;
 import com.microsoft.playwright.*;
-import com.microsoft.playwright.options.AriaRole;
+import kotlin.Pair;
 import org.assertj.core.api.Assertions;
-import org.assertj.core.api.iterable.Extractor;
-import org.hamcrest.Matcher;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -22,11 +20,10 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 import static com.jffs.e2e.tests.TestWordBuilder.aWord;
 import static java.net.http.HttpRequest.newBuilder;
@@ -39,13 +36,15 @@ public abstract class AbstractEndToEndTests implements
         WithPlaywrightWrapperAssertions,
         WithSyntacticSugar,
         WithPlaywrightElementProvider,
-        WithAdminApp {
+        WithAdminApp,
+        WithJffsApp {
     static Playwright playwright;
     private static Browser browser;
     protected Page page;
     HttpClient httpClient = HttpClient.newHttpClient();
     private static final ObjectMapper objectMapper = new ObjectMapper();
     private static final Duration ASSERTION_TIMEOUT = Duration.ofSeconds(10);
+    protected Map<String, Double> beforeMetrics = Collections.emptyMap();
 
     @BeforeEach
     void setUp() {
@@ -100,11 +99,6 @@ public abstract class AbstractEndToEndTests implements
     protected void thenEventually(Function<Page, Locator> locatorProvider, Function<Locator, Boolean> evaluator) {
         waitAtMost(ASSERTION_TIMEOUT)
                 .until(() -> evaluator.apply(locatorProvider.apply(page)));
-    }
-
-    protected <T> void thenEventually(Supplier<T> supplier, Matcher<T> matcher) {
-        waitAtMost(ASSERTION_TIMEOUT)
-                .until(() -> matcher.matches(supplier.get()));
     }
 
     protected void givenListItemIsClicked() {
@@ -164,6 +158,26 @@ public abstract class AbstractEndToEndTests implements
         final var response = aGetRequestWith(adminAppUrlWithPath("admin/v1/words/" + word));
         Assertions.assertThat(response.statusCode()).isEqualTo(200);
         return objectMapper.readValue(response.body(), TestWord.class);
+    }
+
+    protected void givenMetricsAreCaptured() throws Exception {
+        beforeMetrics = captureMetrics();
+    }
+
+    protected Map<String, Double> captureMetrics() throws Exception {
+        HttpResponse<String> stringHttpResponse = aGetRequestWith(appMgtUrlWithPath("actuator/prometheus"));
+        String body = stringHttpResponse.body();
+        return Arrays.stream(body.split("\n"))
+                .filter(line -> !line.startsWith("#"))
+                .map(line -> {
+                    int splitterIndex = line.lastIndexOf("}");
+                    if (splitterIndex == -1) {
+                        splitterIndex = line.lastIndexOf(" ");
+                    }
+                    String metric = line.substring(0, splitterIndex + 1);
+                    return new Pair<>(metric, Double.parseDouble(line.substring(splitterIndex + 1).trim()));
+                })
+                .collect(Collectors.toMap(Pair::getFirst, Pair::getSecond));
     }
 
     @AfterEach

@@ -60,7 +60,7 @@ class VocabControllerTest {
 
     @Test
     fun getWords() {
-        val responseBody = client.get().uri("/v1/words")
+        client.get().uri("/v1/words")
             .exchange()
             .expectStatus().isOk()
             .expectHeader().contentType("application/json")

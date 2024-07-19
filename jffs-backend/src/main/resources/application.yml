@@ -14,7 +14,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: info, health, mappings, metrics, configprops
+        include: info, health, mappings, metrics, configprops, prometheus
       path-mapping:
         configprops: config
 

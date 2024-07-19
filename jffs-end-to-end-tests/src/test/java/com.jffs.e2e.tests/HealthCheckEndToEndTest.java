@@ -28,4 +28,10 @@ class HealthCheckEndToEndTest extends AbstractEndToEndTests implements WithJffsA
                         .withFieldWithStringValue("components.database.status", equalTo("UP"))
                         .withFieldWithStringValue("components.ping.status", equalTo("UP")));
     }
+
+    @Test
+    void prometheusCheckJffsBackendApp() throws Exception {
+        assertThatAnHttpCallFor(aGetRequestWith(appMgtUrlWithPath("actuator/prometheus")))
+                .hasStatusCode(200);
+    }
 }
