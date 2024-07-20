@@ -37,7 +37,7 @@ export default function VocabWordAdd({ listCallback }) {
 
   const handleSave = (event) => {
     event.preventDefault()
-    console.log("Inside Handle Save");
+    //console.log("Inside Handle Save");
     addWord({
       word: word,
       meanings: [
