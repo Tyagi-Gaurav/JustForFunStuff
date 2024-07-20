@@ -14,9 +14,9 @@ ENV DB_SCHEME=$DB_SCHEME
 ADD target/jffs-backend-DEV-SNAPSHOT.jar /data/application.jar
 
 COPY ./startup.sh /data/startup.sh
-RUN mkdir -p /usr/local/newrelic
-ADD ../newrelic/newrelic.jar /usr/local/newrelic/newrelic.jar
-ADD ../newrelic/newrelic.yml /usr/local/newrelic/newrelic.yml
+#RUN mkdir -p /usr/local/newrelic
+#ADD ../newrelic/newrelic.jar /usr/local/newrelic/newrelic.jar
+#ADD ../newrelic/newrelic.yml /usr/local/newrelic/newrelic.yml
 
 CMD ["/bin/bash", "/data/startup.sh"]
 
