@@ -79,14 +79,37 @@
 # Release instructions
   - Ensure Prepare to release instructions are complete
   - SSH into the machine
-    - `docker pull chonku/jffs-ui:v1.12`
-    - `docker pull chonku/jffs-backend:v1.12`
+    - `docker pull chonku/jffs-ui:v1.13`
+    - `docker pull chonku/jffs-backend:v1.13`
     - `docker stop jffs-backend && docker rm jffs-backend`
-    - `docker run -p 8080:8080 -p 8081:8081 -d -e "DB_USER=<>" -e "DB_PWD=<>" -e "DB_NAME=Prod" -e "DB_HOST=<>" -e "DB_SCHEME=mongodb+srv" --name jffs-backend chonku/jffs-backend:v1.12`
+    - `docker run -p 8080:8080 -p 8081:8081 -d -e "DB_USER=<>" -e "DB_PWD=<>" -e "DB_NAME=Prod" -e "DB_HOST=<>" -e "DB_SCHEME=mongodb+srv" --name jffs-backend chonku/jffs-backend:v1.13`
     - Run Healthcheck for application using the command
       - `wget -O - http://localhost:8081/actuator/health` 
     - `docker stop jffs-ui && docker rm jffs-ui`
-    - `docker run -p 3000:3000 -d --name jffs-ui chonku/jffs-ui:v1.12`    
+    - `docker run -p 3000:3000 -d --name jffs-ui chonku/jffs-ui:v1.13`    
+
+# Configure cloudwatch to collect prometheus metric
+  - Create or assign permissions to a role with following policies. This role should be assigned to EC2 instance.
+    - AmazonSSMManagedInstanceCore policy.
+    - CloudWatchAgentServerPolicy
+  - Also ensure that we have the following permissions
+    - cloudwatch:PutMetricData 
+    - ec2:DescribeVolumes 
+    - ec2:DescribeTags 
+    - logs:PutLogEvents 
+    - logs:DescribeLogStreams 
+    - logs:DescribeLogGroups 
+    - logs:CreateLogStream 
+    - logs:CreateLogGroup
+  - Install SSM agent on EC2 instance
+    - `sudo yum install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm`
+  - Install Cloudwatch agent on EC2 instance
+    - `sudo yum install amazon-cloudwatch-agent`
+  - Create Prometheus scrape config file by copying the contents of `aws_deploy/global_prometheus_config.yaml` to `/home/ec2-user/prometheus_config.yaml`
+  - Create cloud watch agent config by copying contents of `aws_deploy/cloudwatchAgentConfig.json` into
+    - `sudo vi /opt/aws/amazon-cloudwatch-agent/var/cwagent-config.json`
+  - Restart cloudwatch config
+    - `sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -s -c file:/opt/aws/amazon-cloudwatch-agent/var/cwagent-config.json`
 
 # Other commands
    - Stop Nginx

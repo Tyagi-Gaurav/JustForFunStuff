@@ -1,0 +1,35 @@
+{
+  "agent": {
+    "region": "eu-west-2"
+  },
+  "logs":{
+    "metrics_collected":{
+      "prometheus":{
+        "cluster_name":"jffs-prod-cluster",
+        "log_group_name":"jffs-prometheus",
+        "prometheus_config_path":"/home/ec2-user/prometheus_config.yaml",
+        "emf_processor":{
+          "metric_declaration_dedup":true,
+          "metric_namespace":"JFFSPrometheus",
+          "metric_unit":{
+            "jvm_threads_current": "Count",
+            "jvm_gc_collection_seconds_sum": "Milliseconds",
+            "jvm_classes_loaded": "Count",
+            "jvm_memory_bytes_used": "Bytes",
+            "jvm_memory_pool_bytes_used": "Bytes"
+          },
+          "metric_declaration" : [
+            {
+              "source_labels": ["job"],
+              "label_matcher": "^JFFS_BACKEND_JOB$",
+              "dimensions": [["instance"]],
+              "metric_selectors": [
+                "^request_.*"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  }
+}
