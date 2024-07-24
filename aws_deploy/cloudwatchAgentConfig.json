@@ -22,9 +22,18 @@
             {
               "source_labels": ["job"],
               "label_matcher": "^JFFS_BACKEND_JOB$",
-              "dimensions": [["instance"]],
+              "dimensions": [["instance", "path", "method"]],
               "metric_selectors": [
-                "^request_.*"
+                "^request_count.*",
+                "^request_latency.*"
+              ]
+            },
+            {
+              "source_labels": ["job"],
+              "label_matcher": "^JFFS_BACKEND_JOB$",
+              "dimensions": [["instance", "status"]],
+              "metric_selectors": [
+                "^response_status.*"
               ]
             }
           ]
