@@ -4,6 +4,8 @@ import com.jffs.app.config.DatabaseConfig
 import com.jffs.app.metrics.EndpointLatencyTimer
 import com.jffs.app.metrics.EndpointRequestCounter
 import com.jffs.app.metrics.EndpointResponseStatusCounter
+import com.jffs.app.metrics.UIEventCounter
+import com.jffs.app.resource.domain.UIEvent
 import com.mongodb.ConnectionString
 import com.mongodb.MongoClientSettings
 import com.mongodb.ServerApi
@@ -31,6 +33,11 @@ open class BeanFactory() {
             .serverApi(serverApi)
             .build()
         return MongoClient.Factory.create(mongoClientSettings)
+    }
+
+    @Bean
+    open fun uiEventCounter(meterRegistry: MeterRegistry) : UIEventCounter {
+        return UIEventCounter(meterRegistry)
     }
 
     @Bean
