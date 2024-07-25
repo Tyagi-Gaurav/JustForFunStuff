@@ -79,14 +79,14 @@
 # Release instructions
   - Ensure Prepare to release instructions are complete
   - SSH into the machine
-    - `docker pull chonku/jffs-ui:v1.13`
-    - `docker pull chonku/jffs-backend:v1.13`
+    - `docker pull chonku/jffs-ui:v1.14`
+    - `docker pull chonku/jffs-backend:v1.14`
     - `docker stop jffs-backend && docker rm jffs-backend`
-    - `docker run -p 8080:8080 -p 8081:8081 -d -e "DB_USER=<>" -e "DB_PWD=<>" -e "DB_NAME=Prod" -e "DB_HOST=<>" -e "DB_SCHEME=mongodb+srv" --name jffs-backend chonku/jffs-backend:v1.13`
+    - `docker run -p 8080:8080 -p 8081:8081 -d -e "DB_USER=<>" -e "DB_PWD=<>" -e "DB_NAME=Prod" -e "DB_HOST=<>" -e "DB_SCHEME=mongodb+srv" --name jffs-backend chonku/jffs-backend:v1.14`
     - Run Healthcheck for application using the command
       - `wget -O - http://localhost:8081/actuator/health` 
     - `docker stop jffs-ui && docker rm jffs-ui`
-    - `docker run -p 3000:3000 -d --name jffs-ui chonku/jffs-ui:v1.13`    
+    - `docker run -p 3000:3000 -d --name jffs-ui chonku/jffs-ui:v1.14`    
 
 # Configure cloudwatch to collect prometheus metric
   - Create or assign permissions to a role with following policies. This role should be assigned to EC2 instance.
