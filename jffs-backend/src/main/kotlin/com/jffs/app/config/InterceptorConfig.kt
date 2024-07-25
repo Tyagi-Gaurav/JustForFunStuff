@@ -1,5 +1,6 @@
 package com.jffs.app.config
 
+import com.jffs.app.interceptor.LoggingInterceptor
 import com.jffs.app.interceptor.MetricsInterceptor
 import com.jffs.app.metrics.EndpointLatencyTimer
 import com.jffs.app.metrics.EndpointRequestCounter
@@ -18,5 +19,6 @@ open class InterceptorConfig(
     override fun addInterceptors(registry: InterceptorRegistry) {
         super.addInterceptors(registry)
         registry.addInterceptor(MetricsInterceptor(endpointRequestCounter, endpointLatencyTimer, endpointStatusMetric))
+        registry.addInterceptor(LoggingInterceptor())
     }
 }
