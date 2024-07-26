@@ -1,5 +1,7 @@
 package com.jffs.tests
 
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.kotlinModule
 import com.jffs.app.JffsApplication
 import com.jffs.app.domain.Meaning
 import com.jffs.app.domain.Word
@@ -7,12 +9,7 @@ import com.jffs.app.resource.domain.UIEvent
 import com.jffs.tests.initializer.TestContainerDatabaseInitializer
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import com.mongodb.kotlin.client.coroutine.MongoCollection
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import org.hamcrest.Matchers.containsInAnyOrder
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -26,10 +23,10 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.client.MockMvcWebTestClient
-import org.springframework.test.web.servlet.post
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.web.context.WebApplicationContext
+import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper
 import java.net.URI
 import java.time.LocalDateTime
 import java.time.ZoneOffset
@@ -52,6 +49,8 @@ class ControllersTest {
     @Autowired
     lateinit var mockMvc: MockMvc
 
+    private val objectMapper = jacksonObjectMapper()
+
     @BeforeEach
     fun setUp() {
         client = MockMvcWebTestClient.bindToApplicationContext(wac).build()
@@ -62,12 +61,24 @@ class ControllersTest {
                 listOf(
                     Word(
                         "A Word 1",
-                        listOf(Meaning("A definition 1", listOf("synonym1", "synonym2"), listOf("example1", "example2"))),
+                        listOf(
+                            Meaning(
+                                "A definition 1",
+                                listOf("synonym1", "synonym2"),
+                                listOf("example1", "example2")
+                            )
+                        ),
                         modifiedTime
                     ),
                     Word(
                         "A Word 2",
-                        listOf(Meaning("A definition 2", listOf("synonym1", "synonym2"), listOf("example1", "example2"))),
+                        listOf(
+                            Meaning(
+                                "A definition 2",
+                                listOf("synonym1", "synonym2"),
+                                listOf("example1", "example2")
+                            )
+                        ),
                         null
                     )
                 )
@@ -104,9 +115,11 @@ class ControllersTest {
             "testAction",
             "testPage"
         )
-        mockMvc.perform(post(URI("/v1/ui/event"))
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(Json.encodeToString(uiEvent)))
+        mockMvc.perform(
+            post(URI("/v1/ui/event"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(uiEvent))
+        )
             .andExpect(status().isOk)
     }
 }
