@@ -1,6 +1,7 @@
 package com.jffs.tests
 
 import com.jffs.app.resource.domain.MeaningDTO
+import com.jffs.app.resource.domain.UIEvent
 import com.jffs.app.resource.domain.WordDTO
 import com.jffs.app.resource.domain.WordsDTO
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
@@ -12,6 +13,8 @@ import org.springframework.context.annotation.ComponentScan
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 
 @SpringBootApplication
 @EnableAutoConfiguration(exclude = [MongoAutoConfiguration::class, MongoReactiveAutoConfiguration::class])
@@ -37,4 +40,9 @@ class HtmlController {
         ))
     }
 
+    @PostMapping("/v1/ui/event", produces = ["application/json"])
+    fun record(@RequestBody event: UIEvent): ResponseEntity<String> {
+        println("Received event: $event")
+        return ResponseEntity.ok().build();
+    }
 }
