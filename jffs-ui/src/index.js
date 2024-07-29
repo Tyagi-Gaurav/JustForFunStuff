@@ -7,6 +7,8 @@ import NavBar from "./organisms/NavBar.jsx";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import TicTacToe from "./pages/TicTacToe.jsx";
 import VocabularyTesting from "./pages/VocabularyTesting.jsx";
+import { useTracking } from "react-tracking";
+import { postTrackingEvent } from "./api/vocab";
 
 const router = createBrowserRouter([
   {
@@ -33,12 +35,24 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 // reportWebVitals();
 
 function NavbarWrapper() {
+  const { Track } = useTracking(
+    {page: "Game"},
+    {
+      dispatch: (data) => {
+        console.log(JSON.stringify(data));
+        postTrackingEvent(data);
+      }
+    }
+  );
+
   return (
     <StrictMode>
       <div>
         <NavBar />
         <div className="container pt-2">
-          <Outlet />
+          <Track>
+            <Outlet />
+          </Track>
         </div>
       </div>
     </StrictMode>

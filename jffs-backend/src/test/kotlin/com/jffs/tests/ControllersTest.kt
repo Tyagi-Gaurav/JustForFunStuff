@@ -112,8 +112,9 @@ class ControllersTest {
     @Test
     fun postEvent() {
         val uiEvent = UIEvent(
-            "testAction",
-            "testPage"
+            "testPage",
+            "testComponent",
+            "testAction"
         )
         mockMvc.perform(
             post(URI("/v1/ui/event"))

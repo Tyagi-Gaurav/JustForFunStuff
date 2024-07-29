@@ -6,16 +6,20 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea, Box } from "@mui/material";
+import { useTracking } from "react-tracking";
 
 export default function GamePage() {
+  const { Track, trackEvent } = useTracking({page: "GamePage"});
+
   return (
-    <>
+    <Track>
       <Box sx={{ display: "flex" }}>
         <Card
           sx={{ maxWidth: 400, maxHeight: 550, marginTop: 4, marginLeft: 4 }}
         >
           <CardActionArea>
-            <Link to="/games/tictactoe">
+            <Link to="/games/tictactoe"
+            onClick={() => trackEvent({component:'TicTacToe', action: "Card-Clicked"})}>
               <CardMedia
                 component="img"
                 height="400"
@@ -25,7 +29,12 @@ export default function GamePage() {
               />
             </Link>
             <CardContent>
-              <Typography gutterBottom variant="h5" component="div" data-testid="tictactoe-heading">
+              <Typography
+                gutterBottom
+                variant="h5"
+                component="div"
+                data-testid="tictactoe-heading"
+              >
                 Tic-Tac-Toe
               </Typography>
               <Typography variant="body2" color="text.secondary">
@@ -40,7 +49,8 @@ export default function GamePage() {
           sx={{ maxWidth: 400, maxHeight: 550, marginTop: 4, marginLeft: 4 }}
         >
           <CardActionArea>
-            <Link to="/games/vocabtesting">
+            <Link to="/games/vocabtesting"
+            onClick={() => trackEvent({component:'VocabTest', action: "Card-Clicked"})}>>
               <CardMedia
                 component="img"
                 height="400"
@@ -51,16 +61,16 @@ export default function GamePage() {
             </Link>
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
-              Enrich your Vocabulary
+                Enrich your Vocabulary
               </Typography>
               <Typography variant="body2" color="text.secondary">
-              Let's have some fun with a vocabulary game where we learn new
-              words—who's ready to play and become a word wizard?
+                Let's have some fun with a vocabulary game where we learn new
+                words—who's ready to play and become a word wizard?
               </Typography>
             </CardContent>
           </CardActionArea>
         </Card>
       </Box>
-    </>
+    </Track>
   );
 }

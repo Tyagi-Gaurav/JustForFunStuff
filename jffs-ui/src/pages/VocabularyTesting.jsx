@@ -9,6 +9,7 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AccordionDetails from "@mui/material/AccordionDetails";
+import { useTracking } from "react-tracking";
 
 function formattedArray(words) {
   if (words) {
@@ -19,6 +20,7 @@ function formattedArray(words) {
 }
 
 export default function VocabularyTesting() {
+  const {trackEvent} = useTracking();
   const [allWords, setAllWords] = useState();
   const [word, setWord] = useState("");
   const [countDownValue, setCountDownValue] = useState(3);
@@ -51,6 +53,7 @@ export default function VocabularyTesting() {
   };
 
   const handleClick = (event) => {
+    trackEvent({component:'VocabTesting', action: "BeginGame"})
     event.preventDefault();
     if (!inProgress) {
       getWords()
