@@ -82,7 +82,11 @@
     - `docker pull chonku/jffs-ui:v1.14`
     - `docker pull chonku/jffs-backend:v1.14`
     - `docker stop jffs-backend && docker rm jffs-backend`
-    - `docker run -p 8080:8080 -p 8081:8081 -d -e "DB_USER=<>" -e "DB_PWD=<>" -e "DB_NAME=Prod" -e "DB_HOST=<>" -e "DB_SCHEME=mongodb+srv" --name jffs-backend chonku/jffs-backend:v1.14`
+    - `docker run -p 8080:8080 -p 8081:8081 --log-driver=awslogs \
+      --log-opt awslogs-region=eu-west-2 \
+      --log-opt awslogs-group=JffsLogGroup \
+      --log-opt awslogs-create-group=true \
+      -d -e "DB_USER=<>" -e "DB_PWD=<>" -e "DB_NAME=Prod" -e "DB_HOST=<>" -e "DB_SCHEME=mongodb+srv" --name jffs-backend chonku/jffs-backend:v1.14`
     - Run Healthcheck for application using the command
       - `wget -O - http://localhost:8081/actuator/health` 
     - `docker stop jffs-ui && docker rm jffs-ui`
@@ -110,6 +114,13 @@
     - `sudo vi /opt/aws/amazon-cloudwatch-agent/var/cwagent-config.json`
   - Restart cloudwatch config
     - `sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -s -c file:/opt/aws/amazon-cloudwatch-agent/var/cwagent-config.json`
+
+# Logging Config
+ - Logging is enabled by passing following parameters to docker container
+   - `--log-driver=awslogs`
+   - `--log-opt awslogs-region=eu-west-2`
+   - `--log-opt awslogs-group=JffsLogGroup`
+   - `--log-opt awslogs-create-group=true`
 
 # Other commands
    - Stop Nginx

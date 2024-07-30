@@ -2,42 +2,69 @@
   "agent": {
     "region": "eu-west-2"
   },
-  "logs":{
-    "metrics_collected":{
-      "prometheus":{
-        "cluster_name":"jffs-prod-cluster",
-        "log_group_name":"jffs-prometheus",
-        "prometheus_config_path":"/home/ec2-user/prometheus_config.yaml",
-        "emf_processor":{
-          "metric_declaration_dedup":true,
-          "metric_namespace":"JFFSPrometheus",
-          "metric_unit":{
+  "logs": {
+    "metrics_collected": {
+      "prometheus": {
+        "cluster_name": "jffs-prod-cluster",
+        "log_group_name": "jffs-prometheus",
+        "prometheus_config_path": "/home/ec2-user/prometheus_config.yaml",
+        "emf_processor": {
+          "metric_declaration_dedup": true,
+          "metric_namespace": "JFFSPrometheus",
+          "metric_unit": {
             "jvm_threads_current": "Count",
             "jvm_gc_collection_seconds_sum": "Milliseconds",
             "jvm_classes_loaded": "Count",
             "jvm_memory_bytes_used": "Bytes",
             "jvm_memory_pool_bytes_used": "Bytes"
           },
-          "metric_declaration" : [
+          "metric_declaration": [
             {
-              "source_labels": ["job"],
+              "source_labels": [
+                "job"
+              ],
               "label_matcher": "^JFFS_BACKEND_JOB$",
-              "dimensions": [["instance", "path", "method"]],
+              "dimensions": [
+                [
+                  "instance",
+                  "path",
+                  "method"
+                ]
+              ],
               "metric_selectors": [
                 "^request_count.*",
                 "^request_latency.*"
               ]
             },
             {
-              "source_labels": ["job"],
+              "source_labels": [
+                "job"
+              ],
               "label_matcher": "^JFFS_BACKEND_JOB$",
-              "dimensions": [["instance", "status"]],
+              "dimensions": [
+                [
+                  "instance",
+                  "status"
+                ]
+              ],
               "metric_selectors": [
                 "^response_status.*"
               ]
             }
           ]
         }
+      }
+    },
+    "logs_collected": {
+      "files": {
+        "collect_list": [
+          {
+            "file_path": "/var/log/nginx/*.log",
+            "log_group_name": "nginx",
+            "log_stream_name": "{instance_id}",
+            "retention_in_days": 7
+          }
+        ]
       }
     }
   }
