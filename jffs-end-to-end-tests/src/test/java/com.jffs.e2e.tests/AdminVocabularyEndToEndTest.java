@@ -1,31 +1,23 @@
 package com.jffs.e2e.tests;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jffs.e2e.tests.core.AbstractEndToEndTests;
 import com.jffs.e2e.tests.core.WithAdminApp;
 import com.jffs.e2e.tests.core.WithSyntacticSugar;
 import com.jffs.e2e.tests.core.assertion.TestWordAssert;
-import com.microsoft.playwright.Locator;
-import com.microsoft.playwright.Page;
 import org.assertj.core.api.Assertions;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.function.Function;
-import java.util.function.Supplier;
 
 import static com.jffs.e2e.tests.TestWordBuilder.aWord;
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
-class AdminVocabularyEndToEndTests extends AbstractEndToEndTests implements WithSyntacticSugar, WithAdminApp {
+class AdminVocabularyEndToEndTest extends AbstractEndToEndTests implements WithSyntacticSugar, WithAdminApp {
 
     private static final String PREVIOUS_BUTTON = "< Previous";
     private static final String NEXT_BUTTON = "Next >";
-    private ObjectMapper objectMapper = new ObjectMapper();
 
 
     @Nested

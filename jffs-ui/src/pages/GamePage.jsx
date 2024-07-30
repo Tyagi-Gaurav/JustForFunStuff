@@ -9,7 +9,7 @@ import { CardActionArea, Box } from "@mui/material";
 import { useTracking } from "react-tracking";
 
 export default function GamePage() {
-  const { Track, trackEvent } = useTracking({page: "GamePage"});
+  const { Track, trackEvent } = useTracking();
 
   return (
     <Track>

@@ -1,7 +1,6 @@
 package com.jffs.tests
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.fasterxml.jackson.module.kotlin.kotlinModule
 import com.jffs.app.JffsApplication
 import com.jffs.app.domain.Meaning
 import com.jffs.app.domain.Word
@@ -26,7 +25,6 @@ import org.springframework.test.web.servlet.client.MockMvcWebTestClient
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.web.context.WebApplicationContext
-import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper
 import java.net.URI
 import java.time.LocalDateTime
 import java.time.ZoneOffset
@@ -42,7 +40,7 @@ class ControllersTest {
     var modifiedTime = LocalDateTime.now(ZoneOffset.UTC)
 
     @Autowired
-    lateinit var wac: WebApplicationContext;
+    lateinit var wac: WebApplicationContext
 
     lateinit var client: WebTestClient
 
@@ -120,7 +118,6 @@ class ControllersTest {
             post(URI("/v1/ui/event"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(uiEvent))
-        )
-            .andExpect(status().isOk)
+        ).andExpect(status().isOk)
     }
 }

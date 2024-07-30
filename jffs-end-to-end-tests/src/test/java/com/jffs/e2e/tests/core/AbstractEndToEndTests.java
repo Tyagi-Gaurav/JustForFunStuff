@@ -5,6 +5,8 @@ import com.jffs.e2e.tests.TestPaginatedWords;
 import com.jffs.e2e.tests.TestWord;
 import com.jffs.e2e.tests.TestWordBuilder;
 import com.jffs.e2e.tests.core.assertion.HttpResponseAssert;
+import com.jffs.e2e.tests.core.assertion.Metric;
+import com.jffs.e2e.tests.core.assertion.MetricBuilder;
 import com.microsoft.playwright.*;
 import kotlin.Pair;
 import org.assertj.core.api.Assertions;
@@ -50,6 +52,11 @@ public abstract class AbstractEndToEndTests implements
     void setUp() {
         page = browser.newPage();
         page.onConsoleMessage(x -> System.out.println(x.text()));
+    }
+
+    @BeforeEach
+    void captureBeforeMetrics() throws Exception {
+        beforeMetrics = captureMetrics();
     }
 
     @BeforeAll
@@ -160,10 +167,6 @@ public abstract class AbstractEndToEndTests implements
         return objectMapper.readValue(response.body(), TestWord.class);
     }
 
-    protected void givenMetricsAreCaptured() throws Exception {
-        beforeMetrics = captureMetrics();
-    }
-
     protected Map<String, Double> captureMetrics() throws Exception {
         HttpResponse<String> stringHttpResponse = aGetRequestWith(appMgtUrlWithPath("actuator/prometheus"));
         String body = stringHttpResponse.body();
@@ -178,6 +181,45 @@ public abstract class AbstractEndToEndTests implements
                     return new Pair<>(metric, Double.parseDouble(line.substring(splitterIndex + 1).trim()));
                 })
                 .collect(Collectors.toMap(Pair::getFirst, Pair::getSecond));
+    }
+
+    protected void thenVerifyThat(Extractor<Map<String, Double>> extractor, MetricBuilder metricBuilder) {
+        Metric expectedMetrics = metricBuilder.build();
+        verify(expectedMetrics, extractor.extract());
+    }
+
+    private void verify(Metric expectedMetric, Map<String, Double> actual) {
+        String fullMetricName = expectedMetric.getFullMetricName();
+        assertThat(actual).containsKey(fullMetricName);
+
+        Double actualValue = actual.get(fullMetricName);
+        assertThat(expectedMetric.predicates()
+                .stream()
+                .allMatch(predicate -> predicate.test(actualValue))).isTrue();
+    }
+
+    protected Extractor<Map<String, Double>> metrics() {
+        return () -> {
+            try {
+                Map<String, Double> afterMetrics = captureMetrics();
+                return afterMetrics.entrySet()
+                        .stream()
+                        .map(entry -> {
+                            if (beforeMetrics.containsKey(entry.getKey())) {
+                                return Map.of(entry.getKey(), entry.getValue() - beforeMetrics.get(entry.getKey()));
+                            } else {
+                                return Map.of(entry.getKey(), entry.getValue());
+                            }
+                        }).reduce((map1, map2) -> {
+                            Map<String, Double> objectObjectHashMap = new HashMap<>();
+                            objectObjectHashMap.putAll(map1);
+                            objectObjectHashMap.putAll(map2);
+                            return objectObjectHashMap;
+                        }).orElse(Map.of());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        };
     }
 
     @AfterEach
