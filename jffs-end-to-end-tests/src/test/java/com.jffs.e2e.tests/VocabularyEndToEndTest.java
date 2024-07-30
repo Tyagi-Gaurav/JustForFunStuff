@@ -2,14 +2,12 @@ package com.jffs.e2e.tests;
 
 import com.jffs.e2e.tests.core.AbstractEndToEndTests;
 import com.jffs.e2e.tests.core.WithJffsApp;
+import com.jffs.e2e.tests.core.WithSyntacticSugar;
 import org.junit.jupiter.api.Test;
 
-import java.util.Map;
+import static com.jffs.e2e.tests.core.assertion.MetricBuilder.aMetric;
 
-import static java.lang.Thread.sleep;
-import static org.assertj.core.api.Assertions.assertThat;
-
-class VocabularyEndToEndTest extends AbstractEndToEndTests implements WithJffsApp {
+class VocabularyEndToEndTest extends AbstractEndToEndTests implements WithJffsApp, WithSyntacticSugar {
 
     @Test
     void showWordAndItsDataAfterBeginButtonIsClicked() {
@@ -41,7 +39,7 @@ class VocabularyEndToEndTest extends AbstractEndToEndTests implements WithJffsAp
     }
 
     @Test
-    void metricsGeneratedForApi() throws Exception {
+    void metricsGeneratedForApi() {
         givenSomeWordsExist();
         page.navigate(appUrlWithPath("games/vocabtesting"));
 
@@ -55,27 +53,22 @@ class VocabularyEndToEndTest extends AbstractEndToEndTests implements WithJffsAp
         and(anElement(byTestId("word-text")), isVisible());
         and(anElement(byTestId("word-text")), hasValueLike("Word.*"));
 
-        checkMetricExists("request_latency_seconds", "method", "GET", "path", "/api/v1/words", "quantile", "0.5");
-        checkMetricExists("response_status_total", "status", "200");
-        checkMetricExists("request_count_total", "method", "GET", "path", "/api/v1/words");
-    }
+        thenVerifyThat(metrics(), contains(aMetric()
+                .labelled("request_latency_seconds")
+                .withTag("method", "GET")
+                .withTag("path", "/api/v1/words")
+                .withTag("quantile", "0.5")
+                .isLessThan(1.0)));
 
-    private void checkMetricExists(String metricName, String... tags) throws Exception {
-        final var tagBuilder = new StringBuilder();
-        for (int i = 0; i < tags.length; i+=2) {
-            tagBuilder.append(tags[i]).append("=").append("\"").append(tags[i + 1]).append("\"");
-            if (!(i+2 >= tags.length)) {
-                tagBuilder.append(",");
-            }
-        }
+        thenVerifyThat(metrics(), contains(aMetric()
+                .labelled("response_status_total")
+                .withTag("status", "200")
+                .isIncrementedBy(2.0)));
 
-        final var metricBuilder = new StringBuilder();
-        metricBuilder.append(metricName);
-        if (!tagBuilder.isEmpty()) {
-            metricBuilder.append("{").append(tagBuilder).append("}");
-        }
-
-        Map<String, Double> afterMetrics = captureMetrics();
-        assertThat(afterMetrics).containsKey(metricBuilder.toString());
+        thenVerifyThat(metrics(), contains(aMetric()
+                .labelled("request_count_total")
+                .withTag("method", "GET")
+                .withTag("path", "/api/v1/words")
+                .isIncrementedBy(1.0)));
     }
 }

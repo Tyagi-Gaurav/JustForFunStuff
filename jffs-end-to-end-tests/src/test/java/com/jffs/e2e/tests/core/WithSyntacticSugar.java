@@ -24,4 +24,8 @@ public interface WithSyntacticSugar {
     default <T> T withName(T t) {
         return t;
     }
+
+    default <T> T contains(T t) {
+        return t;
+    }
 }

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody
 class UIEventController(@Autowired val uiEventCounter: UIEventCounter) {
     @PostMapping("/v1/ui/event", produces = ["application/json"])
     fun record(@RequestBody event: UIEvent): ResponseEntity<String> {
-        uiEventCounter.increment(event.action, event.page)
+        uiEventCounter.increment(event)
         return ResponseEntity.ok().build();
     }
 }
