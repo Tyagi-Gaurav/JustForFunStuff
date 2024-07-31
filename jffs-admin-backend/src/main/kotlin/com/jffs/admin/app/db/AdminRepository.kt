@@ -58,7 +58,7 @@ class AdminRepository(
         val database = mongoClient.getDatabase(databaseConfig.dbName);
         val collection = database.getCollection<Word>("word")
 
-        return collection.find<Word>(regex("word", ".*$word.*")).firstOrNull()
+        return collection.find<Word>(regex("word", ".*${word.lowercase()}.*")).firstOrNull()
     }
 
     suspend fun findBySynonym(synonym: String) : Word? {

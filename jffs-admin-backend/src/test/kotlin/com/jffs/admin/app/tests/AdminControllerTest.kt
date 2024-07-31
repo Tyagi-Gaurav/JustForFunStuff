@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
+import org.junit.jupiter.params.provider.ValueSource
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ContextConfiguration
@@ -113,7 +114,7 @@ class AdminControllerTest {
             .exchange()
             .expectStatus().isOk
             .expectBody()
-            .jsonPath("$.word").isEqualTo("ANewWord1")
+            .jsonPath("$.word").isEqualTo("anewword1")
             .jsonPath("$.meanings[0].definition").isEqualTo("A new definition 1")
             .jsonPath("$.meanings[0].synonyms[0]").isEqualTo("new synonym1")
             .jsonPath("$.meanings[0].examples[0]").isEqualTo("new example1")
@@ -125,7 +126,7 @@ class AdminControllerTest {
             .exchange()
             .expectStatus().isOk
             .expectBody()
-            .jsonPath("$.word").isEqualTo("AWord1")
+            .jsonPath("$.word").isEqualTo("aword1")
 
         val newWord: Deferred<WordDTO> =
             GlobalScope.async {
@@ -148,7 +149,7 @@ class AdminControllerTest {
             .exchange()
             .expectStatus().isOk
             .expectBody()
-            .jsonPath("$.word").isEqualTo("AWord1")
+            .jsonPath("$.word").isEqualTo("aword1")
             .jsonPath("$.meanings[0].definition").isEqualTo("A definition 1")
             .jsonPath("$.meanings[0].synonyms[0]").isEqualTo("synonym1")
             .jsonPath("$.meanings[0].examples[0]").isEqualTo("example1")
@@ -171,7 +172,7 @@ class AdminControllerTest {
             .exchange()
             .expectStatus().isOk
             .expectBody()
-            .jsonPath("$.word").isEqualTo("AWord1")
+            .jsonPath("$.word").isEqualTo("aword1")
             .jsonPath("$.meanings[0].definition").isEqualTo("A new definition 1")
             .jsonPath("$.meanings[0].synonyms[0]").isEqualTo("new synonym1")
             .jsonPath("$.meanings[0].examples[0]").isEqualTo("new example1")
@@ -183,7 +184,7 @@ class AdminControllerTest {
             .exchange()
             .expectStatus().isOk
             .expectBody()
-            .jsonPath("$.word").isEqualTo("AWord25")
+            .jsonPath("$.word").isEqualTo("aword25")
 
         client.delete().uri("/v1/words/AWord25")
             .exchange()
@@ -195,13 +196,14 @@ class AdminControllerTest {
             .expectStatus().isNotFound
     }
 
-    @Test
-    fun searchWord() {
-        client.get().uri("/v1/words/search?searchType=WORD&searchValue=AWord1")
+    @ParameterizedTest
+    @ValueSource(strings = ["aword1", "AWORD1", "AWord1"])
+    fun searchWordShouldBeCaseInsensitive(word : String) {
+        client.get().uri("/v1/words/search?searchType=WORD&searchValue=$word")
             .exchange()
             .expectStatus().isOk
             .expectBody()
-            .jsonPath("$.word").isEqualTo("AWord1")
+            .jsonPath("$.word").isEqualTo(word.lowercase())
             .jsonPath("$.meanings[0].definition").isEqualTo("A definition 1")
             .jsonPath("$.meanings[0].synonyms[0]").isEqualTo("synonym1")
             .jsonPath("$.meanings[0].examples[0]").isEqualTo("example1")
@@ -213,7 +215,7 @@ class AdminControllerTest {
             .exchange()
             .expectStatus().isOk
             .expectBody()
-            .jsonPath("$.word").isEqualTo("AWord1")
+            .jsonPath("$.word").isEqualTo("aword1")
             .jsonPath("$.meanings[0].definition").isEqualTo("A definition 1")
             .jsonPath("$.meanings[0].synonyms[0]").isEqualTo("synonym1")
             .jsonPath("$.meanings[0].examples[0]").isEqualTo("example1")
@@ -246,7 +248,7 @@ class AdminControllerTest {
         for (index in 1..wordsCount) {
             words.add(
                 Word(
-                    "AWord$index",
+                    "aword$index",
                     listOf(Meaning("A definition $index", listOf("synonym$index"), listOf("example$index"))),
                     modifiedTime
                 )

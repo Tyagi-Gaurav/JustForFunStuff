@@ -44,7 +44,7 @@ class AdminController(@Autowired val adminRepository: AdminRepository) {
     @GetMapping("/v1/words/{word}", produces = ["application/json"])
     suspend fun findWord(@PathVariable("word") word: String): ResponseEntity<WordDTO> {
         LOG.info("Request received for FindWord for word $word")
-        val databaseResponse = adminRepository.findByWord(word)
+        val databaseResponse = adminRepository.findByWord(word.lowercase())
         return databaseResponse?.let {
             ResponseEntity.ok(WordDTO(
                 it.word,
@@ -81,7 +81,7 @@ class AdminController(@Autowired val adminRepository: AdminRepository) {
         LOG.info("Request received for Update word for word $oldWord with $wordDTO")
         val word = wordDTO.let {
             Word(
-                it.word,
+                it.word.lowercase(),
                 it.meanings.map { meaning: MeaningDTO ->
                     Meaning(
                         meaning.definition,
@@ -92,7 +92,7 @@ class AdminController(@Autowired val adminRepository: AdminRepository) {
                 LocalDateTime.now()
             )
         }
-        adminRepository.update(oldWord, word)
+        adminRepository.update(oldWord.lowercase(), word)
         return ResponseEntity.noContent().build()
     }
 
@@ -105,7 +105,7 @@ class AdminController(@Autowired val adminRepository: AdminRepository) {
         }
         val word = wordDTO.let {
             Word(
-                it.word,
+                it.word.lowercase(),
                 it.meanings.map { meaning: MeaningDTO ->
                     Meaning(
                         meaning.definition,
@@ -123,7 +123,7 @@ class AdminController(@Autowired val adminRepository: AdminRepository) {
     @DeleteMapping("/v1/words/{word}")
     suspend fun deleteWord(@PathVariable("word") word: String) : ResponseEntity<String> {
         LOG.info("Request received for deleteWord with $word")
-        adminRepository.delete(word)
+        adminRepository.delete(word.lowercase())
         return ResponseEntity.accepted().build()
     }
 }
