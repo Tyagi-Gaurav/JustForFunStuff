@@ -9,6 +9,7 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import FormControl from "@mui/material/FormControl";
 import SendIcon from '@mui/icons-material/Send';
+import AlertMessage from "../atoms/AlertMessage";
 import {
   Button,
   styled,
@@ -26,6 +27,7 @@ export default function VocabList({ editCallback }) {
   const [previousPage, setPreviousPage] = useState(-1);
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
+  const [failedSearch, setFailedSearch] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [searchType, setSearchType] = useState("WORD");
 
@@ -45,24 +47,29 @@ export default function VocabList({ editCallback }) {
         })
         .catch((error) => {
           console.log(error);
+          setFailedSearch(true);
         });
     }
   };
 
   const handleSearchSelection = (event) => {
     setSearchType(event.target.value);
+    setFailedSearch(false);
   };
 
   const handleSearchSelectionValueChange = (event) => {
     setSearchValue(event.target.value);
+    setFailedSearch(false);
   };
 
   const handlePrevious = () => {
     getData(previousPage);
+    setFailedSearch(false);
   };
 
   function handleRowClick(word) {
     editCallback(word);
+    setFailedSearch(false);
   }
 
   function createRowsFromData(data) {
@@ -117,6 +124,7 @@ export default function VocabList({ editCallback }) {
   return (
     <>
      <p/>
+     {failedSearch && <AlertMessage type="error" message="Word not found" />}
       <Box
         display="flex"
         flexDirection="row"

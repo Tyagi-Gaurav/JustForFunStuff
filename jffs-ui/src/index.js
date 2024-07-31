@@ -39,7 +39,6 @@ function NavbarWrapper() {
     {page: "Game"},
     {
       dispatch: (data) => {
-        console.log(JSON.stringify(data));
         postTrackingEvent(data);
       }
     }

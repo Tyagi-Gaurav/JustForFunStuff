@@ -108,6 +108,14 @@ public abstract class AbstractEndToEndTests implements
                 .until(() -> evaluator.apply(locatorProvider.apply(page)));
     }
 
+    protected void thenEventually(Runnable runnable) {
+        waitAtMost(ASSERTION_TIMEOUT)
+                .until(() -> {
+                    runnable.run();
+                    return true;
+                });
+    }
+
     protected void givenListItemIsClicked() {
         given(aMenuItem(byText("Vocabulary")), isVisible());
         and(aMenuItem(byText("Vocabulary")), isClicked());
@@ -161,10 +169,14 @@ public abstract class AbstractEndToEndTests implements
         return response.statusCode() == 200;
     }
 
-    protected TestWord getFromApp(String word) throws Exception {
-        final var response = aGetRequestWith(adminAppUrlWithPath("admin/v1/words/" + word));
-        Assertions.assertThat(response.statusCode()).isEqualTo(200);
-        return objectMapper.readValue(response.body(), TestWord.class);
+    protected TestWord getFromApp(String word) {
+        try {
+            final var response = aGetRequestWith(adminAppUrlWithPath("admin/v1/words/" + word));
+            Assertions.assertThat(response.statusCode()).isEqualTo(200);
+            return objectMapper.readValue(response.body(), TestWord.class);
+        } catch(Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     protected Map<String, Double> captureMetrics() throws Exception {
