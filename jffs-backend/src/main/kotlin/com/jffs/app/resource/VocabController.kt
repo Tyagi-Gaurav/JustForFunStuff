@@ -18,7 +18,7 @@ class VocabController(@Autowired val vocabRepository: VocabRepository) {
             vocabRepository.readAllWords()
                 .map { word ->
                     WordDTO(
-                        word.word,
+                        word.word.lowercase().replaceFirstChar(Char::uppercase),
                         word.meanings.map { meaning: Meaning ->
                             MeaningDTO(
                                 meaning.definition,

@@ -159,10 +159,10 @@ class AdminVocabularyEndToEndTest extends AbstractEndToEndTests implements WithS
             given(textBoxLabelled("Examples"), isFilledWith("Example1,Example2"));
             given(aButton(withName("SUBMIT")), isClicked());
 
-            TestWordAssert.assertThat(getFromApp("WordToBeAdded"))
+            thenEventually(() -> TestWordAssert.assertThat(getFromApp("WordToBeAdded"))
                     .hasDefinition("A Definition to be added")
                     .containsSynonyms("Synonym1", "Synonym2")
-                    .containsExamples("Example1", "Example2");
+                    .containsExamples("Example1", "Example2"));
         }
     }
 
@@ -190,10 +190,10 @@ class AdminVocabularyEndToEndTest extends AbstractEndToEndTests implements WithS
             thenEventually(aButton(withName("SUBMIT")), isVisible());
             when(aButton(withName("SUBMIT")), isClicked());
 
-            TestWordAssert.assertThat(getFromApp("WordToBeEdited"))
+           thenEventually(() -> TestWordAssert.assertThat(getFromApp("WordToBeEdited"))
                     .hasDefinition("A Definition that has been edited")
                     .containsSynonyms("Synonym1", "Synonym2", "Synonym3")
-                    .containsExamples("Example1", "Example2");
+                    .containsExamples("Example1", "Example2"));
         }
     }
 }

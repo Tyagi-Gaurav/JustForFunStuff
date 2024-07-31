@@ -58,7 +58,7 @@ class ControllersTest {
             collection?.insertMany(
                 listOf(
                     Word(
-                        "A Word 1",
+                        "AWord1",
                         listOf(
                             Meaning(
                                 "A definition 1",
@@ -69,7 +69,7 @@ class ControllersTest {
                         modifiedTime
                     ),
                     Word(
-                        "A Word 2",
+                        "AWord2",
                         listOf(
                             Meaning(
                                 "A definition 2",
@@ -91,7 +91,7 @@ class ControllersTest {
             .expectStatus().isOk()
             .expectHeader().contentType("application/json")
             .expectBody()
-            .jsonPath("$.words[*].word").value(containsInAnyOrder("A Word 1", "A Word 2"))
+            .jsonPath("$.words[*].word").value(containsInAnyOrder("Aword1", "Aword2"))
             .jsonPath("$.words[*].meanings[*].definition").value(containsInAnyOrder("A definition 1", "A definition 2"))
 
             .jsonPath("$.words[0].meanings[0].synonyms[0]").isEqualTo("synonym1")
