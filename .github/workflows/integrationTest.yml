@@ -26,7 +26,7 @@ jobs:
         run: ./mvnw clean package install
 
       - name: Build the docker-compose stack
-        run: docker-compose up -d --build
+        run: docker compose up -d --build
 
       - name: Sleep
         uses: jakejarvis/wait-action@master
