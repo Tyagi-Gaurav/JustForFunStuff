@@ -41,6 +41,7 @@
    - Use keypair created earlier
    - Allow SSH from your IP
    - Allow HTTP from internet
+ - Assign EC2 role (created below) which has cloudwatch permissions
    
  - Connect to instance
    - ssh -i "~/.aws/TestKeyPair.pem" ec2-user@<public_dns>
@@ -55,22 +56,35 @@
 # SSL Setup Instructions
  - `sudo yum update -y`
  - `sudo yum install -y certbot python3-certbot-nginx nginx cronie`
+ - `sudo vi /etc/nginx/nginx.conf`
+     - Add `server_name justforfunstuff.com;`
+ - `sudo vi /etc/nginx/conf.d/www.justforfunstuff.com.conf`
+     - Copy contents of file `aws_deploy/nginx.conf` into the above file
  - Start nginx service
    - `sudo systemctl start nginx`
  - Get certs from Lets encrypt
-   - `sudo certbot --nginx -d www.justforfunstuff.com -d justforfunstuff.com`
- - `sudo vi /etc/nginx/conf.d/www.justforfunstuff.com.conf`
-   - Copy contents of file `aws_deploy/nginx.conf` into the above file
+    - `sudo certbot --nginx -d www.justforfunstuff.com -d justforfunstuff.com`
+    - Details:
+      - Email: usual
+ - If the certs are already present on the other instance, then copy them to the new instance.
+    - `scp -i "~/.aws/TestKeyPair.pem" ec2-user@<OLD_EC2_INSTANCE>:backup_etc-letsencrypt.tar .`
+    - `scp -i "~/.aws/TestKeyPair.pem" ~/workspace/personal/JustForFunStuff/backup_etc-letsencrypt.tar ec2-user@<NEW_EC2_INSTANCE>:/home/ec2-user`
+ - Uncomment the lines from nginx.conf (Only for new instances)
+   - `sudo vi /etc/nginx/conf.d/www.justforfunstuff.com.conf`
  - Restart nginx service
-   - `sudo systemctl reload nginx`
+     - `sudo systemctl reload nginx`
  - Start crond & enable it on start
    - `sudo systemctl start crond.service`
    - `sudo systemctl enable crond.service`
    - `crontab -e`
    - Set crontab to 
      - `0 12 * * * /usr/bin/certbot renew --quiet`
- - Setup auto renewal of certs (Renew should happen every 90 days)
+ - Setup auto-renewal of certs (Renew should happen every 90 days)
    - `sudo /usr/bin/certbot renew --quiet`
+
+# Migrate Route53 to use new instance
+ - Go to Route53 hosted zones
+ - Change the Type A record to use the new ec2 public IP
 
 # Prepare to release
 - Create release manually from github home page
@@ -79,18 +93,21 @@
 # Release instructions
   - Ensure Prepare to release instructions are complete
   - SSH into the machine
-    - `docker pull chonku/jffs-ui:v1.14`
-    - `docker pull chonku/jffs-backend:v1.14`
+    - `docker pull chonku/jffs-ui:v1.15`
+    - `docker pull chonku/jffs-backend:v1.15`
     - `docker stop jffs-backend && docker rm jffs-backend`
-    - `docker run -p 8080:8080 -p 8081:8081 --log-driver=awslogs \
+    - `docker run -p 8080:8080 -p 8081:8081 \ 
+      --log-driver=awslogs \
       --log-opt awslogs-region=eu-west-2 \
       --log-opt awslogs-group=JffsLogGroup \
       --log-opt awslogs-create-group=true \
-      -d -e "DB_USER=<>" -e "DB_PWD=<>" -e "DB_NAME=Prod" -e "DB_HOST=<>" -e "DB_SCHEME=mongodb+srv" --name jffs-backend chonku/jffs-backend:v1.14`
+      -d -e "DB_USER=<>" -e "DB_PWD=<>" -e "DB_NAME=Prod" -e "DB_HOST=<>" -e "DB_SCHEME=mongodb+srv" --name jffs-backend chonku/jffs-backend:v1.15`
     - Run Healthcheck for application using the command
       - `wget -O - http://localhost:8081/actuator/health` 
     - `docker stop jffs-ui && docker rm jffs-ui`
-    - `docker run -p 3000:3000 -d --name jffs-ui chonku/jffs-ui:v1.14`    
+    - `docker run -p 3000:3000 -d --name jffs-ui chonku/jffs-ui:v1.15`
+  - Connect to UI via ec2 instance
+    - 
 
 # Configure cloudwatch to collect prometheus metric
   - Create or assign permissions to a role with following policies. This role should be assigned to EC2 instance.
@@ -110,6 +127,7 @@
   - Install Cloudwatch agent on EC2 instance
     - `sudo yum install amazon-cloudwatch-agent`
   - Create Prometheus scrape config file by copying the contents of `aws_deploy/global_prometheus_config.yaml` to `/home/ec2-user/prometheus_config.yaml`
+    - `sudo vi /home/ec2-user/prometheus_config.yaml`
   - Create cloud watch agent config by copying contents of `aws_deploy/cloudwatchAgentConfig.json` into
     - `sudo vi /opt/aws/amazon-cloudwatch-agent/var/cwagent-config.json`
   - Restart cloudwatch config
