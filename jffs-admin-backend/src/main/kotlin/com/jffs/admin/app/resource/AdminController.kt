@@ -33,6 +33,7 @@ class AdminController(@Autowired val adminRepository: AdminRepository) {
             }.toList()
         val response = PaginatedWordsDTO(
             words,
+            paginatedWords.totalWords,
             paginatedWords.totalPages,
             paginatedWords.currentPage,
             paginatedWords.nextPage,
@@ -46,38 +47,49 @@ class AdminController(@Autowired val adminRepository: AdminRepository) {
         LOG.info("Request received for FindWord for word $word")
         val databaseResponse = adminRepository.findByWord(word.lowercase())
         return databaseResponse?.let {
-            ResponseEntity.ok(WordDTO(
-                it.word,
-                it.meanings.map { meaning: Meaning ->
-                    MeaningDTO(
-                        meaning.definition,
-                        meaning.synonyms,
-                        meaning.examples
-                    )
-                }))} ?: ResponseEntity.notFound().build()
+            ResponseEntity.ok(
+                WordDTO(
+                    it.word,
+                    it.meanings.map { meaning: Meaning ->
+                        MeaningDTO(
+                            meaning.definition,
+                            meaning.synonyms,
+                            meaning.examples
+                        )
+                    })
+            )
+        } ?: ResponseEntity.notFound().build()
     }
 
     @GetMapping("/v1/words/search", produces = ["application/json"])
-    suspend fun search(@RequestParam("searchType") searchType: String,
-                       @RequestParam("searchValue") searchValue: String): ResponseEntity<WordDTO> {
+    suspend fun search(
+        @RequestParam("searchType") searchType: String,
+        @RequestParam("searchValue") searchValue: String
+    ): ResponseEntity<WordDTO> {
         LOG.info("Request received for search for searchType: $searchType, searchValue: $searchValue")
         val databaseResponse = if (searchType == "WORD") adminRepository.findByWord(searchValue) else
             adminRepository.findBySynonym(searchValue)
 
         return databaseResponse?.let {
-            ResponseEntity.ok(WordDTO(
-                it.word,
-                it.meanings.map { meaning: Meaning ->
-                    MeaningDTO(
-                        meaning.definition,
-                        meaning.synonyms,
-                        meaning.examples
-                    )
-                }))} ?: ResponseEntity.notFound().build()
+            ResponseEntity.ok(
+                WordDTO(
+                    it.word,
+                    it.meanings.map { meaning: Meaning ->
+                        MeaningDTO(
+                            meaning.definition,
+                            meaning.synonyms,
+                            meaning.examples
+                        )
+                    })
+            )
+        } ?: ResponseEntity.notFound().build()
     }
 
     @PutMapping("/v1/words/{word}", consumes = ["application/vnd+update.word.v1+json"])
-    suspend fun updateWord(@PathVariable("word") oldWord: String, @RequestBody wordDTO: WordDTO) : ResponseEntity<String> {
+    suspend fun updateWord(
+        @PathVariable("word") oldWord: String,
+        @RequestBody wordDTO: WordDTO
+    ): ResponseEntity<String> {
         LOG.info("Request received for Update word for word $oldWord with $wordDTO")
         val word = wordDTO.let {
             Word(
@@ -97,7 +109,7 @@ class AdminController(@Autowired val adminRepository: AdminRepository) {
     }
 
     @PostMapping("/v1/words", consumes = ["application/vnd+add.word.v1+json"])
-    suspend fun addWord(@RequestBody wordDTO: WordDTO) : ResponseEntity<String> {
+    suspend fun addWord(@RequestBody wordDTO: WordDTO): ResponseEntity<String> {
         LOG.info("Request received for addWord with $wordDTO")
         val databaseResponse = adminRepository.findByWord(wordDTO.word)
         databaseResponse?.let {
@@ -121,7 +133,7 @@ class AdminController(@Autowired val adminRepository: AdminRepository) {
     }
 
     @DeleteMapping("/v1/words/{word}")
-    suspend fun deleteWord(@PathVariable("word") word: String) : ResponseEntity<String> {
+    suspend fun deleteWord(@PathVariable("word") word: String): ResponseEntity<String> {
         LOG.info("Request received for deleteWord with $word")
         adminRepository.delete(word.lowercase())
         return ResponseEntity.accepted().build()

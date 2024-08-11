@@ -64,6 +64,7 @@ class AdminControllerTest {
             .expectStatus().isOk
             .expectBody()
             .jsonPath("$.words.length()").isEqualTo(10)
+            .jsonPath("$.totalWords").isEqualTo("25")
             .jsonPath("$.totalPages").isEqualTo("3")
             .jsonPath("$.currentPage").isEqualTo("1")
             .jsonPath("$.nextPage").isEqualTo("2")
@@ -74,6 +75,7 @@ class AdminControllerTest {
             .expectStatus().isOk
             .expectBody()
             .jsonPath("$.words.length()").isEqualTo(10)
+            .jsonPath("$.totalWords").isEqualTo("25")
             .jsonPath("$.totalPages").isEqualTo("3")
             .jsonPath("$.currentPage").isEqualTo("2")
             .jsonPath("$.nextPage").isEqualTo("3")
@@ -84,6 +86,7 @@ class AdminControllerTest {
             .expectStatus().isOk
             .expectBody()
             .jsonPath("$.words.length()").isEqualTo(5)
+            .jsonPath("$.totalWords").isEqualTo("25")
             .jsonPath("$.totalPages").isEqualTo("3")
             .jsonPath("$.currentPage").isEqualTo("3")
             .jsonPath("$.nextPage").isEqualTo("-1")

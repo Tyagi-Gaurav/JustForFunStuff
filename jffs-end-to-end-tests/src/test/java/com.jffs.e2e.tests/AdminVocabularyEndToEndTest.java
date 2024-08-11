@@ -148,7 +148,7 @@ class AdminVocabularyEndToEndTest extends AbstractEndToEndTests implements WithS
     @Nested
     class AddItem {
         @Test
-        void addWord() throws Exception {
+        void addWord() {
             page.navigate(adminAppUrl());
             givenSomeWordsExist();
             givenAddItemIsClicked();
@@ -169,7 +169,7 @@ class AdminVocabularyEndToEndTest extends AbstractEndToEndTests implements WithS
     @Nested
     class EditItem {
         @Test
-        void editWord() throws Exception {
+        void editWord() {
             page.navigate(adminAppUrl());
             givenSomeWordsExist();
 
