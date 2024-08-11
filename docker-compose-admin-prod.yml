@@ -28,12 +28,12 @@ services:
       - "9090:9090"
       - "9091:9091"
     environment:
-      - "DB_USER=root"
-      - "DB_PWD=example"
-      - "APP_NAME=testDB"
-      - "DB_NAME=testDB"
-      - "DB_HOST=database"
-      - "DB_SCHEME=mongodb"
+      - "DB_USER=jffs-prod-user"
+      - "DB_PWD=dDsv13DNGbeomU8i"
+      - "APP_NAME=Prod"
+      - "DB_NAME=vocab"
+      - "DB_HOST=prod.0nv9qyd.mongodb.net"
+      - "DB_SCHEME=mongodb+srv"
 
   jffs-admin-ui:
     container_name: jffs-admin-ui

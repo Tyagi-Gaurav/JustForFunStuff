@@ -16,6 +16,7 @@ data class Meaning(
 
 data class PaginatedWords(
     val words : List<Word>,
+    val totalWords : Int,
     val totalPages : Int,
     val nextPage: Int,
     val previousPage: Int,

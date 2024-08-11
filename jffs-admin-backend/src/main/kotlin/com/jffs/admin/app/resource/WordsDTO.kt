@@ -5,10 +5,11 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class PaginatedWordsDTO(
     val words: List<WordDTO>,
+    val totalWords: Int,
     val totalPages: Int,
     val currentPage: Int,
     val nextPage: Int,
-    val previousPage : Int
+    val previousPage: Int
 )
 
 @Serializable

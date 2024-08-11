@@ -30,6 +30,7 @@ export default function VocabList({ editCallback }) {
   const [failedSearch, setFailedSearch] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [searchType, setSearchType] = useState("WORD");
+  const [totalWords, setTotalWords] = useState(0);
 
   const handleNext = () => {
     getData(nextPage);
@@ -98,6 +99,7 @@ export default function VocabList({ editCallback }) {
         // console.log("Raw response: " + JSON.stringify(response));
         var data = response.data["words"];
         createRowsFromData(data);
+        setTotalWords(response.data["totalWords"])
         setTotalPages(response.data["totalPages"]);
         setPreviousPage(response.data["previousPage"]);
         setNextPage(response.data["nextPage"]);
@@ -125,6 +127,7 @@ export default function VocabList({ editCallback }) {
     <>
      <p/>
      {failedSearch && <AlertMessage type="error" message="Word not found" />}
+      <h1>Total Words: {totalWords}</h1>
       <Box
         display="flex"
         flexDirection="row"

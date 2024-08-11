@@ -51,7 +51,7 @@ class AdminRepository(
         )
 
         val words = collection.aggregate(pipeline).map { value -> value }.toList()
-        return PaginatedWords(words, totalPages, nextPage, previousPage, pageNum)
+        return PaginatedWords(words, totalRecords, totalPages, nextPage, previousPage, pageNum)
     }
 
     suspend fun findByWord(word: String) : Word? {

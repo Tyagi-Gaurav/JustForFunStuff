@@ -54,6 +54,9 @@
    - Access the website using public DNS of ec2
    - Update A record for the domain on domain provider
 
+# Start admin container
+- `docker-compose -f ./docker-compose-admin-prod.yml up -d --build`
+
 # SSL Setup Instructions
  - `sudo yum update -y`
  - `sudo yum install -y certbot python3-certbot-nginx nginx cronie`
