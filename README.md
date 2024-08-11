@@ -15,6 +15,7 @@
  - `docker-compose up -d --build`
  - `mongosh --authenticationDatabase admin --username root` 
  - `use testDB`
+ - `show collections`
 
 # Useful database commands
  - Show Collections: `show collections;`
