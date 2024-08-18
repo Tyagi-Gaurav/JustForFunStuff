@@ -19,7 +19,7 @@ type Meaning {
 }
 
 type Query {
-    allWords : PaginatedWords!
+    allWords(pageNum: Int!) : PaginatedWords!
 }
 
 schema {
