@@ -24,3 +24,19 @@ database:
   dbName: ${DB_NAME:vocab_db}
   host: ${DB_HOST:vocab_host}
   scheme: ${DB_SCHEME:mongodb+srv}
+
+graphql:
+  servlet:
+    enabled: true
+    mapping: /graphql
+    corsEnabled: true
+    cors:
+      allowed-methods: GET, HEAD, POST
+    async-mode-enabled: true
+
+graphiql:
+  mapping: /graphiql
+  static:
+    basePath: /
+  enabled: true
+  pageTitle: GraphiQL

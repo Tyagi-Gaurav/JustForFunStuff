@@ -1,0 +1,27 @@
+type PaginatedWords {
+    words: [Word!]!,
+    totalWords : Int!,
+    totalPages : Int!,
+    currentPage : Int!,
+    nextPage : Int!,
+    previousPage : Int!
+}
+
+type Word {
+    word: String!,
+    meanings: [Meaning!]!
+}
+
+type Meaning {
+    definition: String!,
+    synonyms: [String]!,
+    examples: [String]!,
+}
+
+type Query {
+    allWords : PaginatedWords!
+}
+
+schema {
+    query: Query
+}

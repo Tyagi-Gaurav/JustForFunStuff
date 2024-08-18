@@ -1,6 +1,5 @@
 package com.jffs.admin.manual
 
-import com.jffs.admin.app.db.AdminRepository
 import com.jffs.admin.app.domain.Meaning
 import com.jffs.admin.app.domain.Word
 import com.jffs.admin.app.tests.initializer.TestContainerDatabaseInitializer
@@ -30,10 +29,7 @@ fun main() {
 }
 
 @Controller
-class AdminInMemoryTestController(@Autowired
-                                  val adminRepository: AdminRepository,
-                                  @Autowired
-                                  val mongoClient: MongoClient) {
+class AdminInMemoryTestController(@Autowired val mongoClient: MongoClient) {
 
     init {
         val database = mongoClient?.getDatabase("testDB")
