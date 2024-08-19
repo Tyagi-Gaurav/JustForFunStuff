@@ -2,12 +2,16 @@ package com.jffs.admin.app.resource
 
 import com.jffs.admin.app.db.AdminRepository
 import com.jffs.admin.app.domain.Meaning
+import com.jffs.admin.app.domain.Word
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.graphql.data.method.annotation.Argument
+import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.graphql.data.method.annotation.QueryMapping
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
+import java.time.LocalDateTime
 
 @Controller
 class AdminGraphQLController(@Autowired val adminRepository: AdminRepository) {
@@ -36,5 +40,29 @@ class AdminGraphQLController(@Autowired val adminRepository: AdminRepository) {
             paginatedWords.nextPage,
             paginatedWords.previousPage,
         )
+    }
+
+    @MutationMapping
+    suspend fun addWord(@Argument wordInput: WordInput) : Boolean {
+        LOG.info("Request received for addWord with $wordInput")
+        val databaseResponse = adminRepository.findByWord(wordInput.word)
+        databaseResponse?.let {
+            return false
+        }
+        val wordToAdd = wordInput.let {
+            Word(
+                it.word.lowercase(),
+                it.meanings.map { meaning: MeaningInput ->
+                    Meaning(
+                        meaning.definition,
+                        meaning.synonyms?.map { it.trim() },
+                        meaning.examples
+                    )
+                },
+                LocalDateTime.now()
+            )
+        }
+        adminRepository.add(wordToAdd)
+        return true
     }
 }
