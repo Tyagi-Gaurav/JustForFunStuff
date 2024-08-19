@@ -1,5 +1,5 @@
-type PaginatedWords {
-    words: [Word!]!,
+type PaginatedWordsDTO {
+    words: [WordDTO!]!,
     totalWords : Int!,
     totalPages : Int!,
     currentPage : Int!,
@@ -7,21 +7,37 @@ type PaginatedWords {
     previousPage : Int!
 }
 
-type Word {
+type WordDTO {
     word: String!,
-    meanings: [Meaning!]!
+    meanings: [MeaningDTO!]!
 }
 
-type Meaning {
+input WordInput {
+    word: String!,
+    meanings: [MeaningInput!]!
+}
+
+type MeaningDTO {
     definition: String!,
     synonyms: [String]!,
     examples: [String]!,
 }
 
+input MeaningInput {
+    definition: String!,
+    synonyms: [String]!,
+    examples: [String]!,
+}
+
+type Mutation {
+    addWord(wordInput: WordInput!) : Boolean
+}
+
 type Query {
-    allWords(pageNum: Int!) : PaginatedWords!
+    allWords(pageNum: Int!) : PaginatedWordsDTO!
 }
 
 schema {
     query: Query
+    mutation: Mutation
 }
