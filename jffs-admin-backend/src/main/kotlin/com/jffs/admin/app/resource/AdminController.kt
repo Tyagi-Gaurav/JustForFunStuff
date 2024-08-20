@@ -61,6 +61,30 @@ class AdminController(@Autowired val adminRepository: AdminRepository) {
         } ?: ResponseEntity.notFound().build()
     }
 
+    @PostMapping("/v1/words", consumes = ["application/vnd+add.word.v1+json"])
+    suspend fun addWord(@RequestBody wordDTO: WordDTO): ResponseEntity<String> {
+        LOG.info("Request received for addWord with $wordDTO")
+        val databaseResponse = adminRepository.findByWord(wordDTO.word)
+        databaseResponse?.let {
+            return ResponseEntity.status(409).build()
+        }
+        val word = wordDTO.let {
+            Word(
+                it.word.lowercase(),
+                it.meanings.map { meaning: MeaningDTO ->
+                    Meaning(
+                        meaning.definition,
+                        meaning.synonyms?.map { it.trim() },
+                        meaning.examples
+                    )
+                },
+                LocalDateTime.now()
+            )
+        }
+        adminRepository.add(word)
+        return ResponseEntity.noContent().build()
+    }
+
     @GetMapping("/v1/words/search", produces = ["application/json"])
     suspend fun search(
         @RequestParam("searchType") searchType: String,
@@ -105,30 +129,6 @@ class AdminController(@Autowired val adminRepository: AdminRepository) {
             )
         }
         adminRepository.update(oldWord.lowercase(), word)
-        return ResponseEntity.noContent().build()
-    }
-
-    @PostMapping("/v1/words", consumes = ["application/vnd+add.word.v1+json"])
-    suspend fun addWord(@RequestBody wordDTO: WordDTO): ResponseEntity<String> {
-        LOG.info("Request received for addWord with $wordDTO")
-        val databaseResponse = adminRepository.findByWord(wordDTO.word)
-        databaseResponse?.let {
-            return ResponseEntity.status(409).build()
-        }
-        val word = wordDTO.let {
-            Word(
-                it.word.lowercase(),
-                it.meanings.map { meaning: MeaningDTO ->
-                    Meaning(
-                        meaning.definition,
-                        meaning.synonyms?.map { it.trim() },
-                        meaning.examples
-                    )
-                },
-                LocalDateTime.now()
-            )
-        }
-        adminRepository.add(word)
         return ResponseEntity.noContent().build()
     }
 
