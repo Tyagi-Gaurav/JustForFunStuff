@@ -7,11 +7,16 @@ import com.jffs.admin.app.resource.MeaningDTO
 import com.jffs.admin.app.resource.WordDTO
 import com.jffs.admin.app.tests.initializer.TestContainerDatabaseInitializer
 import com.mongodb.client.model.Filters.regex
+import com.mongodb.client.model.IndexOptions
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import com.mongodb.kotlin.client.coroutine.MongoCollection
 import io.kotest.matchers.shouldBe
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.count
+import kotlinx.coroutines.runBlocking
+import org.bson.BsonDocument
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -54,6 +59,12 @@ class AdminControllerTest {
         runBlocking {
             collection?.insertMany(generateListOfWords(25))
             collection?.find()?.count() shouldBe 25
+            collection?.createIndex(
+                BsonDocument.parse("{\"word\": 1}"),
+                IndexOptions()
+                    .unique(true)
+                    .background(false)
+            )
         }
     }
 
@@ -125,17 +136,17 @@ class AdminControllerTest {
 
     @Test
     fun addWordThatDoesAlreadyExists() {
-        client.get().uri("/v1/words/AWord1")
+        client.get().uri("/v1/words/AWord19")
             .exchange()
             .expectStatus().isOk
             .expectBody()
-            .jsonPath("$.word").isEqualTo("aword1")
+            .jsonPath("$.word").isEqualTo("aword19")
 
         val newWord: Deferred<WordDTO> =
             GlobalScope.async {
                 WordDTO(
-                    "AWord1",
-                    listOf(MeaningDTO("A new definition 1", listOf("new synonym1"), listOf("new example1")))
+                    "AWord19",
+                    listOf(MeaningDTO("A new definition 19", listOf("new synonym19"), listOf("new example19")))
                 )
             }
         client.post().uri("/v1/words")
@@ -148,37 +159,37 @@ class AdminControllerTest {
 
     @Test
     fun update() {
-        client.get().uri("/v1/words/AWord1")
+        client.get().uri("/v1/words/AWord19")
             .exchange()
             .expectStatus().isOk
             .expectBody()
-            .jsonPath("$.word").isEqualTo("aword1")
-            .jsonPath("$.meanings[0].definition").isEqualTo("A definition 1")
-            .jsonPath("$.meanings[0].synonyms[0]").isEqualTo("synonym1")
-            .jsonPath("$.meanings[0].examples[0]").isEqualTo("example1")
+            .jsonPath("$.word").isEqualTo("aword19")
+            .jsonPath("$.meanings[0].definition").isEqualTo("A definition 19")
+            .jsonPath("$.meanings[0].synonyms[0]").isEqualTo("synonym19")
+            .jsonPath("$.meanings[0].examples[0]").isEqualTo("example19")
 
         val updatedWordDTO: Deferred<WordDTO> =
             GlobalScope.async {
                 WordDTO(
-                    "AWord1",
-                    listOf(MeaningDTO("A new definition 1", listOf("new synonym1"), listOf("new example1")))
+                    "AWord19",
+                    listOf(MeaningDTO("A new definition 19", listOf("new synonym19"), listOf("new example19")))
                 )
             }
-        client.put().uri("/v1/words/AWord1")
+        client.put().uri("/v1/words/AWord19")
             .body<WordDTO>(updatedWordDTO)
             .header("Content-Type", "application/vnd+update.word.v1+json")
             .exchange()
             .expectStatus()
             .isNoContent
 
-        client.get().uri("/v1/words/AWord1")
+        client.get().uri("/v1/words/AWord19")
             .exchange()
             .expectStatus().isOk
             .expectBody()
-            .jsonPath("$.word").isEqualTo("aword1")
-            .jsonPath("$.meanings[0].definition").isEqualTo("A new definition 1")
-            .jsonPath("$.meanings[0].synonyms[0]").isEqualTo("new synonym1")
-            .jsonPath("$.meanings[0].examples[0]").isEqualTo("new example1")
+            .jsonPath("$.word").isEqualTo("aword19")
+            .jsonPath("$.meanings[0].definition").isEqualTo("A new definition 19")
+            .jsonPath("$.meanings[0].synonyms[0]").isEqualTo("new synonym19")
+            .jsonPath("$.meanings[0].examples[0]").isEqualTo("new example19")
     }
 
     @Test
@@ -200,16 +211,28 @@ class AdminControllerTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["aword1", "AWORD1", "AWord1"])
-    fun searchWordShouldBeCaseInsensitive(word : String) {
+    @ValueSource(strings = ["aword19", "AWORD19", "AWord19"])
+    fun searchWordShouldBeCaseInsensitive(word: String) {
         client.get().uri("/v1/words/search?searchType=WORD&searchValue=$word")
             .exchange()
             .expectStatus().isOk
             .expectBody()
             .jsonPath("$.word").isEqualTo(word.lowercase())
-            .jsonPath("$.meanings[0].definition").isEqualTo("A definition 1")
-            .jsonPath("$.meanings[0].synonyms[0]").isEqualTo("synonym1")
-            .jsonPath("$.meanings[0].examples[0]").isEqualTo("example1")
+            .jsonPath("$.meanings[0].definition").isEqualTo("A definition 19")
+            .jsonPath("$.meanings[0].synonyms[0]").isEqualTo("synonym19")
+            .jsonPath("$.meanings[0].examples[0]").isEqualTo("example19")
+    }
+
+    @Test
+    fun findWords() {
+        client.get().uri("/v1/words/aword20")
+            .exchange()
+            .expectStatus().isOk
+            .expectBody()
+            .jsonPath("$.word").isEqualTo("aword20")
+            .jsonPath("$.meanings[0].definition").isEqualTo("A definition 20")
+            .jsonPath("$.meanings[0].synonyms[0]").isEqualTo("synonym20")
+            .jsonPath("$.meanings[0].examples[0]").isEqualTo("example20")
     }
 
     @Test

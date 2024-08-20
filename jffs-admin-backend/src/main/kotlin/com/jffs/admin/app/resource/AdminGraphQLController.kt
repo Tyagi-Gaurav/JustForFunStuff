@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.graphql.data.method.annotation.QueryMapping
-import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
 import java.time.LocalDateTime
 
@@ -40,6 +39,24 @@ class AdminGraphQLController(@Autowired val adminRepository: AdminRepository) {
             paginatedWords.nextPage,
             paginatedWords.previousPage,
         )
+    }
+
+    @QueryMapping
+    suspend fun findWord(@Argument wordInput: String): WordDTO? {
+        LOG.info("Request received for findWord for word ****$wordInput***")
+        val databaseResponse = adminRepository.findByWord(wordInput)
+        LOG.info("Database Response $databaseResponse")
+        return databaseResponse?.let {
+                WordDTO(
+                    it.word,
+                    it.meanings.map { meaning: Meaning ->
+                        MeaningDTO(
+                            meaning.definition,
+                            meaning.synonyms,
+                            meaning.examples
+                        )
+                    })
+        }
     }
 
     @MutationMapping

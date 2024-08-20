@@ -44,8 +44,8 @@ class AdminController(@Autowired val adminRepository: AdminRepository) {
 
     @GetMapping("/v1/words/{word}", produces = ["application/json"])
     suspend fun findWord(@PathVariable("word") word: String): ResponseEntity<WordDTO> {
-        LOG.info("Request received for FindWord for word $word")
-        val databaseResponse = adminRepository.findByWord(word.lowercase())
+        LOG.info("Request received for FindWord for word ****$word****")
+        val databaseResponse = adminRepository.findByWord(word)
         return databaseResponse?.let {
             ResponseEntity.ok(
                 WordDTO(
@@ -70,7 +70,7 @@ class AdminController(@Autowired val adminRepository: AdminRepository) {
         val databaseResponse = if (searchType == "WORD") adminRepository.findByWord(searchValue) else
             adminRepository.findBySynonym(searchValue)
 
-        return databaseResponse?.let {
+            return databaseResponse?.let {
             ResponseEntity.ok(
                 WordDTO(
                     it.word,

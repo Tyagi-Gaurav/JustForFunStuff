@@ -4,8 +4,8 @@ import com.jffs.admin.app.config.DatabaseConfig
 import com.jffs.admin.app.domain.PaginatedWords
 import com.jffs.admin.app.domain.Word
 import com.mongodb.client.model.Aggregates.*
-import com.mongodb.client.model.Filters
-import com.mongodb.client.model.Filters.*
+import com.mongodb.client.model.Filters.eq
+import com.mongodb.client.model.Filters.regex
 import com.mongodb.client.model.Indexes.descending
 import com.mongodb.client.model.Projections.fields
 import com.mongodb.client.model.Projections.include
@@ -15,6 +15,8 @@ import kotlinx.coroutines.flow.count
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toList
+import org.apache.logging.log4j.LogManager
+import org.apache.logging.log4j.Logger
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Repository
 import java.time.LocalDateTime
@@ -25,6 +27,8 @@ class AdminRepository(
     @Autowired val mongoClient: MongoClient,
     @Autowired val databaseConfig: DatabaseConfig
 ) {
+    private val LOG: Logger = LogManager.getLogger("APP")
+
     suspend fun readAllWords(pageNum: Int): PaginatedWords {
         val database = mongoClient.getDatabase(databaseConfig.dbName);
         val collection = database.getCollection<Word>("word")
@@ -55,10 +59,24 @@ class AdminRepository(
     }
 
     suspend fun findByWord(word: String) : Word? {
+        LOG.info("Find word in database ****$word****")
         val database = mongoClient.getDatabase(databaseConfig.dbName);
         val collection = database.getCollection<Word>("word")
 
-        return collection.find<Word>(regex("word", ".*${word.lowercase()}.*")).firstOrNull()
+        val pipeline = listOf(
+            match(regex("word", "${word.lowercase()}.*")),
+            sort(descending("_id")),
+            project(
+                fields(
+                    listOf(
+                        include("word", "meanings", "synonyms", "examples")
+                    )
+                )
+            )
+        )
+
+        val words = collection.aggregate(pipeline).map { value -> value }.toList()
+        return words.firstOrNull()
     }
 
     suspend fun findBySynonym(synonym: String) : Word? {
