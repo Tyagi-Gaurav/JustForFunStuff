@@ -11,6 +11,7 @@ import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.graphql.data.method.annotation.QueryMapping
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -129,6 +130,13 @@ class AdminGraphQLController(@Autowired val adminRepository: AdminRepository) {
             )
         }
         adminRepository.update(oldWord.lowercase(), word)
+        return true
+    }
+
+    @MutationMapping
+    suspend fun deleteWord(@Argument word: String): Boolean {
+        LOG.info("Request received for deleteWord with $word")
+        adminRepository.delete(word.lowercase())
         return true
     }
 }
