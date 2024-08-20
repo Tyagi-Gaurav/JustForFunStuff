@@ -47,20 +47,20 @@ class AdminGraphQLController(@Autowired val adminRepository: AdminRepository) {
         val databaseResponse = adminRepository.findByWord(wordInput)
         LOG.info("Database Response $databaseResponse")
         return databaseResponse?.let {
-                WordDTO(
-                    it.word,
-                    it.meanings.map { meaning: Meaning ->
-                        MeaningDTO(
-                            meaning.definition,
-                            meaning.synonyms,
-                            meaning.examples
-                        )
-                    })
+            WordDTO(
+                it.word,
+                it.meanings.map { meaning: Meaning ->
+                    MeaningDTO(
+                        meaning.definition,
+                        meaning.synonyms,
+                        meaning.examples
+                    )
+                })
         }
     }
 
     @MutationMapping
-    suspend fun addWord(@Argument wordInput: WordInput) : Boolean {
+    suspend fun addWord(@Argument wordInput: WordInput): Boolean {
         LOG.info("Request received for addWord with $wordInput")
         val databaseResponse = adminRepository.findByWord(wordInput.word)
         databaseResponse?.let {
@@ -81,5 +81,27 @@ class AdminGraphQLController(@Autowired val adminRepository: AdminRepository) {
         }
         adminRepository.add(wordToAdd)
         return true
+    }
+
+    @QueryMapping
+    suspend fun search(
+        @Argument searchType: SearchTypeInput,
+        @Argument searchValue: String
+    ): WordDTO? {
+        LOG.info("Request received for search for searchType: $searchType, searchValue: $searchValue")
+        val databaseResponse = if (searchType == SearchTypeInput.WORD) adminRepository.findByWord(searchValue) else
+            adminRepository.findBySynonym(searchValue)
+
+        return databaseResponse?.let {
+            WordDTO(
+                it.word,
+                it.meanings.map { meaning: Meaning ->
+                    MeaningDTO(
+                        meaning.definition,
+                        meaning.synonyms,
+                        meaning.examples
+                    )
+                })
+        }
     }
 }

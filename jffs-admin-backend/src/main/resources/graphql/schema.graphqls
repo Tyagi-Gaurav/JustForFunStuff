@@ -17,6 +17,11 @@ input WordInput {
     meanings: [MeaningInput!]!
 }
 
+enum SearchTypeInput {
+    WORD
+    SYNONYM
+}
+
 type MeaningDTO {
     definition: String!,
     synonyms: [String]!,
@@ -36,6 +41,7 @@ type Mutation {
 type Query {
     allWords(pageNum: Int!) : PaginatedWordsDTO!
     findWord(wordInput : String!) : WordDTO
+    search(searchType: SearchTypeInput, searchValue: String!) : WordDTO
 }
 
 schema {
