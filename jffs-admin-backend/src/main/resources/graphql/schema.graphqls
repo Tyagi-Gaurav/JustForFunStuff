@@ -37,6 +37,7 @@ input MeaningInput {
 type Mutation {
     addWord(wordInput: WordInput!) : Boolean
     updateWord(oldWord: String, wordInput: WordInput!) : Boolean
+    deleteWord(word: String) : Boolean
 }
 
 type Query {
