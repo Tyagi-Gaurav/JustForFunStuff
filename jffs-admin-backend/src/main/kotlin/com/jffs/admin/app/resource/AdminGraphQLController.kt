@@ -9,7 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.graphql.data.method.annotation.QueryMapping
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.RequestBody
 import java.time.LocalDateTime
 
 @Controller
@@ -103,5 +107,28 @@ class AdminGraphQLController(@Autowired val adminRepository: AdminRepository) {
                     )
                 })
         }
+    }
+
+    @MutationMapping
+    suspend fun updateWord(
+        @Argument oldWord: String,
+        @Argument wordInput: WordInput
+    ): Boolean {
+        LOG.info("Request received for Update word for word $oldWord with $wordInput")
+        val word = wordInput.let {
+            Word(
+                it.word.lowercase(),
+                it.meanings.map { meaning: MeaningInput ->
+                    Meaning(
+                        meaning.definition,
+                        meaning.synonyms?.map { it.trim() },
+                        meaning.examples
+                    )
+                },
+                LocalDateTime.now()
+            )
+        }
+        adminRepository.update(oldWord.lowercase(), word)
+        return true
     }
 }
