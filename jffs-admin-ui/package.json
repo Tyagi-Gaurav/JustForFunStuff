@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@emotion/react": "^11.13.0",
+    "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
     "@floating-ui/react": "^0.26.22",
     "@mui/icons-material": "^5.16.7",
