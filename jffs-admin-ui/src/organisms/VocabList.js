@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getWords, search } from "../api/backend_api";
+import { getWordsGraphQL } from "../api/backend_graphql_api";
 import Paper from "@mui/material/Paper";
 import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
@@ -94,16 +95,16 @@ export default function VocabList({ editCallback }) {
   }
 
   function getData(nextPage) {
-    getWords(nextPage)
+    getWordsGraphQL(nextPage)
       .then((response) => {
         // console.log("Raw response: " + JSON.stringify(response));
-        var data = response.data["words"];
+        var data = response.data.allWords["words"];
         createRowsFromData(data);
-        setTotalWords(response.data["totalWords"])
-        setTotalPages(response.data["totalPages"]);
-        setPreviousPage(response.data["previousPage"]);
-        setNextPage(response.data["nextPage"]);
-        setCurrentPage(response.data["currentPage"]);
+        setTotalWords(response.data.allWords["totalWords"])
+        setTotalPages(response.data.allWords["totalPages"]);
+        setPreviousPage(response.data.allWords["previousPage"]);
+        setNextPage(response.data.allWords["nextPage"]);
+        setCurrentPage(response.data.allWords["currentPage"]);
       })
       .catch((error) => {
         console.log(error);
