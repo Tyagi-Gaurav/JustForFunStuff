@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { getWords, search } from "../api/backend_api";
-import { getWordsGraphQL } from "../api/backend_graphql_api";
+import { getWordsGraphQL, searchGraphQL } from "../api/backend_graphql_api";
 import Paper from "@mui/material/Paper";
 import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
@@ -38,14 +37,14 @@ export default function VocabList({ editCallback }) {
   };
 
   const handleGo = () => {
-//    console.log("Handle Go with " + searchValue);
-//    console.log("Handle Go with " + searchType);
+  //  console.log("Handle Go with " + searchValue);
+  //  console.log("Handle Go with " + searchType);
     if (searchValue && searchType) {
-      search(searchType, searchValue)
+      searchGraphQL(searchType, searchValue)
         .then((response) => {
           setPreviousPage(-1);
           setNextPage(-1);
-          createRowsFromData([response.data]);
+          createRowsFromData([response.data.search]);
         })
         .catch((error) => {
           console.log(error);
@@ -145,7 +144,7 @@ export default function VocabList({ editCallback }) {
           <Select
             labelId="search-by-label"
             id="search-by-zselect"
-            data-testId="search-by-select"
+            data-testid="search-by-select"
             label="Search By"
             sx={{ minWidth: 150 }}
             value={searchType}

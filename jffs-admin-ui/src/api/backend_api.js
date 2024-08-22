@@ -1,25 +1,5 @@
 import axios from "axios";
 
-export const getWords = (pageNum) => {
-  return axios.get("/admin/v1/words/page/" + pageNum, {
-    headers: {
-      "accept-language": "application/json",
-    },
-  });
-};
-
-export const search = (searchType, searchValue) => {
-  return axios.get(
-    "/admin/v1/words/search?searchType=" + searchType + "&searchValue=" + searchValue,
-    {
-      headers: {
-        "accept-language": "application/json",
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-    }
-  );
-};
-
 export const updateWord = (oldWord, word) => {
   return axios.put("/admin/v1/words/" + oldWord, word, {
     headers: {
