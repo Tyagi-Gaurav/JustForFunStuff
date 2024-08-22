@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { search, updateWord, deleteWord } from "../api/backend_api";
+import { updateWord, deleteWord } from "../api/backend_api";
+import { searchGraphQL } from "../api/backend_graphql_api";
 import AlertMessage from "../atoms/AlertMessage";
 import { TextField, Button, Box } from "@mui/material";
 
@@ -74,9 +75,10 @@ export default function VocabWordEdit({ wordToEdit, listCallback }) {
 
   useEffect(() => {
     setOldWord(wordToEdit);
-    search("WORD", wordToEdit).then((wordResponse) => {
-      setWord(wordResponse.data["word"]);
-      var meaning = wordResponse.data["meanings"][0];
+    searchGraphQL("WORD", wordToEdit).then((wordResponse) => {
+      console.log("Word response: " + JSON.stringify(wordResponse));
+      setWord(wordResponse.data.search["word"]);
+      var meaning = wordResponse.data.search["meanings"][0];
       setSynonym(meaning["synonyms"]);
       setMeaning(meaning["definition"]);
       setExample(meaning["examples"]);
