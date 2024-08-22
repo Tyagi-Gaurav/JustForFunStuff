@@ -16,13 +16,29 @@ data class PaginatedWordsDTO(
 data class WordDTO(
     val word: String,
     val meanings: List<MeaningDTO>
-)
+) {
+    fun meanings(): List<MeaningDTO> {
+        return meanings
+    }
+}
 
 @Serializable
 data class MeaningDTO(
     val definition: String,
     val synonyms: List<String>? = listOf(),
     val examples: List<String>? = listOf()
-)
+) {
+    fun definition(): String {
+        return definition
+    }
+
+    fun synonyms(): List<String>? {
+        return synonyms
+    }
+
+    fun examples(): List<String>? {
+        return examples
+    }
+}
 
 

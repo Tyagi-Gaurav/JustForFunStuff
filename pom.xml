@@ -247,6 +247,12 @@
                 <version>4.2.2</version>
                 <scope>test</scope>
             </dependency>
+            <dependency>
+                <groupId>org.springframework.graphql</groupId>
+                <artifactId>spring-graphql-test</artifactId>
+                <version>${dependency.spring-graphql.version}</version>
+                <scope>test</scope>
+            </dependency>
             <!--  TEST DEPENDENCIES : END -->
         </dependencies>
     </dependencyManagement>
