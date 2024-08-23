@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { updateWord, deleteWord } from "../api/backend_api";
-import { searchGraphQL } from "../api/backend_graphql_api";
+import { searchGraphQL, deleteWordGraphQL, updateWordGraphQL } from "../api/backend_graphql_api";
 import AlertMessage from "../atoms/AlertMessage";
 import { TextField, Button, Box } from "@mui/material";
 
@@ -12,7 +11,6 @@ export default function VocabWordEdit({ wordToEdit, listCallback }) {
   const [example, setExample] = useState([]);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
 
   const handleWordChange = (event) => {
     setSuccess(false);
@@ -39,7 +37,7 @@ export default function VocabWordEdit({ wordToEdit, listCallback }) {
   };
 
   const handleSave = () => {
-    updateWord(oldWord, {
+    updateWordGraphQL(oldWord, {
       word: word,
       meanings: [
         {
@@ -63,8 +61,8 @@ export default function VocabWordEdit({ wordToEdit, listCallback }) {
   };
 
   const handleDelete = () => {
-    deleteWord(oldWord)
-      .then((value) => {
+    deleteWordGraphQL(oldWord)
+      .then((_) => {
         listCallback();
       })
       .catch((error) => {

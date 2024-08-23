@@ -35,7 +35,9 @@ export const searchGraphQL = (searchType, searchValue) => {
               search(searchType : ${searchType}, searchValue: "${searchValue}") {
                 word
                 meanings {
+                    definition
                     synonyms
+                    examples
                 }
             }
         }`,
@@ -44,20 +46,19 @@ export const searchGraphQL = (searchType, searchValue) => {
 
 export const updateWordGraphQL = (oldWord, word) => {
     return apolloClient.mutate({
-        query: gql`
-                query searchBy {
-                  search(searchType : ${searchType}, searchValue: "${searchValue}") {
-                    word
-                    meanings {
-                        synonyms
-                    }
-                }
-            }`,
+        mutation: gql`
+                mutation update {
+                  updateWord(oldWord: "${oldWord}", wordInput: ${word})
+            }`
       });
-
-    return axios.put("/admin/v1/words/" + oldWord, word, {
-      headers: {
-        "Content-Type": "application/vnd+update.word.v1+json",
-      },
-    });
   };
+
+  export const deleteWordGraphQL = (word) => {
+    return apolloClient.mutate({
+        mutation: gql`
+                mutation delete {
+                    deleteWord(word: "${word}")
+                }`
+      });
+  };
+  
