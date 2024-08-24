@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { addWord } from "../api/backend_api";
+import { addWordGraphQL } from "../api/backend_graphql_api";
 import AlertMessage from "../atoms/AlertMessage";
 import { TextField, Button } from "@mui/material";
 
@@ -37,18 +37,14 @@ export default function VocabWordAdd({ listCallback }) {
 
   const handleSave = (event) => {
     event.preventDefault()
-    //console.log("Inside Handle Save");
-    addWord({
-      word: word,
-      meanings: [
-        {
+    addWordGraphQL({
+      word,
+      meanings: [{
           definition: meaning,
           synonyms: synonyms,
           examples: example,
-        },
-      ],
-    })
-      .then((value) => {
+        }]})
+    .then((value) => {
         setSuccess(true);
         setError("");
         setSynonym([]);
@@ -56,9 +52,9 @@ export default function VocabWordAdd({ listCallback }) {
         setMeaning("");
         setWord("");
       })
-      .catch((error) => {
+    .catch((error) => {
         setError(error);
-      });
+    });
   };
 
   return (

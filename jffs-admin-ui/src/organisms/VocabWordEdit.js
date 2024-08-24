@@ -45,7 +45,7 @@ export default function VocabWordEdit({ wordToEdit, listCallback }) {
           synonyms: synonyms,
           examples: example,
         },
-      ],
+      ]
     })
       .then((value) => {
         setSuccess(true);
