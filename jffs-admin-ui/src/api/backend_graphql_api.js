@@ -45,20 +45,47 @@ export const searchGraphQL = (searchType, searchValue) => {
 };
 
 export const updateWordGraphQL = (oldWord, word) => {
-    return apolloClient.mutate({
-        mutation: gql`
-                mutation update {
-                  updateWord(oldWord: "${oldWord}", wordInput: ${word})
-            }`
-      });
-  };
+  var synonyms = JSON.stringify(word.meanings[0].synonyms);
+  var examples = JSON.stringify(word.meanings[0].examples);
+  return apolloClient.mutate({
+    mutation: gql`
+            mutation update {
+                updateWord(oldWord: "${oldWord}", 
+                           wordInput: {
+                            word: "${word.word}",
+                            meanings: [{
+                                definition: "${word.meanings[0].definition}",
+                                synonyms: ${synonyms},
+                                examples: ${examples}
+                            }]
+                })
+            }`,
+  });
+};
 
-  export const deleteWordGraphQL = (word) => {
-    return apolloClient.mutate({
-        mutation: gql`
-                mutation delete {
-                    deleteWord(word: "${word}")
-                }`
-      });
+export const deleteWordGraphQL = (word) => {
+  return apolloClient.mutate({
+    mutation: gql`
+            mutation delete {
+                deleteWord(word: "${word}")
+            }`,
+  });
+};
+
+export const addWordGraphQL = (wordInput) => {
+  var synonyms = JSON.stringify(wordInput.meanings[0].synonyms);
+  var examples = JSON.stringify(wordInput.meanings[0].examples);
+  var request = {
+    mutation: gql`
+            mutation add {
+                addWord(wordInput: {
+                word: "${wordInput.word}",
+                meanings: [{
+                    definition: "${wordInput.meanings[0].definition}",
+                    synonyms: ${synonyms},
+                    examples: ${examples}
+                }]
+            })}`,
   };
-  
+  return apolloClient.mutate(request);
+};
