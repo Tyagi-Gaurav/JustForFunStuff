@@ -13,7 +13,7 @@
     "@testing-library/user-event": "^14.5.2",
     "@vitejs/plugin-react": "^4.3.1",
     "axios": "^1.7.5",
-    "html-react-parser": "^5.1.13",
+    "html-react-parser": "^5.1.15",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.1",
