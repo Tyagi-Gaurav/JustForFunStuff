@@ -50,7 +50,7 @@
   },
   "devDependencies": {
     "jsdom": "^25.0.0",
-    "vitest": "^2.1.0"
+    "vitest": "^2.1.1"
   },
   "proxy": "http://localhost:8080"
 }
