@@ -13,7 +13,7 @@
   "dependencies": {
     "@apollo/client": "^3.11.10",
     "@emotion/react": "^11.13.3",
-    "@emotion/styled": "^11.13.0",
+    "@emotion/styled": "^11.13.5",
     "@floating-ui/react": "^0.26.28",
     "@mui/icons-material": "^5.16.7",
     "@mui/material": "^5.16.7",
