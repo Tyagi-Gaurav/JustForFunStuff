@@ -19,4 +19,4 @@ management:
 
 oanda:
   host: ${OANDA_HOST:https://api-fxpractice.oanda.com}
-  apikey: ${OANDA_API_KEY:a1de56a11f900dd21f26100685434ff4-f28ef1dafaa7bb626975b34f0382e47f}
+  apikey: ${OANDA_API_KEY:apiKey}
