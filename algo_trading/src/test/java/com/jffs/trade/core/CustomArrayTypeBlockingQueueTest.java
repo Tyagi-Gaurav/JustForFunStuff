@@ -12,6 +12,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static com.jffs.trade.TestUtils.millisElapsedSince;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -302,10 +303,6 @@ class CustomArrayTypeBlockingQueueTest {
         });
         thread.start();
         return thread;
-    }
-
-    private long millisElapsedSince(long startTime) {
-        return (System.nanoTime() - startTime) / (1000 * 1000);
     }
 
     @FunctionalInterface

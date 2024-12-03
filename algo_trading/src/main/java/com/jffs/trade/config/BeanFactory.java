@@ -1,6 +1,7 @@
 package com.jffs.trade.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jffs.trade.core.CustomThreadPoolScheduler;
 import org.apache.hc.client5.http.config.ConnectionConfig;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
@@ -8,8 +9,9 @@ import org.apache.hc.client5.http.impl.io.BasicHttpClientConnectionManager;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 @Configuration
@@ -34,10 +36,13 @@ public class BeanFactory {
         return new ObjectMapper();
     }
 
-    @Bean(destroyMethod = "stop")
-    public ThreadPoolTaskScheduler threadPoolTaskScheduler() {
-        final var threadPoolTaskScheduler = new ThreadPoolTaskScheduler();
-        threadPoolTaskScheduler.setPoolSize(5);
-        return threadPoolTaskScheduler;
+    @Bean
+    public ScheduledExecutorService scheduledExecutorService() {
+        return Executors.newScheduledThreadPool(1);
+    }
+
+    @Bean(destroyMethod = "close")
+    public CustomThreadPoolScheduler threadPoolScheduler(ScheduledExecutorService executorService) {
+        return new CustomThreadPoolScheduler(executorService);
     }
 }

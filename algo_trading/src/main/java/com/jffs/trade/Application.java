@@ -1,12 +1,14 @@
 package com.jffs.trade;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.web.reactive.config.EnableWebFlux;
+import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@EnableWebFlux
-@EnableScheduling
+@ComponentScan({
+      "com.jffs.trade.config",
+      "com.jffs.trade.task",
+      "com.jffs.trade.oanda"
+})
 public class Application {
     public static void main(String[] args) {
         new GracefullyTerminatingApplication(Application.class, args).run();
