@@ -12,7 +12,7 @@
         <module>jffs-backend</module>
         <module>jffs-end-to-end-tests</module>
         <module>jffs-admin-backend</module>
-        <module>algo_trading</module>
+        <module>trading_reporting</module>
     </modules>
 
     <properties>
