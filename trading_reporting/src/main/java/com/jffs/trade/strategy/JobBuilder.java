@@ -1,7 +1,7 @@
-package com.jffs.trade.task;
+package com.jffs.trade.strategy;
 
 import com.jffs.trade.domain.DataFrame;
-import com.jffs.trade.strategy.Strategy;
+import com.jffs.trade.task.TradingRunner;
 
 import java.util.function.Supplier;
 
@@ -23,8 +23,8 @@ public class JobBuilder {
         return this;
     }
 
-    public TradingJob build() {
-        return new TradingJob(symbol, dataFrameSupplier, strategy);
+    public TradingRunner build() {
+        return new TradingRunner(symbol, dataFrameSupplier, strategy);
     }
 
     public JobBuilder withInput(Supplier<DataFrame> dataFrameSupplier) {

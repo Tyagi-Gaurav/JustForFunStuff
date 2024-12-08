@@ -1,9 +1,10 @@
 package com.jffs.trade.strategy;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class StrategyBuilder {
-    private List<Task> tasks;
+    private List<Task> tasks = new ArrayList<>();
     private String symbol;
 
     private StrategyBuilder() {}
