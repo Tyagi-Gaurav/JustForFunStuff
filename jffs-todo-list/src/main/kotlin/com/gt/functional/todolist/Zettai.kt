@@ -9,19 +9,36 @@ import org.http4k.routing.bind
 import org.http4k.routing.path
 import org.http4k.routing.routes
 
+typealias FUN<A, B> = (A) -> B
+
+infix fun <A, B, C> FUN<A, B>.andThen(other: FUN<B, C>): FUN<A, C> {
+    val left = this
+    return object : FUN<A, C> {
+        override fun invoke(p1: A): C =
+            other.invoke(left.invoke(p1))
+    }
+}
+
 class Zettai(val lists: Map<User, List<TodoList>>) : HttpHandler {
     val allRoutes = routes(
-        "/todo/{user}/{list}" bind GET to ::getTodoList,
+        "/todo/{user}/{list}" bind GET to ::fetchList,
     )
+
+    val processFun = ::extractListData andThen
+            ::fetchListContent andThen
+            ::renderHtml andThen
+            ::createResponse
+
+    fun fetchList(request: Request): Response = processFun(request)
 
     override fun invoke(request: Request): Response = allRoutes(request)
 
-    fun getTodoList(req: Request): Response =
-        req
-            .let(::extractListData)
-            .let(::fetchListContent)
-            .let(::renderHtml)
-            .let(::createResponse)
+//    fun getTodoList(req: Request): Response =
+//        req
+//            .let(::extractListData)
+//            .let(::fetchListContent)
+//            .let(::renderHtml)
+//            .let(::createResponse)
 
     fun extractListData(req: Request): Pair<User, ListName> {
         val user = req.path("user").orEmpty()
