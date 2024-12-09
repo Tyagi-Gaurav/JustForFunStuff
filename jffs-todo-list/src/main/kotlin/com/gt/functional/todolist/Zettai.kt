@@ -1,0 +1,60 @@
+package com.gt.functional.todolist
+
+import org.http4k.core.HttpHandler
+import org.http4k.core.Method.GET
+import org.http4k.core.Request
+import org.http4k.core.Response
+import org.http4k.core.Status
+import org.http4k.routing.bind
+import org.http4k.routing.path
+import org.http4k.routing.routes
+
+class Zettai(val lists: Map<User, List<TodoList>>) : HttpHandler {
+    val allRoutes = routes(
+        "/todo/{user}/{list}" bind GET to ::getTodoList,
+    )
+
+    override fun invoke(request: Request): Response = allRoutes(request)
+
+    fun getTodoList(req: Request): Response =
+        req
+            .let(::extractListData)
+            .let(::fetchListContent)
+            .let(::renderHtml)
+            .let(::createResponse)
+
+    fun extractListData(req: Request): Pair<User, ListName> {
+        val user = req.path("user").orEmpty()
+        val list = req.path("list").orEmpty()
+
+        return User(user) to ListName(list)
+    }
+
+    fun fetchListContent(listId: Pair<User, ListName>): TodoList =
+        lists[listId.first]
+            ?.firstOrNull { it.listName == listId.second }
+            ?: error("List unknown")
+
+    fun renderHtml(todoList: TodoList): Html = Html(
+        """
+        <html>
+        <body>
+            <h1 style="text-align:center; font-size:3em;">Zettai</h1>
+            <h2>${todoList.listName.name}</h2>
+            <table>
+                <tbody>${renderItems(todoList.items)}</tbody>
+            </table>
+        </body>
+    </html>
+    """.trimIndent()
+    )
+
+    private fun renderItems(items: List<TodoItem>) =
+        items.joinToString("") {
+            """
+                <tr><td>${it.description}</td></tr>
+                """.trimIndent().trimIndent()
+        }
+
+    fun createResponse(html: Html): Response = Response(Status.OK).body(html.raw)
+}
