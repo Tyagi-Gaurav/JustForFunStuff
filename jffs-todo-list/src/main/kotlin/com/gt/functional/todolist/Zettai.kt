@@ -25,20 +25,13 @@ class Zettai(val lists: Map<User, List<TodoList>>) : HttpHandler {
     )
 
     val processFun = ::extractListData andThen
-            ::fetchListContent andThen
-            ::renderHtml andThen
-            ::createResponse
+                     ::fetchListContent andThen
+                     ::renderHtml andThen
+                     ::createResponse
 
     fun fetchList(request: Request): Response = processFun(request)
 
     override fun invoke(request: Request): Response = allRoutes(request)
-
-//    fun getTodoList(req: Request): Response =
-//        req
-//            .let(::extractListData)
-//            .let(::fetchListContent)
-//            .let(::renderHtml)
-//            .let(::createResponse)
 
     fun extractListData(req: Request): Pair<User, ListName> {
         val user = req.path("user").orEmpty()
