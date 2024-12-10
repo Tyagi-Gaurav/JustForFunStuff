@@ -30,13 +30,10 @@ object RPNCalculator {
         }
     }
 
-    fun isOperator(o: String): Boolean =
+    private fun isOperator(o: String): Boolean =
         when (o) {
             "+", "-", "/", "*" -> true
             else -> false
         }
 
 }
-
-//TODO Make isOperand an infix function
-//
