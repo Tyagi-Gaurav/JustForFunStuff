@@ -5,12 +5,17 @@ import org.http4k.client.JettyClient
 import org.http4k.core.Method
 import org.http4k.core.Request
 import org.http4k.core.Status
+import org.http4k.server.Http4kServer
 import org.http4k.server.Jetty
 import org.http4k.server.asServer
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.fail
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
+import org.opentest4j.AssertionFailedError
 
 class SeeATodoListTest {
+    private var server : Http4kServer? = null
 
     @Test
     fun `List owners can see their lists`() {
@@ -24,6 +29,20 @@ class SeeATodoListTest {
 
         assertThat(list.listName.name).isEqualTo(listName)
         assertThat(list.items.map { it.description }).isEqualTo(listItems)
+    }
+
+    @Test
+    fun `Only owners can see their lists`() {
+        val listName = "someOtherList"
+
+        startTheApplication("someUser", listName, emptyList())
+
+        assertThrows<AssertionFailedError> { getTodoList("someOtherUser", "listName") }
+    }
+
+    @AfterEach
+    fun stopApplication() {
+        server!!.stop()
     }
 
     private fun getTodoList(user: String, listName: String): TodoList {
@@ -61,7 +80,7 @@ class SeeATodoListTest {
     private fun startTheApplication(user: String, listName: String, listItems: List<String>) {
         val todoList = TodoList(ListName(listName), listItems.map(::TodoItem))
         val lists = mapOf(User(user) to listOf(todoList))
-        val server = Zettai(lists).asServer(Jetty(8081))
-        server.start()
+        server = Zettai(lists).asServer(Jetty(8081))
+        server!!.start()
     }
 }
