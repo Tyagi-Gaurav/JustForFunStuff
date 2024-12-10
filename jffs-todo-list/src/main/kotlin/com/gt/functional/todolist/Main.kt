@@ -9,7 +9,7 @@ fun main() {
 
     val todoList = TodoList(ListName("book"), items.map(::TodoItem))
     val lists = mapOf(User("Username") to listOf(todoList))
-    Zettai(lists).asServer(Jetty(8080)).start()
+    Zettai(ToDoListHub(lists)).asServer(Jetty(8080)).start()
 
     println ("Server started at http://localhost:8080/todo/Username/book")
 }

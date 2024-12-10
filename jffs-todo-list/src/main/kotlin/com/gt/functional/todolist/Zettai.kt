@@ -19,7 +19,7 @@ infix fun <A, B, C> FUN<A, B>.andThen(other: FUN<B, C>): FUN<A, C> {
     }
 }
 
-class Zettai(val lists: Map<User, List<TodoList>>) : HttpHandler {
+class Zettai(val hub: ZettaiHub) : HttpHandler {
     val allRoutes = routes(
         "/todo/{user}/{list}" bind GET to ::fetchList,
     )
@@ -41,8 +41,7 @@ class Zettai(val lists: Map<User, List<TodoList>>) : HttpHandler {
     }
 
     fun fetchListContent(listId: Pair<User, ListName>): TodoList =
-        lists[listId.first]
-            ?.firstOrNull { it.listName == listId.second }
+        hub.getList(listId.first, listId.second)
             ?: error("List unknown")
 
     fun renderHtml(todoList: TodoList): Html = Html(

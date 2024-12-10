@@ -24,7 +24,6 @@ class SeeATodoListTest {
             ))
 
         application.runScenario(owner.canSeeList(listName, listItems))
-
     }
 
     @Test
@@ -42,7 +41,7 @@ class SeeATodoListTest {
 
     fun startTheApplication(lists : Map<User, List<TodoList>>) : ApplicationForAT {
         val port = 8081
-        val server = Zettai(lists).asServer(Jetty(8081))
+        val server = Zettai(ToDoListHub(lists)).asServer(Jetty(8081))
         server.start()
 
         val client = ClientFilters
