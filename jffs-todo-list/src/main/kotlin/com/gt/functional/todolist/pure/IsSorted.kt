@@ -1,4 +1,4 @@
-package com.gt.functional.todolist
+package com.gt.functional.todolist.pure
 
 object IsSorted {
     val <T> List<T>.tail: List<T>

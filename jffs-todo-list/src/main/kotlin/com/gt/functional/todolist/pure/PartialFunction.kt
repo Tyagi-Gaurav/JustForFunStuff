@@ -1,4 +1,4 @@
-package com.gt.functional.todolist
+package com.gt.functional.todolist.pure
 
 object PartialFunction {
     private fun <A, B, C> partial1(a: A, f: (A, B)-> C): (B)-> C = { b -> f(a, b)}
@@ -9,7 +9,7 @@ object PartialFunction {
 */
     fun <A, B, C> curry(f: (A, B)-> C): (A) -> (B)-> C = {a: A -> partial1(a, {a1 : A, b1: B -> f(a1, b1)}) }
 
-    fun <A, B, C> uncurry(f: (A) -> (B) -> C) : (A, B) -> C = {a : A, b : B -> f(a).invoke(b)}
+    fun <A, B, C> uncurry(f: (A) -> (B) -> C) : (A, B) -> C = {a : A, b : B -> f(a)(b)}
 
     fun <A, B, C> compose(f: (B)-> C, g: (A)-> B): (A)-> C = { a -> f(g(a))}
 
