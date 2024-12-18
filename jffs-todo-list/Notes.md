@@ -4,3 +4,6 @@
 * An expression `e` is referentially transparent if, for all programs `p`, all occurrences of `e` in `p` can be replaced 
   by the result of evaluating `e` without affecting the meaning of `p`.
 * A function `f` is pure if the expression `f(x)` is referentially transparent for all referentially transparent `x`.
+
+# Partial functions
+* A function is typically partial because it makes some assumptions about its inputs that aren’t implied by the input types
