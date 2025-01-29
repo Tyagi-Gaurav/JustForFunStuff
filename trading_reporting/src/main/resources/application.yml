@@ -25,4 +25,4 @@ scheduled:
 
 oanda:
   host: ${OANDA_HOST:https://api-fxpractice.oanda.com}
-  apikey: ${OANDA_API_KEY:b9c6b0b26117fe198aa87e2a3a24fa32-d893ebcc8b9f793e119aef6d859e6add}
+  apikey: ${OANDA_API_KEY:some-api-key}
