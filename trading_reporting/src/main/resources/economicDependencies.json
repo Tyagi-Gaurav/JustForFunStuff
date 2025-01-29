@@ -1,0 +1,49 @@
+{
+  "economicDependencies": {
+    "USD": {
+      "direct": [
+        "OIL"
+      ],
+      "inverse": [
+        "US_TREASURIES",
+        "EXPORTS",
+        "US500",
+        "GOLD"
+      ]
+    },
+    "CHINA_CPI": {
+      "inverse": [
+        "OIL"
+      ]
+    },
+    "INFLATION": {
+      "direct": [
+        "GOLD"
+      ]
+    },
+    "US_JOB_MARKET": {
+      "direct": [
+        "INFLATION",
+        "INTEREST_RATE"
+      ]
+    },
+    "CHINA_CURRENCY_DEVALUATION": {
+      "direct": [
+        "CHINA_EXPORTS"
+      ],
+      "inverse": [
+        "CHINA_IMPORTS"
+      ]
+    },
+    "US_OIL_INVENTORY": {
+      "direct": [
+        "OIL"
+      ]
+    },
+    "US_CPI": {
+      "direct": [
+        "US500"
+      ]
+    }
+  }
+}
