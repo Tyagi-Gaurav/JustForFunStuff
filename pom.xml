@@ -22,7 +22,7 @@
         <dependency.mongodb-driver>5.4.0</dependency.mongodb-driver>
         <dependency.spring.boot.version>3.4.4</dependency.spring.boot.version>
         <kotlin.compiler.jvmTarget>17</kotlin.compiler.jvmTarget>
-        <dependency.kotlinx-coroutines-reactor.version>1.10.1</dependency.kotlinx-coroutines-reactor.version>
+        <dependency.kotlinx-coroutines-reactor.version>1.10.2</dependency.kotlinx-coroutines-reactor.version>
         <dependency.junit-jupiter-api.version>5.11.4</dependency.junit-jupiter-api.version>
         <dependency.jackson.version>2.18.3</dependency.jackson.version>
         <dependency.log4j.version>2.24.3</dependency.log4j.version>
