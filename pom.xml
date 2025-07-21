@@ -23,7 +23,7 @@
         <dependency.spring.boot.version>3.5.3</dependency.spring.boot.version>
         <kotlin.compiler.jvmTarget>17</kotlin.compiler.jvmTarget>
         <dependency.kotlinx-coroutines-reactor.version>1.10.2</dependency.kotlinx-coroutines-reactor.version>
-        <dependency.junit-jupiter-api.version>5.11.4</dependency.junit-jupiter-api.version>
+        <dependency.junit-jupiter-api.version>5.13.4</dependency.junit-jupiter-api.version>
         <dependency.jackson.version>2.19.2</dependency.jackson.version>
         <dependency.log4j.version>2.25.1</dependency.log4j.version>
         <dependency.spring-graphql.version>1.4.1</dependency.spring-graphql.version>
