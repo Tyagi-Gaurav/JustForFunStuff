@@ -16,7 +16,7 @@
     </modules>
 
     <properties>
-        <dependency.kotlin.version>2.0.10</dependency.kotlin.version>
+        <dependency.kotlin.version>2.2.0</dependency.kotlin.version>
         <dependency.kotlinx-serialization-json-jvm.version>1.8.1</dependency.kotlinx-serialization-json-jvm.version>
         <dependency.kotlin.serialization>1.3.11</dependency.kotlin.serialization>
         <dependency.mongodb-driver>5.5.1</dependency.mongodb-driver>
