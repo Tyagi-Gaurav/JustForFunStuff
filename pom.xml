@@ -19,7 +19,7 @@
         <dependency.kotlin.version>2.0.10</dependency.kotlin.version>
         <dependency.kotlinx-serialization-json-jvm.version>1.8.1</dependency.kotlinx-serialization-json-jvm.version>
         <dependency.kotlin.serialization>1.3.11</dependency.kotlin.serialization>
-        <dependency.mongodb-driver>5.5.1</dependency.mongodb-driver>
+        <dependency.mongodb-driver>5.6.0</dependency.mongodb-driver>
         <dependency.spring.boot.version>3.5.5</dependency.spring.boot.version>
         <kotlin.compiler.jvmTarget>17</kotlin.compiler.jvmTarget>
         <dependency.kotlinx-coroutines-reactor.version>1.10.2</dependency.kotlinx-coroutines-reactor.version>
