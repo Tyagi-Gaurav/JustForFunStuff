@@ -26,7 +26,7 @@
         <dependency.junit-jupiter-api.version>5.11.4</dependency.junit-jupiter-api.version>
         <dependency.jackson.version>2.20.0</dependency.jackson.version>
         <dependency.log4j.version>2.25.2</dependency.log4j.version>
-        <dependency.spring-graphql.version>1.4.1</dependency.spring-graphql.version>
+        <dependency.spring-graphql.version>1.4.3</dependency.spring-graphql.version>
     </properties>
 
     <build>
